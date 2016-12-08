@@ -1,0 +1,53 @@
+{
+	"name": "Components",
+	"description": "UED Components.",
+	"author": "Pony",
+	"homepage": "https://github.com/matt-curtis/Fluid-for-Sketch",
+	"version": "1.0.0",
+
+	"identifier": "com.yy.ued.sketch.components",
+	"updateURL": "https://raw.githubusercontent.com/matt-curtis/Fluid-for-Sketch/master/Fluid.sketchplugin/Contents/Sketch/manifest.json",
+	"compatibleVersion": 3,
+	"bundleVersion": 1,
+
+	"commands": [
+		{
+			"name": "Add",
+			"identifier": "command_add",
+			"shortcut": "command e",
+			"script": "dynamicCommands.js",
+			"handler": "command_add"
+		},
+		{
+			"name": "Replace",
+			"identifier": "command_replace",
+			"shortcut": "control e",
+			"script": "dynamicCommands.js",
+			"handler": "command_replace"
+		},
+		{
+			"name": "Edit Properties",
+			"identifier": "command_edit",
+			"shortcut": "control command e",
+			"script": "dynamicCommands.js",
+			"handler": "command_edit"
+		},
+		{
+			"name": "Publish",
+			"identifier": "command_publish",
+			"shortcut": "control command g",
+			"script": "dynamicCommands.js",
+			"handler": "command_publish"
+		}
+	],
+
+	"menu": {
+		"title": "Componetns",
+		"items": [
+			"command_add",
+			"command_replace",
+			"command_edit",
+			"command_publish"
+		]
+	}
+}
