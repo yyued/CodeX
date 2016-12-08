@@ -96,6 +96,13 @@
         JSValue *value = [context evaluateScript:@"a(pString())"];
         NSDictionary *dict = [value toDictionary];
         if (dict != nil) {
+            NSString *cDict =
+            [command valueForKey:@"constraints" onLayer:layer forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+            if ([cDict isKindOfClass:[NSDictionary class]]) {
+                NSMutableDictionary *mDict = [dict mutableCopy];
+                mDict[@"constraints"] = cDict;
+                dict = [mDict copy];
+            }
             props[uuid] = dict;
         }
     }
