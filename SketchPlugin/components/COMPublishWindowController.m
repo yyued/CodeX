@@ -62,6 +62,12 @@
         return;
     }
     MSLayer *newLayer = [self.currentLayer duplicate];
+    if ([self.currentLayer isKindOfClass:MSArtboardGroup_Class]) {
+        [newLayer.frame setOrigin:CGPointMake(1000000, 1000000)];
+    }
+    else {
+        [self.currentLayer performSelector:@selector(setIsVisible:) withObject:@(NO)];
+    }
     NSMutableDictionary *props = [NSMutableDictionary dictionary];
     [self fetchProps:newLayer props:props];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -73,6 +79,9 @@
         [newLayer removeFromParent];
         [[NSApplication sharedApplication] endModalSession:self.modalSession];
         [self close];
+        if (![self.currentLayer isKindOfClass:MSArtboardGroup_Class]) {
+            [self.currentLayer performSelector:@selector(setIsVisible:) withObject:@(YES)];
+        }
     });
 }
 
