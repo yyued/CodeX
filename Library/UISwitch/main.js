@@ -18,3 +18,7 @@ var UISwitch = {
         return $(xml).find('#' + nodeID).find('#onBackground').attrs('fill', xml);
     },
 }
+
+UISwitch.oc_code = function(props) {
+    return "12312312";
+}

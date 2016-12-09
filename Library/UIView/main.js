@@ -12,6 +12,7 @@ var UIView = {
         var xml = document.createElement('div');
         $(xml).html(nodeXML);
         output['frame'] = UIView.findFrame(nodeID, xml);
+        output['alpha'] = $(xml).find('#' + nodeID).attrs('opacity', xml) && parseFloat($(xml).find('#' + nodeID).attrs('opacity', xml));
         output['backgroundColor'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('fill', xml);
         output['cornerRadius'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml) && parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml));
         output['borderColor'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke', xml);

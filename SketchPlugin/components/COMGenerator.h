@@ -14,4 +14,6 @@
 
 - (COMGenLayer *)parse;
 
+- (NSString *)oc_code:(COMGenLayer *)layer;
+
 @end

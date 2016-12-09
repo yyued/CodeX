@@ -73,4 +73,11 @@ static WebView *webView;
     }
 }
 
+- (NSString *)oc_code:(COMGenLayer *)layer {
+    if (layer.props == nil) {
+        return @"";
+    }
+    return [[context[layer.layerClass][@"oc_code"] callWithArguments:@[layer.props]] toString];
+}
+
 @end
