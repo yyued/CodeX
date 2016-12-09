@@ -21,6 +21,13 @@ static COMPublishWindowController *publishWindowController;
 
 @implementation COMPluginController
 
++ (void)load {
+    [[NSFileManager defaultManager] createDirectoryAtPath:@"/tmp/com.yy.ued.sketch.components"
+                              withIntermediateDirectories:NO
+                                               attributes:nil
+                                                    error:NULL];
+}
+
 + (instancetype)pluginController:(MSPluginBundle *)plugin pluginCommand:(MSPluginCommand *)pluginCommand {
     return [COMPluginController new];
 }
@@ -31,7 +38,8 @@ static COMPublishWindowController *publishWindowController;
     }
     modalWindowController.replacing = replacing;
     [modalWindowController requestSources];
-    modalWindowController.modalSession = [[NSApplication sharedApplication] beginModalSessionForWindow:modalWindowController.window];
+    modalWindowController.modalSession =
+        [[NSApplication sharedApplication] beginModalSessionForWindow:modalWindowController.window];
 }
 
 #pragma GCC diagnostic push
@@ -39,14 +47,16 @@ static COMPublishWindowController *publishWindowController;
 
 - (void)showProps {
     if ([[MSDocument_Class currentDocument] selectedLayers].count > 1) {
-        [[MSDocument_Class currentDocument] performSelector:@selector(showMessage:) withObject:@"Only one layer can be configured!"];
+        [[MSDocument_Class currentDocument] performSelector:@selector(showMessage:)
+                                                 withObject:@"Only one layer can be configured!"];
         return;
     }
     MSLayer *layer = [[[MSDocument_Class currentDocument] selectedLayers] firstObject];
     if ([layer isKindOfClass:MSLayer_Class]) {
         propsWindowController = [COMPropsWindowController new];
         [propsWindowController setLayer:layer];
-        propsWindowController.modalSession = [[NSApplication sharedApplication] beginModalSessionForWindow:propsWindowController.window];
+        propsWindowController.modalSession =
+            [[NSApplication sharedApplication] beginModalSessionForWindow:propsWindowController.window];
     }
 }
 
@@ -59,11 +69,11 @@ static COMPublishWindowController *publishWindowController;
     MSLayer *layer = [[[MSDocument_Class currentDocument] selectedLayers] firstObject];
     if (layer != nil && [layer isKindOfClass:MSLayer_Class]) {
         [publishWindowController setLayer:layer];
-    }
-    else {
+    } else {
         [publishWindowController setLayer:[[MSDocument_Class currentDocument] currentPage]];
     }
-    publishWindowController.modalSession = [[NSApplication sharedApplication] beginModalSessionForWindow:publishWindowController.window];
+    publishWindowController.modalSession =
+        [[NSApplication sharedApplication] beginModalSessionForWindow:publishWindowController.window];
 }
 
 @end

@@ -72,9 +72,9 @@
     [self fetchProps:newLayer props:props];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         MSExportRequest *request = [MSExportRequest_Class exportRequestsFromExportableLayer:newLayer].firstObject;
-        [[MSDocument_Class currentDocument] saveArtboardOrSlice:request toFile:@"/tmp/com.yy.ued.sketch.components.tmp.svg"];
+        [[MSDocument_Class currentDocument] saveArtboardOrSlice:request toFile:@"/tmp/com.yy.ued.sketch.components/tmp.svg"];
         [[NSJSONSerialization dataWithJSONObject:[props copy] options:kNilOptions error:NULL]
-         writeToFile:@"/tmp/com.yy.ued.sketch.components.tmp.json"
+         writeToFile:@"/tmp/com.yy.ued.sketch.components/tmp.json"
          atomically:YES];
         [newLayer removeFromParent];
         [[NSApplication sharedApplication] endModalSession:self.modalSession];

@@ -200,7 +200,7 @@
 - (NSImage *)snapImageWithLayer:(MSLayer *)layer {
     MSExportRequest *request = [[MSExportRequest_Class exportRequestsFromExportableLayer:layer] firstObject];
     NSString *snapImageFileKey =
-        [NSString stringWithFormat:@"/tmp/com.opensource.components.snap%@.png",
+        [NSString stringWithFormat:@"/tmp/com.yy.ued.sketch.components/.snap.%@.png",
                                    [layer.name stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
     [[MSDocument_Class currentDocument] saveArtboardOrSlice:request toFile:snapImageFileKey];
     return [[NSImage alloc] initWithContentsOfFile:snapImageFileKey];
