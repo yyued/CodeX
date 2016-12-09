@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <JavaScriptCore/JavaScriptCore.h>
+#import "COMGenerator.h"
 
 @interface AppDelegate ()
 
@@ -16,15 +17,8 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    // Insert code here to initialize your application
-    JSContext *context = [JSContext new];
-    [context evaluateScript:@"function a(b){eval('var e = '+b);return e}"];
-    context[@"hello"] = ^(){
-        return @"123";
-    };
-    JSValue *aValue = [context evaluateScript:@"hello()"];
-    NSDictionary *dict = [aValue toDictionary];
-    
+    COMGenerator *generator = [COMGenerator new];
+    [generator parse];
 }
 
 

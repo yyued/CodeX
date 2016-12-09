@@ -7,6 +7,7 @@
 //
 
 #import "COMPublishWindowController.h"
+#import <SVGKit.h>
 
 @interface COMPublishWindowController ()
 

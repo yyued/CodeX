@@ -1,0 +1,13 @@
+platform :osx, '10.10'
+
+target 'components' do
+
+pod 'SVGKit', :podspec => 'https://raw.githubusercontent.com/MaddTheSane/SVGKit/master/SVGKit.podspec'
+
+end
+
+target 'TestApp' do
+
+pod 'SVGKit', :podspec => 'https://raw.githubusercontent.com/MaddTheSane/SVGKit/master/SVGKit.podspec'
+
+end
