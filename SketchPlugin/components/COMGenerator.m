@@ -10,7 +10,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <WebKit/WebKit.h>
 
-static NSString *libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
+static NSString *libraryPath = @"/Users/PonyCui_Home/Documents/CodeX/Library";
 
 @interface COMGenerator ()
 
@@ -50,6 +50,11 @@ static WebView *webView;
     self.spec = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:@"/tmp/com.yy.ued.sketch.components/tmp.json"] options:kNilOptions error:NULL];
     SVGKImage *image = [SVGKImage imageWithData:[self.xmlString dataUsingEncoding:NSUTF8StringEncoding]];
     COMGenLayer *rootLayer = [COMGenLayer new];
+    rootLayer.layerID = @"rootView";
+    rootLayer.layerClass = @"UIView";
+    rootLayer.props = @{
+                        @"class": @"UIView",
+                        };
     [self parseLayer:rootLayer element:image.DOMDocument.rootElement];
     return rootLayer;
 }
@@ -73,11 +78,85 @@ static WebView *webView;
     }
 }
 
-- (NSString *)oc_code:(COMGenLayer *)layer {
-    if (layer.props == nil) {
-        return @"";
+- (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType {
+    NSMutableString *headerCode = [[NSMutableString alloc] initWithFormat:@"#import <UIKit/UIKit.h>\n\n@interface %@ : UIView\n\n", self.className];
+    NSMutableString *implementationCode = [[NSMutableString alloc] initWithFormat:@"#import \"%@.h\"\n\n@implementation %@\n\n", self.className, self.className];
+    if (genType == COMGenTypeViewController) {
+        
     }
-    return [[context[layer.layerClass][@"oc_code"] callWithArguments:@[layer.props]] toString];
+    else if (genType == COMGenTypeView) {
+        [implementationCode appendString:@"- (void)willMoveToSuperview:(UIView *)newSuperview {\n"];
+        [implementationCode appendString:@"    [super willMoveToSuperview:newSuperview];\n"];
+        [implementationCode appendString:@"    UIView *rootView = [self _rootView];\n"];
+        [implementationCode appendString:@"    rootView.frame = self.bounds;\n"];
+        [implementationCode appendString:@"    rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;\n"];
+        [implementationCode appendString:@"    [self addSubview:rootView];\n"];
+        [implementationCode appendString:@"}\n\n"];
+    }
+    [self oc_code:layer headerCode:headerCode implementationCode:implementationCode];
+    [headerCode appendString:@"\n@end\n"];
+    [implementationCode appendString:@"@end\n"];
+    return @{
+             [NSString stringWithFormat:@"%@.h", self.className]: [headerCode copy],
+             [NSString stringWithFormat:@"%@.m", self.className]: [implementationCode copy],
+             };
+}
+
+- (void)oc_code:(COMGenLayer *)layer headerCode:(NSMutableString *)headerCode implementationCode:(NSMutableString *)implementationCode {
+    NSString *outlet = layer.props[@"outlet"];
+    NSString *ocClass = [[context[layer.layerClass][@"oc_class"] callWithArguments:@[layer.props]] toString];
+    if (outlet != nil && outlet.length) {
+        [headerCode appendFormat:@"@property (nonatomic, strong) %@ *%@;\n", ocClass, outlet];
+        NSMutableString *mCode = [NSMutableString new];
+        [mCode appendFormat:@"- (%@ *)%@ {\n", ocClass, outlet];
+        [mCode appendFormat:@"    if (_%@ == nil) {\n", outlet];
+        NSString *mmCode = [[context[layer.layerClass][@"oc_code"] callWithArguments:@[layer.props]] toString];
+        if (mmCode != nil) {
+            [[mmCode componentsSeparatedByString:@"\n"] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (!obj.length) {
+                    return;
+                }
+                [mCode appendString:[NSString stringWithFormat:@"        %@\n", obj]];
+            }];
+            [mCode appendFormat:@"        _%@ = view;\n", outlet];
+        }
+        [mCode appendFormat:@"    }\n"];
+        [mCode appendFormat:@"    return _%@;\n", outlet];
+        [mCode appendFormat:@"}\n\n"];
+        [implementationCode appendString:mCode];
+    }
+    else {
+        NSMutableString *mCode = [NSMutableString new];
+        [mCode appendFormat:@"- (%@ *)_%@ {\n", ocClass, [layer.layerID stringByReplacingOccurrencesOfString:@"-" withString:@"_"]];
+        NSString *mmCode = [[context[layer.layerClass][@"oc_code"] callWithArguments:@[layer.props]] toString];
+        if (mmCode != nil) {
+            [[mmCode componentsSeparatedByString:@"\n"] enumerateObjectsUsingBlock:^(NSString * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if (!obj.length) {
+                    return;
+                }
+                [mCode appendString:[NSString stringWithFormat:@"    %@\n", obj]];
+            }];
+            for (COMGenLayer *sublayer in layer.sublayers) {
+                NSString *sublayerOutlet = sublayer.props[@"outlet"];
+                if (sublayerOutlet != nil && sublayerOutlet.length) {
+                    [mCode appendFormat:@"    [view addSubview:self.%@];\n", sublayerOutlet];
+                }
+                else {
+                    [mCode appendFormat:@"    [view addSubview:[self _%@]];\n", [sublayer.layerID stringByReplacingOccurrencesOfString:@"-"
+                                                                                                                            withString:@"_"]];
+                }
+            }
+            [mCode appendString:@"    return view;\n"];
+        }
+        else {
+            [mCode appendString:@"    return nil;\n"];
+        }
+        [mCode appendFormat:@"}\n\n"];
+        [implementationCode appendString:mCode];
+    }
+    for (COMGenLayer *sublayer in layer.sublayers) {
+        [self oc_code:sublayer headerCode:headerCode implementationCode:implementationCode];
+    }
 }
 
 @end

@@ -51,3 +51,37 @@ var UIView = {
     },
 }
 
+UIView.oc_class = function (props) {
+    return "UIView";
+}
+
+UIView.oc_code = function (props) {
+    var code = "";
+    code += oc_init("UIView", "view");
+    code += UIView.oc_codeWithProps(props);
+    return code;
+}
+
+UIView.oc_codeWithProps = function (props) {
+    props.backgroundColor = "#ffffff";
+    var code = "";
+    if (props.frame !== undefined) {
+        code += "view.frame = CGRectMake(" + props.frame.x + "," + props.frame.y + "," + props.frame.width + "," + props.frame.height + ");\n";
+    }
+    if (props.alpha !== undefined) {
+        code += "view.alpha = " + props.alpha + ";\n";
+    }
+    if (props.backgroundColor !== undefined) {
+        code += "view.backgroundColor = " + oc_color(props.backgroundColor) + ";\n";
+    }
+    if (props.cornerRadius !== undefined) {
+        code += "view.layer.cornerRadius = " + props.cornerRadius + ";\n"
+    }
+    if (props.borderColor !== undefined) {
+        code += "view.layer.borderColor = " + oc_color(props.borderColor) + ".CGColor;\n"
+    }
+    if (props.borderWidth !== undefined) {
+        code += "view.layer.borderWidth = " + props.borderWidth + ";\n"
+    }
+    return code;
+}

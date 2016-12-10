@@ -10,10 +10,17 @@
 #import <SVGKit/SVGKit.h>
 #import "COMGenLayer.h"
 
+typedef enum : NSUInteger {
+    COMGenTypeViewController,
+    COMGenTypeView,
+} COMGenType;
+
 @interface COMGenerator : NSObject
+
+@property (nonatomic, strong) NSString *className;
 
 - (COMGenLayer *)parse;
 
-- (NSString *)oc_code:(COMGenLayer *)layer;
+- (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType;
 
 @end

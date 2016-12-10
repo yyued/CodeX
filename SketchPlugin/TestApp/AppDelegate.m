@@ -18,9 +18,13 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     COMGenerator *generator = [COMGenerator new];
+    generator.className = @"MyView";
     COMGenLayer *layer = [generator parse];
-    [[layer sublayers] enumerateObjectsUsingBlock:^(COMGenLayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSLog(@"%@", [generator oc_code:obj]);
+    [[generator oc_code:layer genType:COMGenTypeView] enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
+        [obj writeToFile:[NSString stringWithFormat:@"/Users/PonyCui_Home/Desktop/ttt/ttt/%@", key]
+              atomically:YES
+                encoding:NSUTF8StringEncoding
+                   error:NULL];
     }];
 }
 
