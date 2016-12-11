@@ -65,6 +65,9 @@ UIView.oc_code = function (props) {
 UIView.oc_codeWithProps = function (props) {
     props.backgroundColor = "#ffffff";
     var code = "";
+    if (props.tag !== undefined) {
+        code += "view.tag = " + parseInt(props.tag) + ";\n";
+    }
     if (props.frame !== undefined) {
         code += "view.frame = CGRectMake(" + props.frame.x + "," + props.frame.y + "," + props.frame.width + "," + props.frame.height + ");\n";
     }
@@ -82,6 +85,16 @@ UIView.oc_codeWithProps = function (props) {
     }
     if (props.borderWidth !== undefined) {
         code += "view.layer.borderWidth = " + props.borderWidth + ";\n"
+    }
+    if (props.constraints !== undefined) {
+        var constraints = "";
+        for (var key in props.constraints) {
+            if (props.constraints.hasOwnProperty(key)) {
+                var element = props.constraints[key];
+                constraints += "    @\"" + key + "\"" + ": @\"" + element + "\",\n";
+            }
+        }
+        code += "view.cox_constraints = @{\n" + constraints + "};\n";
     }
     return code;
 }

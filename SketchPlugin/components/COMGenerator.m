@@ -50,10 +50,11 @@ static WebView *webView;
     self.spec = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfFile:@"/tmp/com.yy.ued.sketch.components/tmp.json"] options:kNilOptions error:NULL];
     SVGKImage *image = [SVGKImage imageWithData:[self.xmlString dataUsingEncoding:NSUTF8StringEncoding]];
     COMGenLayer *rootLayer = [COMGenLayer new];
-    rootLayer.layerID = @"rootView";
     rootLayer.layerClass = @"UIView";
     rootLayer.props = @{
                         @"class": @"UIView",
+                        @"outlet": @"rootView",
+                        @"tag": @(999999999),
                         };
     [self parseLayer:rootLayer element:image.DOMDocument.rootElement];
     return rootLayer;
@@ -79,7 +80,7 @@ static WebView *webView;
 }
 
 - (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType {
-    NSMutableString *headerCode = [[NSMutableString alloc] initWithFormat:@"#import <UIKit/UIKit.h>\n\n@interface %@ : UIView\n\n", self.className];
+    NSMutableString *headerCode = [[NSMutableString alloc] initWithFormat:@"#import <UIKit/UIKit.h>\n#import \"COXRuntime.h\"\n\n@interface %@ : UIView\n\n", self.className];
     NSMutableString *implementationCode = [[NSMutableString alloc] initWithFormat:@"#import \"%@.h\"\n\n@implementation %@\n\n", self.className, self.className];
     if (genType == COMGenTypeViewController) {
         
@@ -87,7 +88,7 @@ static WebView *webView;
     else if (genType == COMGenTypeView) {
         [implementationCode appendString:@"- (void)willMoveToSuperview:(UIView *)newSuperview {\n"];
         [implementationCode appendString:@"    [super willMoveToSuperview:newSuperview];\n"];
-        [implementationCode appendString:@"    UIView *rootView = [self _rootView];\n"];
+        [implementationCode appendString:@"    UIView *rootView = self.rootView;\n"];
         [implementationCode appendString:@"    rootView.frame = self.bounds;\n"];
         [implementationCode appendString:@"    rootView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;\n"];
         [implementationCode appendString:@"    [self addSubview:rootView];\n"];
@@ -118,6 +119,16 @@ static WebView *webView;
                 }
                 [mCode appendString:[NSString stringWithFormat:@"        %@\n", obj]];
             }];
+            for (COMGenLayer *sublayer in layer.sublayers) {
+                NSString *sublayerOutlet = sublayer.props[@"outlet"];
+                if (sublayerOutlet != nil && sublayerOutlet.length) {
+                    [mCode appendFormat:@"        [view addSubview:self.%@];\n", sublayerOutlet];
+                }
+                else {
+                    [mCode appendFormat:@"        [view addSubview:[self _%@]];\n", [sublayer.layerID stringByReplacingOccurrencesOfString:@"-"
+                                                                                                                            withString:@"_"]];
+                }
+            }
             [mCode appendFormat:@"        _%@ = view;\n", outlet];
         }
         [mCode appendFormat:@"    }\n"];
