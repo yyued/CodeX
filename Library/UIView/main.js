@@ -63,7 +63,6 @@ UIView.oc_code = function (props) {
 }
 
 UIView.oc_codeWithProps = function (props) {
-    props.backgroundColor = "#ffffff";
     var code = "";
     if (props.tag !== undefined) {
         code += "view.tag = " + parseInt(props.tag) + ";\n";

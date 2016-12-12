@@ -17,15 +17,25 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+//    COMGenerator *generator = [COMGenerator new];
+//    generator.className = @"MyView";
+//    COMGenLayer *layer = [generator parse];
+//    [[generator oc_code:layer genType:COMGenTypeView] enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
+//        [obj writeToFile:[NSString stringWithFormat:@"/Users/cuiminghui/Desktop/test/test/%@", key]
+//              atomically:YES
+//                encoding:NSUTF8StringEncoding
+//                   error:NULL];
+//    }];
     COMGenerator *generator = [COMGenerator new];
-    generator.className = @"MyView";
+    generator.className = @"ViewController";
     COMGenLayer *layer = [generator parse];
-    [[generator oc_code:layer genType:COMGenTypeView] enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
+    [[generator oc_code:layer genType:COMGenTypeViewController] enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
         [obj writeToFile:[NSString stringWithFormat:@"/Users/cuiminghui/Desktop/test/test/%@", key]
               atomically:YES
                 encoding:NSUTF8StringEncoding
                    error:NULL];
     }];
+
 }
 
 

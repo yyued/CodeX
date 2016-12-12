@@ -17,6 +17,7 @@ typedef enum : NSUInteger {
 
 @interface COMGenerator : NSObject
 
+@property (nonatomic, strong) NSString *libraryPath;
 @property (nonatomic, strong) NSString *className;
 
 - (COMGenLayer *)parse;
