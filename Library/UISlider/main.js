@@ -9,8 +9,7 @@
 var UISlider = {
     parse: function (nodeID, nodeXML, nodeProps) {
         var output = UIView.parse(nodeID, nodeXML, nodeProps);
-        var xml = document.createElement('div');
-        $(xml).html(nodeXML);
+        var xml = $.create(nodeXML);
         output['tintColor'] = UISlider.findTintColor(nodeID, xml);
         return output;
     },

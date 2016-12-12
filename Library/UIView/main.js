@@ -9,8 +9,7 @@
 var UIView = {
     parse: function (nodeID, nodeXML, nodeProps) {
         var output = Object.assign({}, nodeProps);
-        var xml = document.createElement('div');
-        $(xml).html(nodeXML);
+        var xml = $.create(nodeXML);
         output['frame'] = UIView.findFrame(nodeID, xml);
         output['alpha'] = $(xml).find('#' + nodeID).attrs('opacity', xml) && parseFloat($(xml).find('#' + nodeID).attrs('opacity', xml));
         output['backgroundColor'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('fill', xml);

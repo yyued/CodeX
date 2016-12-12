@@ -9,8 +9,7 @@
 var UIButton = {
     parse: function (nodeID, nodeXML, nodeProps) {
         var output = UIView.parse(nodeID, nodeXML, nodeProps);
-        var xml = document.createElement('div');
-        $(xml).html(nodeXML);
+        var xml = $.create(nodeXML);
         return output;
     },
 }
