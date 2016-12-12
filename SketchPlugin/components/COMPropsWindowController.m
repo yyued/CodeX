@@ -37,7 +37,12 @@
                                                        onLayer:layer
                                            forPluginIdentifier:@"com.yy.ued.sketch.components"];
     if (props == nil || props.length == 0 || ![props isKindOfClass:[NSString class]]) {
-        [self.textView setString:@"{\n      class: \"UIView\",\n      outlet: \"\",\n}"];
+        if ([layer isKindOfClass:MSTextLayer_Class]) {
+            [self.textView setString:@"{\n      class: \"UILabel\",\n      outlet: \"\",\n      numberOfLines: 1,\n      maxWidth: 0,\n}"];
+        }
+        else {
+            [self.textView setString:@"{\n      class: \"UIView\",\n      outlet: \"\",\n}"];
+        }
     } else {
         [self.textView setString:props];
     }

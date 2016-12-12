@@ -67,6 +67,12 @@ static int kConstraintsKey;
                                                            ]] toDouble];
                 }
             }
+            else {
+                CGSize iSize = [subview cox_intrinsicContentSize];
+                if (iSize.width > 0.0) {
+                    w = ceilf(iSize.width);
+                }
+            }
             if ([subview cox_fixedHeight]) {
                 NSString *fomula = subview.cox_constraints[@"fixedHeight"] != nil ? subview.cox_constraints[@"fixedHeight"] : @"";
                 if ([subview.cox_constraints[@"sizeRelativeTo"] isEqualToString:@"2"]) {
@@ -82,6 +88,12 @@ static int kConstraintsKey;
                                                             @(self.frame.size.height),
                                                             fomula
                                                             ]] toDouble];
+                }
+            }
+            else {
+                CGSize iSize = [subview cox_intrinsicContentSize];
+                if (iSize.height > 0.0) {
+                    h = ceilf(iSize.height);
                 }
             }
             if ([subview cox_centerXToGroup]) {
@@ -312,6 +324,10 @@ static int kConstraintsKey;
 
 - (BOOL)cox_rightPinning {
     return [self.cox_constraints[@"useRightPinning"] isEqualToString:@"1"];
+}
+
+- (CGSize)cox_intrinsicContentSize {
+    return CGSizeZero;
 }
 
 @end

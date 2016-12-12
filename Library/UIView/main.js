@@ -17,6 +17,9 @@ var UIView = {
         output['cornerRadius'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml) && parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml));
         output['borderColor'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke', xml);
         output['borderWidth'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml) && (parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml)) / 2.0);
+        if (output['borderColor'] !== undefined && output['borderWidth'] === undefined) {
+            output['borderWidth'] = 1.0;
+        }
         return output;
     },
     findFrame: function (nodeID, xml) {
@@ -35,12 +38,17 @@ var UIView = {
             height: 0,
         }
         var bounds = $(xml).find('#' + nodeID).find('#Bounds');
-        if (bounds != null) {
-            frame.width = parseFloat(bounds.attrs('width', xml));
-            frame.height = parseFloat(bounds.attrs('height', xml));
+        if (bounds !== undefined) {
+            if (bounds.attrs('width', xml) !== undefined) {
+                frame.width = parseFloat(bounds.attrs('width', xml));
+            }
+            if (bounds.attrs('height', xml) !== undefined) {
+                frame.height = parseFloat(bounds.attrs('height', xml));
+            }
         }
-        var transform = $(xml).find('#' + nodeID).attrs('transform', xml).replace(/ /ig, '');
-        if (transform != null) {
+        var transform = $(xml).find('#' + nodeID).attrs('transform', xml);
+        if (transform !== undefined) {
+            transform = transform.replace(/ /ig, '');
             var translate = parseTransform(transform)['translate'];
             if (translate !== undefined) {
                 frame.x = parseFloat(translate[0]);

@@ -27,3 +27,7 @@ var oc_color = function (hexColor) {
     }
     return "nil";
 }
+
+var oc_text = function (text) {
+    return text.replace(/"/ig, '\"');
+}

@@ -58,7 +58,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="470" height="382"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <collectionViewFlowLayout key="collectionViewLayout" minimumInteritemSpacing="10" minimumLineSpacing="10" id="X2z-aW-Ikm">
-                                        <size key="itemSize" width="88" height="88"/>
+                                        <size key="itemSize" width="128" height="88"/>
                                         <edgeInsets key="sectionInset" left="15" right="15" top="8" bottom="8"/>
                                     </collectionViewFlowLayout>
                                     <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -85,13 +85,13 @@
                             <action selector="handleCloseButtonClicked:" target="-2" id="eo5-x1-EBF"/>
                         </connections>
                     </button>
-                    <scrollView autohidesScrollers="YES" horizontalLineScroll="26" horizontalPageScroll="10" verticalLineScroll="26" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="19o-iU-2HM">
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="19o-iU-2HM">
                         <rect key="frame" x="-1" y="0.0" width="130" height="384"/>
                         <clipView key="contentView" drawsBackground="NO" id="1Ny-ag-Yrr">
                             <rect key="frame" x="1" y="1" width="128" height="382"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="QIg-1Q-qYZ" id="lat-dg-DkF">
+                                <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" indentationPerLevel="16" outlineTableColumn="QIg-1Q-qYZ" id="lat-dg-DkF">
                                     <rect key="frame" x="0.0" y="0.0" width="128" height="382"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>

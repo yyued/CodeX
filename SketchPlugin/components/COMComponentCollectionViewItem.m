@@ -20,7 +20,7 @@
     NSView *view = [NSView new];
     [view setWantsLayer:YES];
     [view.layer addSublayer:self.selectedLayer];
-    view.frame = NSMakeRect(0, 0, 88, 88);
+    view.frame = NSMakeRect(0, 0, 128, 88);
     [view addSubview:self.titleView];
     [view addSubview:self.iconImageView];
     NSGestureRecognizer *clickGesture = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(onClick)];
@@ -76,11 +76,24 @@
     if ([[[MSDocument_Class currentDocument] currentPage] currentArtboard] != nil) {
         MSLayer *newLayer = [[[self representedObject] componentLayer] duplicate];
         [newLayer removeFromParent];
+        MSRect *newRect = [MSRect_Class new];
+        [newRect setX:([[[MSDocument_Class currentDocument] currentPage] currentArtboard].frame.width - newLayer.frame.width) / 2.0];
+        [newRect setY:([[[MSDocument_Class currentDocument] currentPage] currentArtboard].frame.height - newLayer.frame.height) / 2.0];
+        [newRect setWidth:newLayer.frame.width];
+        [newRect setHeight:newLayer.frame.height];
+        [newLayer setFrame:newRect];
         [[[[MSDocument_Class currentDocument] currentPage] currentArtboard] insertLayers:@[newLayer] atIndex:0];
     }
     else {
+        MSLayerGroup *firstLayer = [[[MSDocument_Class currentDocument] currentPage] artboards].firstObject;
         MSLayer *newLayer = [[[self representedObject] componentLayer] duplicate];
         [newLayer removeFromParent];
+        MSRect *newRect = [MSRect_Class new];
+        [newRect setX:(firstLayer.frame.width - newLayer.frame.width) / 2.0];
+        [newRect setY:(firstLayer.frame.height - newLayer.frame.height) / 2.0];
+        [newRect setWidth:newLayer.frame.width];
+        [newRect setHeight:newLayer.frame.height];
+        [newLayer setFrame:newRect];
         [[[[MSDocument_Class currentDocument] currentPage] artboards].firstObject insertLayers:@[newLayer] atIndex:0];
     }
 }
@@ -110,7 +123,7 @@
 - (CALayer *)selectedLayer {
     if (_selectedLayer == nil) {
         _selectedLayer = [CALayer layer];
-        _selectedLayer.frame = CGRectMake(0, 0, 88, 88);
+        _selectedLayer.frame = CGRectMake(0, 0, 128, 88);
         _selectedLayer.backgroundColor = [NSColor colorWithWhite:0.0 alpha:0.05].CGColor;
         _selectedLayer.hidden = YES;
         _selectedLayer.cornerRadius = 6.0;
@@ -120,14 +133,14 @@
 
 - (NSImageView *)iconImageView {
     if (_iconImageView == nil) {
-        _iconImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 33, 88, 33)];
+        _iconImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 33, 128, 33)];
     }
     return _iconImageView;
 }
 
 - (NSTextView *)titleView {
     if (_titleView == nil) {
-        _titleView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 88, 22)];
+        _titleView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 128, 22)];
         _titleView.backgroundColor = [NSColor clearColor];
         _titleView.font = [NSFont systemFontOfSize:14.0];
         _titleView.textColor = [NSColor blackColor];

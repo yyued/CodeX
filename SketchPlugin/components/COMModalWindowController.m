@@ -161,6 +161,7 @@
       [self.sourceMenu addItem:menuItem];
     }];
     self.currentSource = self.sources.firstObject;
+    self.currentFilter = nil;
     [self.collectionView reloadData];
     NSMutableArray *categoires = [NSMutableArray array];
     [self.currentSource.components enumerateObjectsUsingBlock:^(COMComponentEntity * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

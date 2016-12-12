@@ -10,5 +10,6 @@
 #define COXRuntime_h
 
 #import "UIView+COXRuntime.h"
+#import "UILabel+COXRuntime.h"
 
 #endif /* COXRuntime_h */
