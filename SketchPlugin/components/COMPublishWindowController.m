@@ -41,7 +41,7 @@
         }
         if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outtypeViewController"] isKindOfClass:[NSNumber class]]) {
             [self.outtypeViewController setState:[[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outtypeViewController"] integerValue]];
-        }s
+        }
         if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.className"] isKindOfClass:[NSString class]]) {
             [self.classNameTextField setStringValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.className"]];
         }
