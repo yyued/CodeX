@@ -10,7 +10,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <WebKit/WebKit.h>
 
-static NSString *libraryPath = @"/Users/PonyCui_Home/Documents/CodeX/Library";
+static NSString *libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
 
 @interface COMGenerator ()
 

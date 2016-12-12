@@ -111,6 +111,7 @@ static int kConstraintsKey;
                                                             @(previous.frame.size.height),
                                                             fomula
                                                             ]] toDouble];
+                    t = previous.frame.origin.y + t;
                 }
                 if ([subview cox_centerYToGroup] || [subview cox_centerYToPrevious]) {
                     cy += t;
@@ -135,9 +136,13 @@ static int kConstraintsKey;
                                                             @(previous.frame.size.height),
                                                             fomula
                                                             ]] toDouble];
+                    t = previous.frame.origin.y - t;
                 }
                 if ([subview cox_centerYToGroup] || [subview cox_centerYToPrevious]) {
                     cy -= t;
+                }
+                else if ([subview cox_pinToPrevious]) {
+                    y = t;
                 }
                 else {
                     my = t;
@@ -159,6 +164,7 @@ static int kConstraintsKey;
                                                             @(previous.frame.size.width),
                                                             fomula
                                                             ]] toDouble];
+                    t = previous.frame.origin.x + t;
                 }
                 if ([subview cox_centerXToGroup] || [subview cox_centerXToPrevious]) {
                     cx += t;
@@ -183,9 +189,13 @@ static int kConstraintsKey;
                                                             @(previous.frame.size.width),
                                                             fomula
                                                             ]] toDouble];
+                    t = previous.frame.origin.x - t;
                 }
                 if ([subview cox_centerXToGroup] || [subview cox_centerXToPrevious]) {
                     cx -= t;
+                }
+                else if ([subview cox_pinToPrevious]) {
+                    x = t;
                 }
                 else {
                     mx = t;
@@ -194,13 +204,34 @@ static int kConstraintsKey;
             CGRect newFrame = CGRectMake(!isnan(cx) ? cx : (!isnan(x) ? x : 0.0),
                                          !isnan(cy) ? cy : (!isnan(y) ? y : 0.0),
                                          !isnan(w) ? w : (!isnan(mx) && !isnan(x) ? mx - x : 0.0),
-                                         !isnan(h) ? h : (!isnan(my) && !isnan(y) ? my - y : 0.0));
+                                         !isnan(h) ? h : (!isnan(my) && !isnan(y) ? my - y : 0.0)
+                                         );
             if (!isnan(cx)) {
                 newFrame.origin.x -= newFrame.size.width / 2.0;
             }
             if (!isnan(cy)) {
                 newFrame.origin.y -= newFrame.size.height / 2.0;
             }
+            if (!isnan(mx) && isnan(x)) {
+                if ([self cox_pinToGroup]) {
+                    newFrame.origin.x = self.frame.size.width - mx - newFrame.size.width;
+                }
+                else if ([self cox_pinToPrevious]) {
+                    newFrame.origin.x = previous.frame.size.width - mx - newFrame.size.width;
+                }
+            }
+            if (!isnan(my) && isnan(y)) {
+                if ([self cox_pinToGroup]) {
+                    newFrame.origin.y = self.frame.size.height - mx - newFrame.size.height;
+                }
+                else if ([self cox_pinToPrevious]) {
+                    newFrame.origin.y = previous.frame.size.height - mx - newFrame.size.height;
+                }
+            }
+            newFrame.origin.x = isnan(newFrame.origin.x) ? 0.0 : newFrame.origin.x;
+            newFrame.origin.y = isnan(newFrame.origin.y) ? 0.0 : newFrame.origin.y;
+            newFrame.size.width = isnan(newFrame.size.width) ? 0.0 : newFrame.size.width;
+            newFrame.size.height = isnan(newFrame.size.height) ? 0.0 : newFrame.size.height;
             subview.frame = newFrame;
         }
         previous = subview;

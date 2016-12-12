@@ -21,7 +21,7 @@
     generator.className = @"MyView";
     COMGenLayer *layer = [generator parse];
     [[generator oc_code:layer genType:COMGenTypeView] enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
-        [obj writeToFile:[NSString stringWithFormat:@"/Users/PonyCui_Home/Desktop/ttt/ttt/%@", key]
+        [obj writeToFile:[NSString stringWithFormat:@"/Users/cuiminghui/Desktop/test/test/%@", key]
               atomically:YES
                 encoding:NSUTF8StringEncoding
                    error:NULL];
