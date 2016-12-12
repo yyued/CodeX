@@ -16,7 +16,7 @@ var UIView = {
         output['backgroundColor'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('fill', xml);
         output['cornerRadius'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml) && parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml));
         output['borderColor'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke', xml);
-        output['borderWidth'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml) && parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml));
+        output['borderWidth'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml) && (parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml)) / 2.0);
         return output;
     },
     findFrame: function (nodeID, xml) {

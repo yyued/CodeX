@@ -121,6 +121,9 @@ static WebView *webView;
     implementationCode:(NSMutableString *)implementationCode {
     NSString *outlet = layer.props[@"outlet"];
     NSString *ocClass = [[context[layer.layerClass][@"oc_class"] callWithArguments:@[ layer.props ]] toString];
+    if ([ocClass isEqualToString:@"undefined"]) {
+        return;
+    }
     if (outlet != nil && outlet.length) {
         [headerCode appendFormat:@"@property (nonatomic, strong) %@ *%@;\n", ocClass, outlet];
         NSMutableString *mCode = [NSMutableString new];
@@ -136,6 +139,10 @@ static WebView *webView;
                   [mCode appendString:[NSString stringWithFormat:@"        %@\n", obj]];
                 }];
             for (COMGenLayer *sublayer in layer.sublayers) {
+                NSString *ocClass = [[context[sublayer.layerClass][@"oc_class"] callWithArguments:@[ sublayer.props ]] toString];
+                if ([ocClass isEqualToString:@"undefined"]) {
+                    continue;
+                }
                 NSString *sublayerOutlet = sublayer.props[@"outlet"];
                 if (sublayerOutlet != nil && sublayerOutlet.length) {
                     [mCode appendFormat:@"        [view addSubview:self.%@];\n", sublayerOutlet];
@@ -150,7 +157,8 @@ static WebView *webView;
         [mCode appendFormat:@"    return _%@;\n", outlet];
         [mCode appendFormat:@"}\n\n"];
         [implementationCode appendString:mCode];
-    } else {
+    }
+    else {
         NSMutableString *mCode = [NSMutableString new];
         [mCode appendFormat:@"- (%@ *)_%@ {\n", ocClass,
                             [layer.layerID stringByReplacingOccurrencesOfString:@"-" withString:@"_"]];
@@ -164,6 +172,10 @@ static WebView *webView;
                   [mCode appendString:[NSString stringWithFormat:@"    %@\n", obj]];
                 }];
             for (COMGenLayer *sublayer in layer.sublayers) {
+                NSString *ocClass = [[context[sublayer.layerClass][@"oc_class"] callWithArguments:@[ sublayer.props ]] toString];
+                if ([ocClass isEqualToString:@"undefined"]) {
+                    continue;
+                }
                 NSString *sublayerOutlet = sublayer.props[@"outlet"];
                 if (sublayerOutlet != nil && sublayerOutlet.length) {
                     [mCode appendFormat:@"    [view addSubview:self.%@];\n", sublayerOutlet];

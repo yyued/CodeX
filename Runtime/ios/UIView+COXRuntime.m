@@ -49,6 +49,7 @@ static int kConstraintsKey;
         if (subview.cox_constraints != nil) {
             CGFloat x = NAN, y = NAN, mx = NAN, my = NAN, cx = NAN, cy = NAN;
             CGFloat w = NAN, h = NAN;
+            BOOL xorw = NO, yorh = NO;
             if ([subview cox_fixedWidth]) {
                 NSString *fomula = subview.cox_constraints[@"fixedWidth"] != nil ? subview.cox_constraints[@"fixedWidth"] : @"";
                 if ([subview.cox_constraints[@"sizeRelativeTo"] isEqualToString:@"2"]) {
@@ -136,13 +137,14 @@ static int kConstraintsKey;
                                                             @(previous.frame.size.height),
                                                             fomula
                                                             ]] toDouble];
-                    t = previous.frame.origin.y - t;
+                    t = previous.frame.origin.y + previous.frame.size.height - t;
                 }
                 if ([subview cox_centerYToGroup] || [subview cox_centerYToPrevious]) {
                     cy -= t;
                 }
                 else if ([subview cox_pinToPrevious]) {
                     y = t;
+                    yorh = YES;
                 }
                 else {
                     my = t;
@@ -196,6 +198,7 @@ static int kConstraintsKey;
                 }
                 else if ([subview cox_pinToPrevious]) {
                     x = t;
+                    xorw = YES;
                 }
                 else {
                     mx = t;
@@ -227,6 +230,12 @@ static int kConstraintsKey;
                 else if ([self cox_pinToPrevious]) {
                     newFrame.origin.y = previous.frame.size.height - mx - newFrame.size.height;
                 }
+            }
+            if (xorw) {
+                newFrame.origin.x -= newFrame.size.width;
+            }
+            if (yorh) {
+                newFrame.origin.y -= newFrame.size.height;
             }
             newFrame.origin.x = isnan(newFrame.origin.x) ? 0.0 : newFrame.origin.x;
             newFrame.origin.y = isnan(newFrame.origin.y) ? 0.0 : newFrame.origin.y;

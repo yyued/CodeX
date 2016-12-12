@@ -10,6 +10,13 @@
 
 @implementation COMGenLayer
 
+- (NSDictionary *)props {
+    if (_props == nil) {
+        return @{};
+    }
+    return _props;
+}
+
 - (NSArray<COMGenLayer *> *)sublayers {
     if (_sublayers == nil) {
         _sublayers = @[];

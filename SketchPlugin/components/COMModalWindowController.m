@@ -181,7 +181,7 @@
           COMSourceEntity *item = [COMSourceEntity new];
           item.sourceName = [obj.name stringByReplacingOccurrencesOfString:@"TPL - " withString:@""];
           NSMutableArray<COMComponentEntity *> *components = [NSMutableArray array];
-          for (MSLayerGroup *layer in obj.layers) {
+          for (MSLayerGroup *layer in [[obj artboards].firstObject layers]) {
               if ([layer isKindOfClass:MSLayerGroup_Class]) {
                   COMComponentEntity *componentItem = [COMComponentEntity new];
                   componentItem.componentName = [layer name];
