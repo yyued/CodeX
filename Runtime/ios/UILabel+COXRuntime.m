@@ -41,7 +41,7 @@
 
 - (NSDictionary *)defaultAttributes {
     NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-    NSMutableParagraphStyle *paraStyle = [NSMutableParagraphStyle new];
+    NSMutableParagraphStyle *paraStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     paraStyle.lineBreakMode = self.lineBreakMode;
     paraStyle.alignment = self.textAlignment;
     if (self.lineSpace > 0) {
@@ -75,17 +75,11 @@
 - (CGSize)cox_intrinsicContentSize {
     CGFloat widthAdjust = self.lineBreakMode == NSLineBreakByClipping ? 1.0 : self.font.pointSize / 4.0;
     if (self.maxWidth > 0.0) {
-        CGRect bounds =
-            [self.attributedText boundingRectWithSize:CGSizeMake(self.maxWidth, CGFLOAT_MAX)
-                                              options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesDeviceMetrics
-                                              context:NULL];
-        return CGSizeMake(ceilf(bounds.size.width) + widthAdjust, ceilf(bounds.size.height) + 1.0);
+        CGSize size = [self sizeThatFits:CGSizeMake(self.maxWidth, CGFLOAT_MAX)];
+        return CGSizeMake(ceilf(size.width) + widthAdjust, ceilf(size.height) + 1.0);
     } else {
-        CGRect bounds =
-        [self.attributedText boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)
-                                          options:NSStringDrawingUsesFontLeading | NSStringDrawingUsesDeviceMetrics
-                                          context:NULL];
-        return CGSizeMake(ceilf(bounds.size.width) + widthAdjust, ceilf(bounds.size.height) + 1.0);
+        CGSize size = [self sizeThatFits:CGSizeMake(CGFLOAT_MAX, CGFLOAT_MAX)];
+        return CGSizeMake(ceilf(size.width) + widthAdjust, ceilf(size.height) + 1.0);
     }
     return CGSizeZero;
 }

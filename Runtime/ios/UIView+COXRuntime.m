@@ -91,6 +91,12 @@ static int kConstraintsKey;
                 }
             }
             else {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wundeclared-selector"
+                if ([subview cox_fixedWidth] && !isnan(w) && [subview respondsToSelector:@selector(setMaxWidth:)]) {
+                    [subview performSelector:@selector(setMaxWidth:) withObject:@(w)];
+                }
+#pragma GCC diagnostic
                 CGSize iSize = [subview cox_intrinsicContentSize];
                 if (iSize.height > 0.0) {
                     h = ceilf(iSize.height);

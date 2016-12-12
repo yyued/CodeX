@@ -11,34 +11,55 @@ var UILabel = {
         var output = UIView.parse(nodeID, nodeXML, nodeProps);
         var xml = $.create(nodeXML);
         output["text"] = UILabel.findText(nodeID, xml);
-        output["fontFamily"] = $(xml).find('#' + nodeID).attrs('font-family', xml);
-        output["fontSize"] = $(xml).find('#' + nodeID).attrs('font-size', xml) && parseFloat($(xml).find('#' + nodeID).attrs('font-size', xml));
-        output["underline"] = $(xml).find('#' + nodeID).attrs('text-decoration', xml) === "underline";
-        output["deleteline"] = $(xml).find('#' + nodeID).attrs('text-decoration', xml) === "line-through";
-        output["letterSpacing"] = $(xml).find('#' + nodeID).attrs('letter-spacing', xml) && parseFloat($(xml).find('#' + nodeID).attrs('letter-spacing', xml));
-        output["lineSpacing"] = $(xml).find('#' + nodeID).attrs('line-spacing', xml) && (parseFloat($(xml).find('#' + nodeID).attrs('line-spacing', xml)) / 2.0);
-        output["textColor"] = $(xml).find('#' + nodeID).attrs('fill', xml);
-        output["strokeWidth"] = $(xml).find('#' + nodeID).attrs('stroke-width', xml) && (parseFloat($(xml).find('#' + nodeID).attrs('stroke-width', xml)) * 2.0);
-        output["strokeColor"] = $(xml).find('#' + nodeID).attrs('stroke', xml);
-        if (output["strokeColor"] === "none") {
-            output["strokeWidth"] = undefined;
-            output["strokeColor"] = undefined;
-        }
+        Object.assign(output, UILabel.findFirstTextAttributes(nodeID, xml));
         Object.assign(output, UILabel.findShadow(nodeID, xml));
         return output;
     },
-    findText: function (nodeID, xml) {
-        var text = "";
+    findFirstTextAttributes: function (nodeID, xml) {
+        var firstText;
         var use = false;
-        $(xml).find('use').each(function () {
+        $(xml).find('#' + nodeID).find('use').each(function () {
             if ($(this).attrs('filter', xml) !== undefined) {
                 return;
             }
             use = true;
-            $(this).find('tspan').each(function () {
+            firstText = $(this).find('tspan')[0];
+        });
+        if (!use) {
+            firstText = $(xml).find('#' + nodeID).find('tspan')[0];
+        }
+        if (firstText !== undefined) {
+            var output = {};
+            output["fontFamily"] = $(firstText).attrs('font-family', xml);
+            output["fontSize"] = $(firstText).attrs('font-size', xml) && parseFloat($(firstText).attrs('font-size', xml));
+            output["underline"] = $(firstText).attrs('text-decoration', xml) === "underline";
+            output["deleteline"] = $(firstText).attrs('text-decoration', xml) === "line-through";
+            output["letterSpacing"] = $(firstText).attrs('letter-spacing', xml) && parseFloat($(firstText).attrs('letter-spacing', xml));
+            output["lineSpacing"] = $(firstText).attrs('line-spacing', xml) && (parseFloat($(firstText).attrs('line-spacing', xml)) / 2.0);
+            output["textColor"] = $(firstText).attrs('fill', xml);
+            output["strokeWidth"] = $(firstText).attrs('stroke-width', xml) && (parseFloat($(firstText).attrs('stroke-width', xml)) * 2.0);
+            output["strokeColor"] = $(firstText).attrs('stroke', xml);
+            if (output["strokeColor"] === "none") {
+                output["strokeWidth"] = undefined;
+                output["strokeColor"] = undefined;
+            }
+            return output;
+        }
+        return {};
+    },
+    findText: function (nodeID, xml) {
+        var text = "";
+        var use = false;
+        for (var index = 0; index < $(xml).find('#' + nodeID).find('use').length; index++) {
+            var element = $(xml).find('#' + nodeID).find('use')[index];
+            if ($(element).attrs('filter', xml) !== undefined) {
+                continue;
+            }
+            use = true;
+            $(element).find('tspan').each(function () {
                 text += $(this).text();
             });
-        });
+        }
         if (!use) {
             $(xml).find('#' + nodeID).find('tspan').each(function () {
                 text += $(this).text();
@@ -157,6 +178,20 @@ UILabel.oc_codeWithProps = function (props) {
     }
     if (props.shadowRadius !== undefined) {
         code += "view.layer.shadowRadius = " + props.shadowRadius + ";\n";
+    }
+    if (props.maxWidth !== undefined && props.maxWidth > 0) {
+        code += "view.maxWidth = " + props.maxWidth + ";\n";
+    }
+    if (props.alignment !== undefined) {
+        if (props.alignment == 0) {
+            code += "view.textAlignment = NSTextAlignmentLeft;\n";
+        }
+        else if (props.alignment == 2) {
+            code += "view.textAlignment = NSTextAlignmentCenter;\n";
+        }
+        else if (props.alignment == 1) {
+            code += "view.textAlignment = NSTextAlignmentRight;\n";
+        }
     }
     if (props.text !== undefined) {
         code += "view.text = @\"" + oc_text(props.text) + "\";\n";

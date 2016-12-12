@@ -159,6 +159,17 @@
             }
             props[uuid] = dict;
         }
+        if ([layer isKindOfClass:MSTextLayer_Class]) {
+            if (dict != nil) {
+                NSNumber *alignment = [(MSTextLayer *)layer valueForKey:@"textAlignment"];
+                if (alignment != nil) {
+                    NSMutableDictionary *mDict = [dict mutableCopy];
+                    mDict[@"alignment"] = alignment;
+                    dict = [mDict copy];
+                }
+                props[uuid] = dict;
+            }
+        }
     }
     if ([layer isKindOfClass:MSLayerGroup_Class]) {
         for (MSLayer *sublayer in [(MSLayerGroup *)layer layers]) {
