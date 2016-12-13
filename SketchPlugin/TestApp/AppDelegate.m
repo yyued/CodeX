@@ -28,6 +28,7 @@
 //    }];
     COMGenerator *generator = [COMGenerator new];
     generator.className = @"ViewController";
+    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
     generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
     COMGenLayer *layer = [generator parse];
     [[generator oc_code:layer genType:COMGenTypeViewController] enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {

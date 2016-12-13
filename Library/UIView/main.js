@@ -13,6 +13,10 @@ var UIView = {
         output['frame'] = UIView.findFrame(nodeID, xml);
         output['alpha'] = $(xml).find('#' + nodeID).attrs('opacity', xml) && parseFloat($(xml).find('#' + nodeID).attrs('opacity', xml));
         output['backgroundColor'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('fill', xml);
+        var fillOpacity = $(xml).find('#' + nodeID).find('#Bounds').attrs('fill-opacity', xml) && parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('fill-opacity', xml));
+        if (output['backgroundColor'] !== undefined && fillOpacity !== undefined) {
+            output['backgroundColor'] = colorWithAlpha(output['backgroundColor'], fillOpacity);
+        }
         output['cornerRadius'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml) && parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml));
         output['borderColor'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke', xml);
         output['borderWidth'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml) && (parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml)) / 2.0);
@@ -24,6 +28,9 @@ var UIView = {
         }
         if (output['borderColor'] === undefined) {
             output['borderWidth'] = undefined;
+        }
+        if ($(xml).find('#' + nodeID).find('mask').length > 0) {
+            output['masksToBounds'] = true;
         }
         return output;
     },
@@ -90,13 +97,16 @@ UIView.oc_codeWithProps = function (props) {
         code += "view.backgroundColor = " + oc_color(props.backgroundColor) + ";\n";
     }
     if (props.cornerRadius !== undefined) {
-        code += "view.layer.cornerRadius = " + props.cornerRadius + ";\n"
+        code += "view.layer.cornerRadius = " + props.cornerRadius + ";\n";
+    }
+    if (props.masksToBounds === true) {
+        code += "view.layer.masksToBounds = YES;\n";
     }
     if (props.borderColor !== undefined && oc_color(props.borderColor) != "nil") {
-        code += "view.layer.borderColor = " + oc_color(props.borderColor) + ".CGColor;\n"
+        code += "view.layer.borderColor = " + oc_color(props.borderColor) + ".CGColor;\n";
     }
     if (props.borderWidth !== undefined) {
-        code += "view.layer.borderWidth = " + props.borderWidth + ";\n"
+        code += "view.layer.borderWidth = " + props.borderWidth + ";\n";
     }
     if (props.constraints !== undefined) {
         var constraints = "";

@@ -33,6 +33,11 @@ UIButton.oc_code = function (props) {
         code += oc_init("COXButton", "view");
     }
     code += UIButton.oc_codeWithProps(props);
+    return code;
+}
+
+UIButton.oc_codeWithProps = function (props) {
+    var code = UIView.oc_codeWithProps(props);
     if (props.buttonType === "Text") {
         if (props.text !== undefined) {
             code += "{\n";
@@ -45,10 +50,5 @@ UIButton.oc_code = function (props) {
     else {
 
     }
-    return code;
-}
-
-UIButton.oc_codeWithProps = function (props) {
-    var code = UIView.oc_codeWithProps(props);
     return code;
 }

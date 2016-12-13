@@ -18,6 +18,7 @@
 @property(weak) IBOutlet NSButton *outtypeView;
 @property(weak) IBOutlet NSTextField *classNameTextField;
 @property(weak) IBOutlet NSTextField *pathTextField;
+@property (weak) IBOutlet NSTextField *assetsTextField;
 @property (weak) IBOutlet NSTextField *libPathTextField;
 
 @end
@@ -51,6 +52,9 @@
         if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.libPath"] isKindOfClass:[NSString class]]) {
             [self.libPathTextField setStringValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.libPath"]];
         }
+        if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.assetsPath"] isKindOfClass:[NSString class]]) {
+            [self.assetsTextField setStringValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.assetsPath"]];
+        }
     });
 }
 
@@ -68,6 +72,18 @@
     if (result == NSFileHandlingPanelOKButton) {
         [self.pathTextField setStringValue:[openPanel.URL path]];
         [[NSUserDefaults standardUserDefaults] setValue:[openPanel.URL path] forKey:@"com.yy.ued.sketch.components.outPath"];
+    }
+}
+
+- (IBAction)onAssetsChooseButtonClicked:(id)sender {
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanChooseFiles:NO];
+    [openPanel setCanChooseDirectories:YES];
+    [openPanel setAllowsMultipleSelection:NO];
+    NSInteger result = [openPanel runModal];
+    if (result == NSFileHandlingPanelOKButton) {
+        [self.assetsTextField setStringValue:[openPanel.URL path]];
+        [[NSUserDefaults standardUserDefaults] setValue:[openPanel.URL path] forKey:@"com.yy.ued.sketch.components.assetsPath"];
     }
 }
 
@@ -108,6 +124,7 @@
          writeToFile:@"/tmp/com.yy.ued.sketch.components/tmp.json"
          atomically:YES];
         COMGenerator *generator = [COMGenerator new];
+        generator.assetsPath = self.assetsTextField.stringValue;
         generator.libraryPath = self.libPathTextField.stringValue;
         generator.className = self.classNameTextField.stringValue;
         COMGenLayer *layer = [generator parse];

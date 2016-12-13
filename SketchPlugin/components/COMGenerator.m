@@ -7,6 +7,7 @@
 //
 
 #import "COMGenerator.h"
+#import "COMAssetsWritter.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <WebKit/WebKit.h>
 
@@ -25,6 +26,15 @@ static WebView *webView;
 - (void)loadLibrary {
     webView = [WebView new];
     context = webView.mainFrame.javaScriptContext;
+    context[@"oc_writeAssets"] = ^(NSString *base64String, CGFloat baseWidth, CGFloat baseHeight, NSString *fileName) {
+        NSData *data = [[NSData alloc] initWithBase64EncodedString:base64String options:kNilOptions];
+        if (data != nil) {
+            NSImage *image = [[NSImage alloc] initWithData:data];
+            if (image != nil) {
+                [COMAssetsWritter writeIOSImage:image baseSize:CGSizeMake(baseWidth, baseHeight) toAssetsPath:self.assetsPath fileName:fileName];
+            }
+        }
+    };
     for (NSString *dirName in [[NSFileManager defaultManager] enumeratorAtPath:self.libraryPath]) {
         NSString *subPath = [self.libraryPath stringByAppendingFormat:@"/%@", dirName];
         for (NSString *fileName in [[NSFileManager defaultManager] enumeratorAtPath:subPath]) {
