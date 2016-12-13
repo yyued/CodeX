@@ -247,7 +247,7 @@ UILabel.oc_codeWithProps = function (props) {
         code += "view.underlineStyle = NSUnderlineStyleSingle;\n";
     }
     if (props.letterSpacing !== undefined) {
-        code += "view.letterSpace = " + props.letterSpacing + ";\n";
+        code += "view.letterSpacing = " + props.letterSpacing + ";\n";
     }
     if (props.lineSpacing !== undefined) {
         code += "view.lineSpacing = " + props.lineSpacing + ";\n";

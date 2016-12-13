@@ -70,7 +70,7 @@ static COMPublishWindowController *publishWindowController;
     if (layer != nil && [layer isKindOfClass:MSLayer_Class]) {
         [publishWindowController setLayer:layer];
     } else {
-        [publishWindowController setLayer:[[MSDocument_Class currentDocument] currentPage]];
+        [publishWindowController setLayer:[[[[MSDocument_Class currentDocument] currentPage] artboards] firstObject]];
     }
     publishWindowController.modalSession =
         [[NSApplication sharedApplication] beginModalSessionForWindow:publishWindowController.window];

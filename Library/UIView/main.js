@@ -16,8 +16,14 @@ var UIView = {
         output['cornerRadius'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml) && parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml));
         output['borderColor'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke', xml);
         output['borderWidth'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml) && (parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml)) / 2.0);
+        if (output['borderColor'] === "none") {
+            output['borderColor'] = undefined;
+        }
         if (output['borderColor'] !== undefined && output['borderWidth'] === undefined) {
             output['borderWidth'] = 1.0;
+        }
+        if (output['borderColor'] === undefined) {
+            output['borderWidth'] = undefined;
         }
         return output;
     },
@@ -80,13 +86,13 @@ UIView.oc_codeWithProps = function (props) {
     if (props.alpha !== undefined) {
         code += "view.alpha = " + props.alpha + ";\n";
     }
-    if (props.backgroundColor !== undefined) {
+    if (props.backgroundColor !== undefined && oc_color(props.backgroundColor) != "nil") {
         code += "view.backgroundColor = " + oc_color(props.backgroundColor) + ";\n";
     }
     if (props.cornerRadius !== undefined) {
         code += "view.layer.cornerRadius = " + props.cornerRadius + ";\n"
     }
-    if (props.borderColor !== undefined) {
+    if (props.borderColor !== undefined && oc_color(props.borderColor) != "nil") {
         code += "view.layer.borderColor = " + oc_color(props.borderColor) + ".CGColor;\n"
     }
     if (props.borderWidth !== undefined) {

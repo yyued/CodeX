@@ -14,12 +14,12 @@
 /**
  字符间距
  */
-@property (nonatomic, assign) CGFloat letterSpace;
+@property (nonatomic, assign) CGFloat letterSpacing;
 
 /**
  行距
  */
-@property (nonatomic, assign) CGFloat lineSpace;
+@property (nonatomic, assign) CGFloat lineSpacing;
 
 /**
  下划线样式

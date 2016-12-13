@@ -11,5 +11,6 @@
 
 #import "UIView+COXRuntime.h"
 #import "UILabel+COXRuntime.h"
+#import "UIButton+COXRuntime.h"
 
 #endif /* COXRuntime_h */

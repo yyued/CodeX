@@ -14,8 +14,8 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        self.letterSpace = [coder decodeDoubleForKey:@"letterSpace"];
-        self.lineSpace = [coder decodeDoubleForKey:@"lineSpace"];
+        self.letterSpacing = [coder decodeDoubleForKey:@"letterSpacing"];
+        self.lineSpacing = [coder decodeDoubleForKey:@"lineSpacing"];
         self.underlineStyle = [coder decodeIntegerForKey:@"underlineStyle"];
         self.deletelineStyle = [coder decodeIntegerForKey:@"deletelineStyle"];
         self.strokeColor = [coder decodeObjectForKey:@"strokeColor"];
@@ -27,8 +27,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
-    [aCoder encodeDouble:self.letterSpace forKey:@"letterSpace"];
-    [aCoder encodeDouble:self.lineSpace forKey:@"lineSpace"];
+    [aCoder encodeDouble:self.letterSpacing forKey:@"letterSpacing"];
+    [aCoder encodeDouble:self.lineSpacing forKey:@"lineSpacing"];
     [aCoder encodeInteger:self.underlineStyle forKey:@"underlineStyle"];
     [aCoder encodeInteger:self.deletelineStyle forKey:@"deletelineStyle"];
     [aCoder encodeObject:self.strokeColor forKey:@"strokeColor"];
@@ -74,8 +74,8 @@
     NSMutableParagraphStyle *paraStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     paraStyle.lineBreakMode = self.lineBreakMode;
     paraStyle.alignment = self.textAlignment;
-    if (self.lineSpace > 0) {
-        paraStyle.lineSpacing = self.lineSpace;
+    if (self.lineSpacing > 0) {
+        paraStyle.lineSpacing = self.lineSpacing;
     }
     if (self.underlineStyle != NSUnderlineStyleNone) {
         attrs[NSUnderlineStyleAttributeName] = @(self.underlineStyle);
@@ -83,8 +83,8 @@
     if (self.deletelineStyle != NSUnderlineStyleNone) {
         attrs[NSStrikethroughStyleAttributeName] = @(self.deletelineStyle);
     }
-    if (self.letterSpace > 0) {
-        attrs[NSKernAttributeName] = @(self.letterSpace);
+    if (self.letterSpacing > 0) {
+        attrs[NSKernAttributeName] = @(self.letterSpacing);
     }
     if (self.strokeColor != nil) {
         attrs[NSStrokeColorAttributeName] = self.strokeColor;
