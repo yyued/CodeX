@@ -13,6 +13,7 @@
 @implementation UIView (COXRuntime)
 
 static JSContext *context;
+static int kAutomaticallyAdjustsSpace;
 static int kConstraintsKey;
 
 + (void)load {
@@ -47,6 +48,9 @@ static int kConstraintsKey;
     UIView *previous;
     for (UIView *subview in self.subviews) {
         if (subview.cox_constraints != nil) {
+            if ([subview.cox_constraints[@"disabled"] isEqualToString:@"1"]) {
+                continue;
+            }
             CGFloat x = NAN, y = NAN, mx = NAN, my = NAN, cx = NAN, cy = NAN;
             CGFloat w = NAN, h = NAN;
             BOOL xorw = NO, yorh = NO;
@@ -224,8 +228,8 @@ static int kConstraintsKey;
             }
             CGRect newFrame = CGRectMake(!isnan(cx) ? cx : (!isnan(x) ? x : 0.0),
                                          !isnan(cy) ? cy : (!isnan(y) ? y : 0.0),
-                                         !isnan(w) ? w : (!isnan(mx) && !isnan(x) ? mx - x : 0.0),
-                                         !isnan(h) ? h : (!isnan(my) && !isnan(y) ? my - y : 0.0)
+                                         !isnan(w) ? w : 0.0,
+                                         !isnan(h) ? h : 0.0
                                          );
             if (!isnan(cx)) {
                 newFrame.origin.x -= newFrame.size.width / 2.0;
@@ -243,10 +247,26 @@ static int kConstraintsKey;
             }
             if (!isnan(my) && isnan(y)) {
                 if ([self cox_pinToGroup]) {
-                    newFrame.origin.y = self.frame.size.height - mx - newFrame.size.height;
+                    newFrame.origin.y = self.frame.size.height - my - newFrame.size.height;
                 }
                 else if ([self cox_pinToPrevious]) {
-                    newFrame.origin.y = previous.frame.size.height - mx - newFrame.size.height;
+                    newFrame.origin.y = previous.frame.size.height - my - newFrame.size.height;
+                }
+            }
+            if (!isnan(mx) && !isnan(x)) {
+                if ([self cox_pinToGroup]) {
+                    newFrame.size.width = self.frame.size.width - mx - x;
+                }
+                else if ([self cox_pinToPrevious]) {
+                    newFrame.size.width = previous.frame.size.width - mx - (x - previous.frame.origin.x);
+                }
+            }
+            if (!isnan(my) && !isnan(y)) {
+                if ([self cox_pinToGroup]) {
+                    newFrame.size.height = self.frame.size.height - my - y;
+                }
+                else if ([self cox_pinToPrevious]) {
+                    newFrame.size.height = previous.frame.size.height - my - (y - previous.frame.origin.y);
                 }
             }
             if (xorw) {
@@ -260,6 +280,7 @@ static int kConstraintsKey;
             newFrame.size.width = isnan(newFrame.size.width) ? 0.0 : newFrame.size.width;
             newFrame.size.height = isnan(newFrame.size.height) ? 0.0 : newFrame.size.height;
             subview.frame = newFrame;
+            [subview automaticallyAdjustsTopSpace];
         }
         previous = subview;
     }
@@ -271,6 +292,32 @@ static int kConstraintsKey;
 
 - (void)setCox_constraints:(NSDictionary *)cox_constraints {
     objc_setAssociatedObject(self, &kConstraintsKey, cox_constraints, OBJC_ASSOCIATION_COPY_NONATOMIC);
+}
+
+- (BOOL)cox_automaticallyAdjustsSpace {
+    return [objc_getAssociatedObject(self, &kAutomaticallyAdjustsSpace) boolValue];
+}
+
+- (void)setCox_automaticallyAdjustsSpace:(BOOL)cox_automaticallyAdjustsSpace {
+    objc_setAssociatedObject(self, &kAutomaticallyAdjustsSpace, @(cox_automaticallyAdjustsSpace), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (void)automaticallyAdjustsTopSpace {
+    if (self.cox_automaticallyAdjustsSpace) {
+        UIViewController *viewController = (id)[self nextResponder];
+        while (viewController != nil) {
+            if ([viewController isKindOfClass:[UIViewController class]]) {
+                CGFloat topSpace = [viewController.topLayoutGuide length];
+                CGFloat bottomSpace = [viewController.bottomLayoutGuide length];
+                CGRect frame = self.frame;
+                frame.origin.y = topSpace;
+                frame.size.height = self.superview.bounds.size.height - topSpace - bottomSpace;
+                self.frame = frame;
+                break;
+            }
+            viewController = (id)[viewController nextResponder];
+        }
+    }
 }
 
 - (UIView *)cox_rootView {

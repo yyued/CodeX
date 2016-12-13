@@ -118,5 +118,8 @@ UIView.oc_codeWithProps = function (props) {
         }
         code += "view.cox_constraints = @{\n" + constraints + "};\n";
     }
+    if (props.automaticallyAdjustsSpace === true) {
+        code += "view.cox_automaticallyAdjustsSpace = YES;\n";
+    }
     return code;
 }

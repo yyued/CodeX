@@ -141,6 +141,9 @@
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
     if ([self.outlineView selectedRow] < self.categories.count) {
         self.currentFilter = self.categories[[self.outlineView selectedRow]];
+        [[self.collectionView visibleItems] enumerateObjectsUsingBlock:^(NSCollectionViewItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [(COMComponentCollectionViewItem *)obj selectedLayer].hidden = YES;
+        }];
         [self.collectionView reloadData];
     }
 }
@@ -182,13 +185,15 @@
           COMSourceEntity *item = [COMSourceEntity new];
           item.sourceName = [obj.name stringByReplacingOccurrencesOfString:@"TPL - " withString:@""];
           NSMutableArray<COMComponentEntity *> *components = [NSMutableArray array];
-          for (MSLayerGroup *layer in [[obj artboards].firstObject layers]) {
-              if ([layer isKindOfClass:MSLayerGroup_Class]) {
-                  COMComponentEntity *componentItem = [COMComponentEntity new];
-                  componentItem.componentName = [layer name];
-                  componentItem.iconImage = [self snapImageWithLayer:layer];
-                  componentItem.componentLayer = layer;
-                  [components addObject:componentItem];
+          for (MSArtboardGroup *artboard in [obj artboards]) {
+              for (MSLayerGroup *layer in [artboard layers]) {
+                  if ([layer isKindOfClass:MSLayerGroup_Class]) {
+                      COMComponentEntity *componentItem = [COMComponentEntity new];
+                      componentItem.componentName = [layer name];
+                      componentItem.iconImage = [self snapImageWithLayer:layer];
+                      componentItem.componentLayer = layer;
+                      [components insertObject:componentItem atIndex:0];
+                  }
               }
           }
           item.components = components;

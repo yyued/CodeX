@@ -10,6 +10,7 @@
 
 @interface UIView (COXRuntime)
 
+@property (nonatomic, assign) BOOL cox_automaticallyAdjustsSpace;
 @property (nonatomic, copy) NSDictionary *cox_constraints;
 
 - (CGSize)cox_intrinsicContentSize;
