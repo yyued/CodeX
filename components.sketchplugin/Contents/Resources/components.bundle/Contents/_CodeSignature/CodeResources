@@ -6,15 +6,15 @@
 	<dict>
 		<key>Resources/COMModalWindowController.nib</key>
 		<data>
-		q8FUdIaaAoe8ZhuVOmHQKy4iOMs=
+		KNE1iJPYo5yPS/Iba0GNfx9bwuU=
 		</data>
 		<key>Resources/COMPropsWindowController.nib</key>
 		<data>
-		majyEl2c9x9lfZ8P+zHS1L0Od1w=
+		fGyfQ++IhtiHSzNlTKitC7u2XDo=
 		</data>
 		<key>Resources/COMPublishWindowController.nib</key>
 		<data>
-		ZHeWHKLcNYFsfDnScNQQJPEPWqE=
+		TaH/1MNoDZtJ1VRl2Dbzv+/qEVE=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -23,21 +23,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			5etDTf4pTYr6mdNHjMjpw++N2i1bbkSkmdW1XQc7kIg=
+			RRt6tiW6AUdBBoILS3stUX8liNfnWHhkNqJPvfpMUE8=
 			</data>
 		</dict>
 		<key>Resources/COMPropsWindowController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			a0PFyRSvkBQQL2rdc6uoZz9tEyKaExSZ7xmx0pDMc3k=
+			NUJZG6/e7PSXuO9y8rsgEW2uytVMnGdOqQBdnR92+GY=
 			</data>
 		</dict>
 		<key>Resources/COMPublishWindowController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			juXNC7EKYR5pS97pvt2pzM7CTfV/UEZ/a7UhZH779G8=
+			wn8chyDjMDbh1McZyjgZHA6IC3rxhEs/2nQts1x7V5s=
 			</data>
 		</dict>
 	</dict>
@@ -58,6 +58,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^version.plist$</key>
 		<true/>
@@ -117,6 +122,11 @@
 			<true/>
 			<key>weight</key>
 			<real>1100</real>
+		</dict>
+		<key>^Resources/Base\.lproj/</key>
+		<dict>
+			<key>weight</key>
+			<real>1010</real>
 		</dict>
 		<key>^[^/]+$</key>
 		<dict>

@@ -13,6 +13,7 @@ var UILabel = {
         output["text"] = UILabel.findText(nodeID, xml);
         Object.assign(output, UILabel.findFirstTextAttributes(nodeID, xml));
         Object.assign(output, UILabel.findShadow(nodeID, xml));
+        output["rangeAttrs"] = UILabel.findRangeTextAttributes(nodeID, xml, output);
         return output;
     },
     findFirstTextAttributes: function (nodeID, xml) {
@@ -46,6 +47,90 @@ var UILabel = {
             return output;
         }
         return {};
+    },
+    findRangeTextAttributes: function (nodeID, xml, standardAttrs) {
+        var rangeAttrs = [];
+        var currentRange = {
+            location: 0,
+            length: 0,
+        };
+        var use = false;
+        for (var index = 0; index < $(xml).find('#' + nodeID).find('use').length; index++) {
+            var element = $(xml).find('#' + nodeID).find('use')[index];
+            if ($(element).attrs('filter', xml) !== undefined) {
+                continue;
+            }
+            use = true;
+            $(element).find('tspan').each(function () {
+                var item = {};
+                var cRange = {}
+                currentRange.location += currentRange.length;
+                currentRange.length = $(this).text().length;
+                cRange.location = currentRange.location;
+                cRange.length = currentRange.length;
+                if ($(this).attrs('font-family', xml) !== standardAttrs["fontFamily"]) {
+                    item["fontFamily"] = $(this).attrs('font-family', xml);
+                }
+                if (($(this).attrs('font-size', xml) && parseFloat($(this).attrs('font-size', xml))) !== standardAttrs["fontSize"]) {
+                    item["fontSize"] = ($(this).attrs('font-size', xml) && parseFloat($(this).attrs('font-size', xml)));
+                }
+                if (($(this).attrs('text-decoration', xml) === "underline") !== standardAttrs["underline"]) {
+                    item["underline"] = $(this).attrs('text-decoration', xml) === "underline";
+                }
+                if (($(this).attrs('text-decoration', xml) === "line-through") !== standardAttrs["deleteline"]) {
+                    item["deleteline"] = $(this).attrs('text-decoration', xml) === "line-through";
+                }
+                if (($(this).attrs('letter-spacing', xml) && parseFloat($(this).attrs('letter-spacing', xml))) !== standardAttrs["letterSpacing"]) {
+                    item["letterSpacing"] = ($(this).attrs('letter-spacing', xml) && parseFloat($(this).attrs('letter-spacing', xml)));
+                }
+                if (($(this).attrs('line-spacing', xml) && (parseFloat($(this).attrs('line-spacing', xml)) / 2.0)) !== standardAttrs["lineSpacing"]) {
+                    item["lineSpacing"] = ($(this).attrs('line-spacing', xml) && (parseFloat($(this).attrs('line-spacing', xml)) / 2.0));
+                }
+                if ($(this).attrs('fill', xml) !== standardAttrs["textColor"]) {
+                    item["textColor"] = $(this).attrs('fill', xml);
+                }
+                if (Object.keys(item).length > 0) {
+                    item.range = cRange;
+                    rangeAttrs.push(item);
+                }
+            });
+        }
+        if (!use) {
+            $(xml).find('#' + nodeID).find('tspan').each(function () {
+                var item = {};
+                var cRange = {}
+                currentRange.location += currentRange.length;
+                currentRange.length = $(this).text().length;
+                cRange.location = currentRange.location;
+                cRange.length = currentRange.length;
+                if ($(this).attrs('font-family', xml) !== standardAttrs["fontFamily"]) {
+                    item["fontFamily"] = $(this).attrs('font-family', xml);
+                }
+                if (($(this).attrs('font-size', xml) && parseFloat($(this).attrs('font-size', xml))) !== standardAttrs["fontSize"]) {
+                    item["fontSize"] = ($(this).attrs('font-size', xml) && parseFloat($(this).attrs('font-size', xml)));
+                }
+                if (($(this).attrs('text-decoration', xml) === "underline") !== standardAttrs["underline"]) {
+                    item["underline"] = $(this).attrs('text-decoration', xml) === "underline";
+                }
+                if (($(this).attrs('text-decoration', xml) === "line-through") !== standardAttrs["deleteline"]) {
+                    item["deleteline"] = $(this).attrs('text-decoration', xml) === "line-through";
+                }
+                if (($(this).attrs('letter-spacing', xml) && parseFloat($(this).attrs('letter-spacing', xml))) !== standardAttrs["letterSpacing"]) {
+                    item["letterSpacing"] = ($(this).attrs('letter-spacing', xml) && parseFloat($(this).attrs('letter-spacing', xml)));
+                }
+                if (($(this).attrs('line-spacing', xml) && (parseFloat($(this).attrs('line-spacing', xml)) / 2.0)) !== standardAttrs["lineSpacing"]) {
+                    item["lineSpacing"] = ($(this).attrs('line-spacing', xml) && (parseFloat($(this).attrs('line-spacing', xml)) / 2.0));
+                }
+                if ($(this).attrs('fill', xml) !== standardAttrs["textColor"]) {
+                    item["textColor"] = $(this).attrs('fill', xml);
+                }
+                if (Object.keys(item).length > 0) {
+                    item.range = cRange;
+                    rangeAttrs.push(item);
+                }
+            });
+        }
+        return rangeAttrs;
     },
     findText: function (nodeID, xml) {
         var text = "";
@@ -195,6 +280,16 @@ UILabel.oc_codeWithProps = function (props) {
     }
     if (props.text !== undefined) {
         code += "view.text = @\"" + oc_text(props.text) + "\";\n";
+    }
+    if (props.rangeAttrs !== undefined) {
+        for (var index = 0; index < props.rangeAttrs.length; index++) {
+            var element = props.rangeAttrs[index];
+            var rangeCode = "{\n    COXLabel *rView = [view copy];\n"
+            rangeCode += (UILabel.oc_codeWithProps(element).replace(/view\./ig, '    rView.').replace(/\[view/ig, '    [rView'));
+            rangeCode += "    [view setAttributesWithRange:NSMakeRange(" + element.range.location + ", " + element.range.length + ") referenceLabel:rView];\n";
+            rangeCode += "}\n"
+            code += rangeCode;
+        }
     }
     return code;
 }

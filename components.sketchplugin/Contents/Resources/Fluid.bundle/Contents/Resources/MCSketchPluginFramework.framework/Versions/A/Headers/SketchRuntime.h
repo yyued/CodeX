@@ -247,7 +247,6 @@
 @interface MSExportRequest : NSObject
 
 	+ (NSArray*) exportRequestsFromExportableLayer:(MSLayer*)layer exportFormats:(NSArray*)formats useIDForName:(BOOL)useIDForName;
-    + (NSArray*) exportRequestsFromExportableLayer:(MSLayer*)layer;
 
 	@property (nonatomic) BOOL includeArtboardBackground;
 

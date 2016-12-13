@@ -28,14 +28,14 @@
 		{
 			"name": "Edit Properties",
 			"identifier": "command_edit",
-			"shortcut": "control command e",
+			"shortcut": "control shift e",
 			"script": "dynamicCommands.js",
 			"handler": "command_edit"
 		},
 		{
 			"name": "Publish",
 			"identifier": "command_publish",
-			"shortcut": "control command g",
+			"shortcut": "control shift g",
 			"script": "dynamicCommands.js",
 			"handler": "command_publish"
 		}

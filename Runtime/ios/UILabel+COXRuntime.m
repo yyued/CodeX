@@ -10,6 +10,36 @@
 
 @implementation COXLabel
 
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        self.letterSpace = [coder decodeDoubleForKey:@"letterSpace"];
+        self.lineSpace = [coder decodeDoubleForKey:@"lineSpace"];
+        self.underlineStyle = [coder decodeIntegerForKey:@"underlineStyle"];
+        self.deletelineStyle = [coder decodeIntegerForKey:@"deletelineStyle"];
+        self.strokeColor = [coder decodeObjectForKey:@"strokeColor"];
+        self.strokeWidth = [coder decodeDoubleForKey:@"strokeWidth"];
+        self.maxWidth = [coder decodeDoubleForKey:@"maxWidth"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    [aCoder encodeDouble:self.letterSpace forKey:@"letterSpace"];
+    [aCoder encodeDouble:self.lineSpace forKey:@"lineSpace"];
+    [aCoder encodeInteger:self.underlineStyle forKey:@"underlineStyle"];
+    [aCoder encodeInteger:self.deletelineStyle forKey:@"deletelineStyle"];
+    [aCoder encodeObject:self.strokeColor forKey:@"strokeColor"];
+    [aCoder encodeDouble:self.strokeWidth forKey:@"strokeWidth"];
+    [aCoder encodeDouble:self.maxWidth forKey:@"maxWidth"];
+}
+
+- (id)copy {
+    return [NSKeyedUnarchiver unarchiveObjectWithData:[NSKeyedArchiver archivedDataWithRootObject:self]];
+}
+
 - (void)setFontWithFamilyName:(NSString *)familyName fontSize:(CGFloat)fontSize {
     NSArray<NSString *> *names = [familyName componentsSeparatedByString:@","];
     for (NSString *name in names) {
@@ -82,6 +112,12 @@
         return CGSizeMake(ceilf(size.width) + widthAdjust, ceilf(size.height) + 1.0);
     }
     return CGSizeZero;
+}
+
+- (void)setAttributesWithRange:(NSRange)range referenceLabel:(COXLabel *)referenceLabel {
+    NSMutableAttributedString *attributedText = [self.attributedText mutableCopy];
+    [attributedText addAttributes:[referenceLabel defaultAttributes] range:range];
+    self.attributedText = attributedText;
 }
 
 @end

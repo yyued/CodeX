@@ -56,4 +56,10 @@
  */
 - (NSDictionary *)defaultAttributes;
 
+
+/**
+ 设置指定范围的文本属性
+ */
+- (void)setAttributesWithRange:(NSRange)range referenceLabel:(COXLabel *)referenceLabel;
+
 @end
