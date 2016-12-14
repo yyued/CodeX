@@ -10,6 +10,7 @@
 #import "COMModalWindowController.h"
 #import "COMPropsWindowController.h"
 #import "COMPublishWindowController.h"
+#import "COMSidebarViewController.h"
 
 static COMModalWindowController *modalWindowController;
 static COMPropsWindowController *propsWindowController;
@@ -30,6 +31,10 @@ static COMPublishWindowController *publishWindowController;
 
 + (instancetype)pluginController:(MSPluginBundle *)plugin pluginCommand:(MSPluginCommand *)pluginCommand {
     return [COMPluginController new];
+}
+
+- (void)showSidebar {
+    [COMSidebarViewController toggleSidebar];
 }
 
 - (void)showDialog:(BOOL)replacing {

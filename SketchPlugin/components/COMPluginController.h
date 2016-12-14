@@ -11,6 +11,8 @@
 
 @interface COMPluginController : MCSPluginController
 
+- (void)showSidebar;
+
 - (void)showDialog:(BOOL)replacing;
 
 - (void)showProps;

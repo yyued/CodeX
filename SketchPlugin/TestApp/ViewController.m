@@ -10,6 +10,7 @@
 #import "COMModalWindowController.h"
 #import "COMPropsWindowController.h"
 #import "COMPublishWindowController.h"
+#import "COMSidebarViewController.h"
 
 static COMModalWindowController *modalWindowController;
 static COMPropsWindowController *propsWindowController;
@@ -25,18 +26,17 @@ static COMPublishWindowController *publishWindowController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        modalWindowController = [COMModalWindowController new];
-//        modalWindowController.modalSession = [[NSApplication sharedApplication] beginModalSessionForWindow:modalWindowController.window];
-//    });
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        propsWindowController = [COMPropsWindowController new];
-//        propsWindowController.modalSession = [[NSApplication sharedApplication] beginModalSessionForWindow:propsWindowController.window];
-//    });
-//    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//        publishWindowController = [COMPublishWindowController new];
-//        publishWindowController.modalSession = [[NSApplication sharedApplication] beginModalSessionForWindow:publishWindowController.window];
-//    });
+    static COMSidebarViewController *viewController;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        viewController = [[COMSidebarViewController alloc] init];
+        NSString *nibPath = [[[NSBundle bundleForClass:[self class]] bundlePath]
+                             stringByAppendingString:@"/Contents/Resources/COMSidebarViewController.nib"];
+        [[[NSNib alloc] initWithNibData:[NSData dataWithContentsOfFile:nibPath] bundle:nil] instantiateWithOwner:viewController
+                                                                                                 topLevelObjects:nil];
+    });
+    viewController.view.frame = NSMakeRect(0, 0, 100, 100);
+    [self.view addSubview:viewController.view];
 }
 
 @end

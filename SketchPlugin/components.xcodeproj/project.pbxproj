@@ -33,6 +33,10 @@
 		9098B2C11DFA7D540058E8A9 /* COMGenLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 9098B2BF1DFA730B0058E8A9 /* COMGenLayer.m */; };
 		90D1814F1DFFD820000E9828 /* COMAssetsWritter.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D1814E1DFFD820000E9828 /* COMAssetsWritter.m */; };
 		90D181501DFFD836000E9828 /* COMAssetsWritter.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D1814E1DFFD820000E9828 /* COMAssetsWritter.m */; };
+		90D181541E00E226000E9828 /* COMSidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D181521E00E226000E9828 /* COMSidebarViewController.m */; };
+		90D181551E00E226000E9828 /* COMSidebarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90D181531E00E226000E9828 /* COMSidebarViewController.xib */; };
+		90D181561E00E4B4000E9828 /* COMSidebarViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 90D181531E00E226000E9828 /* COMSidebarViewController.xib */; };
+		90D181571E00E4B9000E9828 /* COMSidebarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90D181521E00E226000E9828 /* COMSidebarViewController.m */; };
 		90F870A11DF7DC5F00B1F64D /* MCSketchPluginFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F870A01DF7DC5F00B1F64D /* MCSketchPluginFramework.framework */; };
 		90F870A41DF7DC7900B1F64D /* COMPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F870A31DF7DC7900B1F64D /* COMPluginController.m */; };
 		90F870B71DF802D000B1F64D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F870B61DF802D000B1F64D /* AppDelegate.m */; };
@@ -84,6 +88,9 @@
 		9098B2BF1DFA730B0058E8A9 /* COMGenLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMGenLayer.m; sourceTree = "<group>"; };
 		90D1814D1DFFD820000E9828 /* COMAssetsWritter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMAssetsWritter.h; sourceTree = "<group>"; };
 		90D1814E1DFFD820000E9828 /* COMAssetsWritter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMAssetsWritter.m; sourceTree = "<group>"; };
+		90D181511E00E226000E9828 /* COMSidebarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMSidebarViewController.h; sourceTree = "<group>"; };
+		90D181521E00E226000E9828 /* COMSidebarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMSidebarViewController.m; sourceTree = "<group>"; };
+		90D181531E00E226000E9828 /* COMSidebarViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = COMSidebarViewController.xib; sourceTree = "<group>"; };
 		90F870911DF7CFD500B1F64D /* components.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = components.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F870941DF7CFD500B1F64D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90F870A01DF7DC5F00B1F64D /* MCSketchPluginFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MCSketchPluginFramework.framework; sourceTree = "<group>"; };
@@ -160,6 +167,9 @@
 			children = (
 				90F870A21DF7DC7900B1F64D /* COMPluginController.h */,
 				90F870A31DF7DC7900B1F64D /* COMPluginController.m */,
+				90D181511E00E226000E9828 /* COMSidebarViewController.h */,
+				90D181521E00E226000E9828 /* COMSidebarViewController.m */,
+				90D181531E00E226000E9828 /* COMSidebarViewController.xib */,
 				903331221DF80D6500B8C0B9 /* COMModalWindowController.h */,
 				903331231DF80D6500B8C0B9 /* COMModalWindowController.m */,
 				903331241DF80D6500B8C0B9 /* COMModalWindowController.xib */,
@@ -309,6 +319,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9033313C1DF9410E00B8C0B9 /* COMPropsWindowController.xib in Resources */,
+				90D181551E00E226000E9828 /* COMSidebarViewController.xib in Resources */,
 				903331431DF9583200B8C0B9 /* COMPublishWindowController.xib in Resources */,
 				903331261DF80D6500B8C0B9 /* COMModalWindowController.xib in Resources */,
 			);
@@ -318,6 +329,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90D181561E00E4B4000E9828 /* COMSidebarViewController.xib in Resources */,
 				903331451DF959BF00B8C0B9 /* COMPublishWindowController.xib in Resources */,
 				9033313E1DF943B100B8C0B9 /* COMPropsWindowController.xib in Resources */,
 				903331271DF80D6B00B8C0B9 /* COMModalWindowController.xib in Resources */,
@@ -412,6 +424,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				903331251DF80D6500B8C0B9 /* COMModalWindowController.m in Sources */,
+				90D181541E00E226000E9828 /* COMSidebarViewController.m in Sources */,
 				903331421DF9583200B8C0B9 /* COMPublishWindowController.m in Sources */,
 				9098B2C01DFA730B0058E8A9 /* COMGenLayer.m in Sources */,
 				903331351DF9013D00B8C0B9 /* COMComponentEntity.m in Sources */,
@@ -428,6 +441,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90D181571E00E4B9000E9828 /* COMSidebarViewController.m in Sources */,
 				90D181501DFFD836000E9828 /* COMAssetsWritter.m in Sources */,
 				9098B2C11DFA7D540058E8A9 /* COMGenLayer.m in Sources */,
 				9098B2BD1DFA5F900058E8A9 /* COMGenerator.m in Sources */,

@@ -9,6 +9,7 @@
 #import "AppDelegate.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 #import "COMGenerator.h"
+#import "COMSidebarViewController.h"
 
 @interface AppDelegate ()
 
@@ -26,18 +27,18 @@
 //                encoding:NSUTF8StringEncoding
 //                   error:NULL];
 //    }];
-    COMGenerator *generator = [COMGenerator new];
-    generator.className = @"ViewController";
-    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
-    generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
-    COMGenLayer *layer = [generator parse];
-    [[generator oc_code:layer genType:COMGenTypeViewController] enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
-        [obj writeToFile:[NSString stringWithFormat:@"/Users/cuiminghui/Desktop/test/test/%@", key]
-              atomically:YES
-                encoding:NSUTF8StringEncoding
-                   error:NULL];
-    }];
-
+//    [[NSApplication sharedApplication] mainWindow]
+//    COMGenerator *generator = [COMGenerator new];
+//    generator.className = @"ViewController";
+//    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
+//    generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
+//    COMGenLayer *layer = [generator parse];
+//    [[generator oc_code:layer genType:COMGenTypeViewController] enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
+//        [obj writeToFile:[NSString stringWithFormat:@"/Users/cuiminghui/Desktop/test/test/%@", key]
+//              atomically:YES
+//                encoding:NSUTF8StringEncoding
+//                   error:NULL];
+//    }];
 }
 
 
