@@ -23,3 +23,8 @@ $.commands.createCommand("publish", function(ctx){
 	var pluginController = getPluginController(ctx);
 	pluginController.showPublisher();
 });
+
+$.commands.createCommand("sidebar", function(ctx){
+	var pluginController = getPluginController(ctx);
+	pluginController.showSidebar();
+});

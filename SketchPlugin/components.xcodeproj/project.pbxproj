@@ -242,6 +242,7 @@
 				90F8708E1DF7CFD500B1F64D /* Frameworks */,
 				90F8708F1DF7CFD500B1F64D /* Resources */,
 				AB78CAF890A2D57625F99AB9 /* [CP] Copy Pods Resources */,
+				F0509C1E1E018A8C00BE5C42 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -400,6 +401,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-components/Pods-components-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		F0509C1E1E018A8C00BE5C42 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "rm -rf $PROJECT_DIR/../components.sketchplugin/Contents/Resources/components.bundle\ncp -r $BUILT_PRODUCTS_DIR/components.bundle $PROJECT_DIR/../components.sketchplugin/Contents/Resources/components.bundle\nopen $PROJECT_DIR/../components.sketchplugin";
 		};
 		FF86D7799DBE351692BD0A78 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;

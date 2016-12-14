@@ -14,7 +14,11 @@
 		</data>
 		<key>Resources/COMPublishWindowController.nib</key>
 		<data>
-		TaH/1MNoDZtJ1VRl2Dbzv+/qEVE=
+		9Ets7sUrHg8N78dLmnPIZqunTMY=
+		</data>
+		<key>Resources/COMSidebarViewController.nib</key>
+		<data>
+		CI79v+9uXAtowLw7fGPT99EDAWA=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -37,7 +41,14 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			wn8chyDjMDbh1McZyjgZHA6IC3rxhEs/2nQts1x7V5s=
+			/dzL0nxTuJkqdS5qGLumO3TkyXj8gmWUU5R4gmxE6V0=
+			</data>
+		</dict>
+		<key>Resources/COMSidebarViewController.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			H29NPjbvvoE70ebW5Eling6Vz7V++aPFCPlEH41YXmI=
 			</data>
 		</dict>
 	</dict>
