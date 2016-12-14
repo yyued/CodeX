@@ -304,7 +304,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q7r-GZ-Xwh">
-                                    <rect key="frame" x="8" y="174" width="50" height="16"/>
+                                    <rect key="frame" x="8" y="180" width="50" height="16"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Pinning" id="Wt4-tz-bDv">
                                         <font key="font" metaFont="systemBold" size="12"/>
                                         <color key="textColor" red="0.35691100358963013" green="0.34924954175949097" blue="0.37079232931137085" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -325,7 +325,7 @@
                                     </segmentedCell>
                                 </segmentedControl>
                                 <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zdG-Ri-MOe">
-                                    <rect key="frame" x="108" y="172" width="142" height="20"/>
+                                    <rect key="frame" x="108" y="178" width="142" height="20"/>
                                     <constraints>
                                         <constraint firstAttribute="width" constant="140" id="9ZT-sf-a9x"/>
                                     </constraints>
@@ -338,14 +338,14 @@
                                     </segmentedCell>
                                 </segmentedControl>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="Fb6-Ue-eaf">
-                                    <rect key="frame" x="8" y="244" width="58" height="18"/>
+                                    <rect key="frame" x="8" y="252" width="58" height="18"/>
                                     <buttonCell key="cell" type="check" title="Width" bezelStyle="regularSquare" imagePosition="left" inset="2" id="4S9-aQ-DVM">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                 </button>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QfL-q6-9ze">
-                                    <rect key="frame" x="76" y="242" width="175" height="22"/>
+                                    <rect key="frame" x="76" y="250" width="175" height="22"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Constant" bezelStyle="round" id="Rt3-go-xcK">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -353,14 +353,14 @@
                                     </textFieldCell>
                                 </textField>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="O7P-eM-WUG">
-                                    <rect key="frame" x="8" y="145" width="45" height="18"/>
+                                    <rect key="frame" x="8" y="148" width="45" height="18"/>
                                     <buttonCell key="cell" type="check" title="Top" bezelStyle="regularSquare" imagePosition="left" inset="2" id="3hh-fl-lSc">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                 </button>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UjP-wM-oSE">
-                                    <rect key="frame" x="81" y="143" width="170" height="22"/>
+                                    <rect key="frame" x="81" y="146" width="170" height="22"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Constant" bezelStyle="round" id="47m-jb-8zW">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -368,14 +368,14 @@
                                     </textFieldCell>
                                 </textField>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="ACi-X1-yYk">
-                                    <rect key="frame" x="8" y="208" width="63" height="18"/>
+                                    <rect key="frame" x="8" y="222" width="63" height="18"/>
                                     <buttonCell key="cell" type="check" title="Height" bezelStyle="regularSquare" imagePosition="left" inset="2" id="BLP-Lb-R5g">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                 </button>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zUH-4S-buv">
-                                    <rect key="frame" x="76" y="206" width="175" height="22"/>
+                                    <rect key="frame" x="76" y="220" width="175" height="22"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Constant" bezelStyle="round" id="VKY-lc-cSx">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -383,14 +383,14 @@
                                     </textFieldCell>
                                 </textField>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="bfL-fp-4zc">
-                                    <rect key="frame" x="8" y="115" width="46" height="18"/>
+                                    <rect key="frame" x="8" y="118" width="46" height="18"/>
                                     <buttonCell key="cell" type="check" title="Left" bezelStyle="regularSquare" imagePosition="left" inset="2" id="tAL-Zc-qcu">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                 </button>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5QN-nC-J4i">
-                                    <rect key="frame" x="81" y="113" width="170" height="22"/>
+                                    <rect key="frame" x="81" y="116" width="170" height="22"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Constant" bezelStyle="round" id="uSr-Z2-67v">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -398,14 +398,14 @@
                                     </textFieldCell>
                                 </textField>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="ADC-cl-SsG">
-                                    <rect key="frame" x="8" y="85" width="67" height="18"/>
+                                    <rect key="frame" x="8" y="88" width="67" height="18"/>
                                     <buttonCell key="cell" type="check" title="Bottom" bezelStyle="regularSquare" imagePosition="left" inset="2" id="eOK-pm-uhq">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                 </button>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UQn-0y-E90">
-                                    <rect key="frame" x="81" y="83" width="170" height="22"/>
+                                    <rect key="frame" x="81" y="86" width="170" height="22"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Constant" bezelStyle="round" id="RcY-OI-bhc">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -413,14 +413,14 @@
                                     </textFieldCell>
                                 </textField>
                                 <button translatesAutoresizingMaskIntoConstraints="NO" id="242-rs-mqq">
-                                    <rect key="frame" x="8" y="55" width="54" height="18"/>
+                                    <rect key="frame" x="8" y="58" width="54" height="18"/>
                                     <buttonCell key="cell" type="check" title="Right" bezelStyle="regularSquare" imagePosition="left" inset="2" id="cKE-tm-gNF">
                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                         <font key="font" metaFont="system"/>
                                     </buttonCell>
                                 </button>
                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4Ed-Vm-lxV">
-                                    <rect key="frame" x="81" y="53" width="170" height="22"/>
+                                    <rect key="frame" x="81" y="56" width="170" height="22"/>
                                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Constant" bezelStyle="round" id="jAv-Ya-ngT">
                                         <font key="font" metaFont="system"/>
                                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -472,7 +472,7 @@
                                 <constraint firstItem="Q7r-GZ-Xwh" firstAttribute="leading" secondItem="cac-g3-mw6" secondAttribute="leading" constant="10" id="VuQ-Na-xTm"/>
                                 <constraint firstItem="wF1-e4-ETW" firstAttribute="leading" secondItem="cac-g3-mw6" secondAttribute="leading" constant="8" id="WDy-tO-QZa"/>
                                 <constraint firstItem="MPh-k0-aGb" firstAttribute="top" secondItem="cac-g3-mw6" secondAttribute="top" constant="140" id="Wjz-E5-iTD"/>
-                                <constraint firstItem="Fb6-Ue-eaf" firstAttribute="top" secondItem="MPh-k0-aGb" secondAttribute="bottom" constant="24" id="YnH-J6-M5T"/>
+                                <constraint firstItem="Fb6-Ue-eaf" firstAttribute="top" secondItem="MPh-k0-aGb" secondAttribute="bottom" constant="16" id="YnH-J6-M5T"/>
                                 <constraint firstAttribute="trailing" secondItem="UQn-0y-E90" secondAttribute="trailing" constant="8" id="Z3d-Ck-O3a"/>
                                 <constraint firstItem="5QN-nC-J4i" firstAttribute="centerY" secondItem="bfL-fp-4zc" secondAttribute="centerY" id="aSb-ch-hfL"/>
                                 <constraint firstItem="bfL-fp-4zc" firstAttribute="top" secondItem="O7P-eM-WUG" secondAttribute="bottom" constant="16" id="adX-xi-QMZ"/>
@@ -484,12 +484,12 @@
                                 <constraint firstItem="UQn-0y-E90" firstAttribute="leading" secondItem="ADC-cl-SsG" secondAttribute="trailing" constant="8" id="hlr-pv-v8Q"/>
                                 <constraint firstItem="Kj6-g3-QJj" firstAttribute="leading" secondItem="cac-g3-mw6" secondAttribute="leading" constant="10" id="lJt-Lo-Z9F"/>
                                 <constraint firstItem="Fb6-Ue-eaf" firstAttribute="leading" secondItem="cac-g3-mw6" secondAttribute="leading" constant="10" id="lkG-n1-y2x"/>
-                                <constraint firstItem="O7P-eM-WUG" firstAttribute="top" secondItem="Q7r-GZ-Xwh" secondAttribute="bottom" constant="13" id="lno-g1-pca"/>
+                                <constraint firstItem="O7P-eM-WUG" firstAttribute="top" secondItem="Q7r-GZ-Xwh" secondAttribute="bottom" constant="16" id="lno-g1-pca"/>
                                 <constraint firstAttribute="trailing" secondItem="UjP-wM-oSE" secondAttribute="trailing" constant="8" id="oZo-Ix-H4V"/>
-                                <constraint firstItem="ACi-X1-yYk" firstAttribute="top" secondItem="Fb6-Ue-eaf" secondAttribute="bottom" constant="22" id="opg-bb-fs0"/>
+                                <constraint firstItem="ACi-X1-yYk" firstAttribute="top" secondItem="Fb6-Ue-eaf" secondAttribute="bottom" constant="16" id="opg-bb-fs0"/>
                                 <constraint firstItem="QfL-q6-9ze" firstAttribute="leading" secondItem="Fb6-Ue-eaf" secondAttribute="trailing" constant="12" id="pBQ-bn-tne"/>
                                 <constraint firstItem="ADC-cl-SsG" firstAttribute="leading" secondItem="cac-g3-mw6" secondAttribute="leading" constant="10" id="qi5-0z-Mec"/>
-                                <constraint firstItem="Q7r-GZ-Xwh" firstAttribute="top" secondItem="cac-g3-mw6" secondAttribute="top" constant="250" id="rNT-Ek-vqc"/>
+                                <constraint firstItem="Q7r-GZ-Xwh" firstAttribute="top" secondItem="cac-g3-mw6" secondAttribute="top" constant="244" id="rNT-Ek-vqc"/>
                                 <constraint firstItem="wsx-wg-tkl" firstAttribute="centerY" secondItem="MPh-k0-aGb" secondAttribute="centerY" id="tEh-Jp-3LU"/>
                                 <constraint firstItem="SXe-bo-I2E" firstAttribute="leading" secondItem="cac-g3-mw6" secondAttribute="leading" constant="8" id="tLB-Ep-ZRL"/>
                                 <constraint firstAttribute="trailing" secondItem="QfL-q6-9ze" secondAttribute="trailing" constant="8" id="tSN-ws-DMm"/>
@@ -520,10 +520,10 @@
                         </customView>
                     </subviews>
                     <holdingPriorities>
+                        <real value="490"/>
                         <real value="250"/>
-                        <real value="250"/>
-                        <real value="250"/>
-                        <real value="250"/>
+                        <real value="490"/>
+                        <real value="490"/>
                     </holdingPriorities>
                     <connections>
                         <outlet property="delegate" destination="-2" id="UFS-lQ-VSa"/>

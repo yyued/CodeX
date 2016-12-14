@@ -36,38 +36,53 @@
     }
     viewController.view.frame = NSMakeRect(0, 0, 100, 100);
     [view addSubview:viewController.view];
+    [view addObserver:viewController forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.wantsLayer = YES;
-    {
-        self.view.layer.backgroundColor = [NSColor colorWithRed:0xe6/255.0 green:0xe6/255.0 blue:0xe6/255.0 alpha:1.0].CGColor;
-        CGRect frame = self.splitView.subviews[0].frame;
-        frame.size.height = 64.0;
-        self.splitView.subviews[0].frame = frame;
-    }
-    {
-        self.view.layer.backgroundColor = [NSColor colorWithRed:0xe6/255.0 green:0xe6/255.0 blue:0xe6/255.0 alpha:1.0].CGColor;
-        CGRect frame = self.splitView.subviews[2].frame;
-        frame.size.height = 440.0;
-        self.splitView.subviews[2].frame = frame;
-    }
-    {
-        self.view.layer.backgroundColor = [NSColor colorWithRed:0xe6/255.0 green:0xe6/255.0 blue:0xe6/255.0 alpha:1.0].CGColor;
-        CGRect frame = self.splitView.subviews[3].frame;
-        frame.size.height = 38.0;
-        self.splitView.subviews[3].frame = frame;
-    }
-    
+    self.view.layer.backgroundColor = [NSColor colorWithRed:0xe6/255.0 green:0xe6/255.0 blue:0xe6/255.0 alpha:1.0].CGColor;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
+    [self viewWillLayout];
 }
 
 - (void)viewWillLayout {
     [super viewWillLayout];
     self.view.frame = NSMakeRect(self.view.superview.frame.size.width - 260, 0, 260.0, self.view.superview.frame.size.height);
+    {
+        CGRect frame = self.splitView.subviews[0].frame;
+        frame.origin.y = 0.0;
+        frame.size.height = 64.0;
+        self.splitView.subviews[0].frame = frame;
+    }
+    {
+        CGRect frame = self.splitView.subviews[1].frame;
+        frame.origin.y = 64.0;
+        frame.size.height = self.view.superview.frame.size.height - 440.0 - 38.0 - 64.0;
+        self.splitView.subviews[1].frame = frame;
+    }
+    {
+        CGRect frame = self.splitView.subviews[2].frame;
+        frame.origin.y = self.splitView.subviews[1].frame.origin.y + self.splitView.subviews[1].frame.size.height;
+        frame.size.height = 440.0;
+        self.splitView.subviews[2].frame = frame;
+    }
+    {
+        CGRect frame = self.splitView.subviews[3].frame;
+        frame.origin.y = self.splitView.subviews[2].frame.origin.y + self.splitView.subviews[2].frame.size.height;
+        frame.size.height = 38.0;
+        self.splitView.subviews[3].frame = frame;
+    }
 }
 
 #pragma mark - NSSplitViewDelegate
+
+- (NSRect)splitView:(NSSplitView *)splitView effectiveRect:(NSRect)proposedEffectiveRect forDrawnRect:(NSRect)drawnRect ofDividerAtIndex:(NSInteger)dividerIndex {
+    return NSZeroRect;
+}
 
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMinimumPosition ofSubviewAt:(NSInteger)dividerIndex {
     if (dividerIndex == 0) {
