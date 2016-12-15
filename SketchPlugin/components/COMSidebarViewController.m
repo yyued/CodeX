@@ -43,6 +43,10 @@
     viewController.view.frame = NSMakeRect(0, 0, 100, 100);
     [view addSubview:viewController.view];
     [view addObserver:viewController forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
+    [[NSNotificationCenter defaultCenter] addObserverForName:MCSPluginSelectionDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        [viewController loadProps];
+        [viewController.tableView reloadData];
+    }];
 }
 
 static JSContext *context;
@@ -151,11 +155,21 @@ static WebView *webView;
 - (void)loadProps {
     MSLayer *layer = [Sketch_GetSelectedLayers(Sketch_GetCurrentDocument()) firstObject];
     if (layer != nil) {
-        NSArray *props = [[MSPluginCommand_Class new] valueForKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
-        if (![props isKindOfClass:[NSArray class]]) {
-            props = @[];
+        NSMutableArray *currentProps = [NSMutableArray array];
+        NSDictionary *dict = [[MSPluginCommand_Class new] valueForKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
+        if ([dict isKindOfClass:[NSDictionary class]]) {
+            [dict enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+                if ([key hasPrefix:@"_"]) {
+                    return;
+                }
+                [currentProps addObject:@{
+                                          @"key": key,
+                                          @"value": obj,
+                                          @"type": dict[[NSString stringWithFormat:@"_%@", key]] != nil ? dict[[NSString stringWithFormat:@"_%@", key]] : @"String",
+                                              }];
+            }];
         }
-        self.currentProps = props;
+        self.currentProps = currentProps;
     }
 }
 
@@ -264,6 +278,7 @@ static WebView *webView;
         }];
         self.currentProps = currentProps;
         [self.tableView reloadData];
+        [self savePropsToCurrentLayer];
     }
 }
 
@@ -277,6 +292,7 @@ static WebView *webView;
     }];
     self.currentProps = newProps;
     [self.tableView reloadData];
+    [self savePropsToCurrentLayer];
 }
 
 - (IBAction)onPropsAddButtonClicked:(id)sender {
@@ -288,6 +304,7 @@ static WebView *webView;
                               }];
     self.currentProps = currentProps;
     [self.tableView reloadData];
+    [self savePropsToCurrentLayer];
 }
 
 - (void)controlTextDidEndEditing:(NSNotification *)obj {
@@ -324,10 +341,20 @@ static WebView *webView;
         if ([sender.accessibilityIdentifier isEqualToString:@"Type"]) {
             [self.tableView reloadData];
         }
+        [self savePropsToCurrentLayer];
     }
 }
 
-
+- (void)savePropsToCurrentLayer {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    [self.currentProps enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        dict[obj[@"key"]] = obj[@"value"];
+        dict[[NSString stringWithFormat:@"_%@", obj[@"key"]]] = obj[@"type"];
+    }];
+    [Sketch_GetSelectedLayers(Sketch_GetCurrentDocument()) enumerateObjectsUsingBlock:^(id  _Nonnull layer, NSUInteger idx, BOOL * _Nonnull stop) {
+        [[MSPluginCommand_Class new] setValue:[dict copy] forKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
+    }];
+}
 
 @end
 
