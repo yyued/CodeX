@@ -19,6 +19,10 @@ var UIButton = {
 
 UIButton.defaultProps = function() {
     return Object.assign(UIView.defaultProps(), {
+        buttonType: {
+            value: ["Text"],
+            type: "Enum",
+        }
     })
 };
 
