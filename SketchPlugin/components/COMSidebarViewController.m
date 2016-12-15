@@ -7,10 +7,16 @@
 //
 
 #import "COMSidebarViewController.h"
+#import <MCSketchPluginFramework/MCSketchPluginFramework.h>
+#import <JavaScriptCore/JavaScriptCore.h>
+#import <WebKit/WebKit.h>
 
-@interface COMSidebarViewController ()<NSSplitViewDelegate, NSTableViewDelegate, NSTableViewDataSource>
+@interface COMSidebarViewController ()<NSSplitViewDelegate, NSTableViewDelegate, NSTableViewDataSource, NSTextFieldDelegate>
 
 @property (weak) IBOutlet NSSplitView *splitView;
+@property (weak) IBOutlet NSTableView *tableView;
+@property (weak) IBOutlet NSTextField *classTextField;
+@property (nonatomic, copy) NSArray *currentProps;
 
 @end
 
@@ -37,6 +43,36 @@
     viewController.view.frame = NSMakeRect(0, 0, 100, 100);
     [view addSubview:viewController.view];
     [view addObserver:viewController forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
+}
+
+static JSContext *context;
+static WebView *webView;
+
+- (void)loadLibrary {
+    webView = [WebView new];
+    context = webView.mainFrame.javaScriptContext;
+    NSString *libraryPath = [[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.libPath"];
+    if (libraryPath == nil) {
+        return;
+    }
+    for (NSString *dirName in [[NSFileManager defaultManager] enumeratorAtPath:libraryPath]) {
+        NSString *subPath = [libraryPath stringByAppendingFormat:@"/%@", dirName];
+        for (NSString *fileName in [[NSFileManager defaultManager] enumeratorAtPath:subPath]) {
+            if ([fileName hasSuffix:@".js"]) {
+                NSString *filePath = [subPath stringByAppendingFormat:@"/%@", fileName];
+                NSString *fileContents =
+                [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
+                if (fileContents != nil) {
+                    [context evaluateScript:fileContents];
+                }
+            }
+        }
+    }
+}
+
+- (void)viewWillDisappear {
+    [super viewWillDisappear];
+    [self.view.superview removeObserver:self forKeyPath:@"frame"];
 }
 
 - (void)viewDidLoad {
@@ -112,13 +148,186 @@
 
 #pragma mark - NSTableViewDelegate, NSTableViewDataSource
 
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
-    return 100;
+- (void)loadProps {
+    MSLayer *layer = [Sketch_GetSelectedLayers(Sketch_GetCurrentDocument()) firstObject];
+    if (layer != nil) {
+        NSArray *props = [[MSPluginCommand_Class new] valueForKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
+        if (![props isKindOfClass:[NSArray class]]) {
+            props = @[];
+        }
+        self.currentProps = props;
+    }
 }
 
-- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row {
-    return [[NSTableRowView alloc] init];
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    return self.currentProps.count;
 }
+
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    if (row < self.currentProps.count) {
+        NSDictionary *item = self.currentProps[row];
+        if ([tableColumn.identifier isEqualToString:@"Key"]) {
+            NSTextField *view = [[NSTextField alloc] initWithFrame:NSMakeRect(0, -5, 200, 22)];
+            view.accessibilityIdentifier = @"Key";
+            view.tag = row;
+            view.maximumNumberOfLines = 1;
+            view.drawsBackground = NO;
+            view.bordered = NO;
+            [view setStringValue:@"Key"];
+            [view setStringValue:item[@"key"]];
+            view.delegate = self;
+            return view;
+        }
+        if ([tableColumn.identifier isEqualToString:@"Value"]) {
+            if ([item[@"type"] isEqualToString:@"String"] || [item[@"type"] isEqualToString:@"Number"]) {
+                NSTextField *view = [[NSTextField alloc] initWithFrame:NSMakeRect(0, -5, 200, 22)];
+                view.accessibilityIdentifier = @"Value";
+                view.tag = row;
+                view.maximumNumberOfLines = 1;
+                view.drawsBackground = NO;
+                view.bordered = NO;
+                if ([item[@"value"] isKindOfClass:[NSString class]]) {
+                    [view setStringValue:item[@"value"]];
+                }
+                else if ([item[@"value"] isKindOfClass:[NSNumber class]]) {
+                    [view setStringValue:[NSString stringWithFormat:@"%@", item[@"value"]]];
+                }
+                view.delegate = self;
+                return view;
+            }
+            else if ([item[@"type"] isEqualToString:@"Bool"]) {
+                NSButton *checkbox = [NSButton checkboxWithTitle:@"True" target:self action:@selector(saveProps:)];
+                checkbox.accessibilityIdentifier = @"Value";
+                checkbox.tag = row;
+                if ([item[@"value"] isKindOfClass:[NSNumber class]]) {
+                    checkbox.state = [item[@"value"] boolValue] ? 1 : 0;
+                }
+                else {
+                    checkbox.state = 0;
+                }
+                checkbox.frame = NSMakeRect(0, 0, 200, 22);
+                return checkbox;
+            }
+            else if ([item[@"type"] isEqualToString:@"Enum"]) {
+                NSPopUpButton *view = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(0, 0, 88, 27)];
+                view.accessibilityIdentifier = @"Value";
+                view.tag = row;
+                view.bordered = NO;
+                [view addItemsWithTitles:@[
+                                           @"Option1",
+                                           @"Option2",
+                                           @"Option3",
+                                           @"Option4",
+                                           ]];
+                [view setTarget:self];
+                [view setAction:@selector(saveProps:)];
+                return view;
+            }
+        }
+        if ([tableColumn.identifier isEqualToString:@"Type"]) {
+            NSPopUpButton *view = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(-5, -5, 86, 27)];
+            view.accessibilityIdentifier = @"Type";
+            view.tag = row;
+            [view addItemsWithTitles:@[
+                                       @"String",
+                                       @"Number",
+                                       @"Bool",
+                                       @"Enum",
+                                       ]];
+            [view selectItemWithTitle:item[@"type"]];
+            [view setTarget:self];
+            [view setAction:@selector(saveProps:)];
+            return view;
+        }
+    }
+    return [NSView new];
+}
+
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
+    return 22.0;
+}
+
+- (IBAction)onPropsRefreshButtonClicked:(id)sender {
+    [self loadLibrary];
+    NSString *className = self.classTextField.stringValue;
+    if (className != nil) {
+        NSDictionary *defaultProps = [[context[className][@"defaultProps"] callWithArguments:@[]] toDictionary];
+        NSMutableArray *currentProps = [NSMutableArray array];
+        [defaultProps enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+            if ([obj isKindOfClass:[NSDictionary class]] && obj[@"type"] != nil) {
+                [currentProps addObject:@{
+                                          @"key": key,
+                                          @"value": obj[@"value"] != nil ? [NSString stringWithFormat:@"%@", obj[@"value"]] : @"",
+                                          @"type": obj[@"type"],
+                                          }];
+            }
+        }];
+        self.currentProps = currentProps;
+        [self.tableView reloadData];
+    }
+}
+
+- (IBAction)onPropsDeleteButtonClicked:(id)sender {
+    NSMutableArray *newProps = [NSMutableArray array];
+    [self.currentProps enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if ([self.tableView.selectedRowIndexes containsIndex:idx]) {
+            return;
+        }
+        [newProps addObject:obj];
+    }];
+    self.currentProps = newProps;
+    [self.tableView reloadData];
+}
+
+- (IBAction)onPropsAddButtonClicked:(id)sender {
+    NSMutableArray *currentProps = [self.currentProps mutableCopy];
+    [currentProps addObject:@{
+                              @"key": @"Key",
+                              @"value": @"Value",
+                              @"type": @"String",
+                              }];
+    self.currentProps = currentProps;
+    [self.tableView reloadData];
+}
+
+- (void)controlTextDidEndEditing:(NSNotification *)obj {
+    [self saveProps:obj.object];
+}
+
+- (void)saveProps:(NSView *)sender {
+    if (sender.tag < self.currentProps.count) {
+        NSMutableDictionary *dict = [self.currentProps[sender.tag] mutableCopy];
+        if ([sender.accessibilityIdentifier isEqualToString:@"Key"]) {
+            dict[@"key"] = [(NSTextField *)sender stringValue];
+        }
+        else if ([sender.accessibilityIdentifier isEqualToString:@"Value"]) {
+            if ([sender isKindOfClass:[NSTextField class]]) {
+                if ([dict[@"type"] isEqualToString:@"String"]) {
+                    dict[@"value"] = [(NSTextField *)sender stringValue];
+                }
+                else if ([dict[@"type"] isEqualToString:@"Number"]) {
+                    dict[@"value"] = [[NSNumberFormatter new] numberFromString:[(NSTextField *)sender stringValue]];
+                }
+            }
+            else if ([sender isKindOfClass:[NSButton class]]) {
+                if ([dict[@"type"] isEqualToString:@"Bool"]) {
+                    dict[@"value"] = [(NSButton *)sender state] == 1 ? @(YES) : @(NO);
+                }
+            }
+        }
+        else if ([sender.accessibilityIdentifier isEqualToString:@"Type"]) {
+            dict[@"type"] = [[(NSPopUpButton *)sender selectedItem] title];
+        }
+        NSMutableArray *currentProps = [self.currentProps mutableCopy];
+        [currentProps setObject:[dict copy] atIndexedSubscript:sender.tag];
+        self.currentProps = currentProps;
+        if ([sender.accessibilityIdentifier isEqualToString:@"Type"]) {
+            [self.tableView reloadData];
+        }
+    }
+}
+
+
 
 @end
 

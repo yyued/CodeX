@@ -44,6 +44,12 @@
 			"identifier": "command_sidebar",
 			"script": "dynamicCommands.js",
 			"handler": "command_sidebar"
+		},
+		{
+			"name": "Choose Library",
+			"identifier": "command_library",
+			"script": "dynamicCommands.js",
+			"handler": "command_library"
 		}
 	],
 
@@ -54,7 +60,8 @@
 			"command_replace",
 			"command_edit",
 			"command_publish",
-			"command_sidebar"
+			"command_sidebar",
+			"command_library"
 		]
 	}
 }

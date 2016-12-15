@@ -26,17 +26,17 @@ static COMPublishWindowController *publishWindowController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    static COMSidebarViewController *viewController;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        viewController = [[COMSidebarViewController alloc] init];
-        NSString *nibPath = [[[NSBundle bundleForClass:[self class]] bundlePath]
-                             stringByAppendingString:@"/Contents/Resources/COMSidebarViewController.nib"];
-        [[[NSNib alloc] initWithNibData:[NSData dataWithContentsOfFile:nibPath] bundle:nil] instantiateWithOwner:viewController
-                                                                                                 topLevelObjects:nil];
-    });
-    viewController.view.frame = NSMakeRect(0, 0, 100, 100);
-    [self.view addSubview:viewController.view];
+//    static COMSidebarViewController *viewController;
+//    static dispatch_once_t onceToken;
+//    dispatch_once(&onceToken, ^{
+//        viewController = [[COMSidebarViewController alloc] init];
+//        NSString *nibPath = [[[NSBundle bundleForClass:[self class]] bundlePath]
+//                             stringByAppendingString:@"/Contents/Resources/COMSidebarViewController.nib"];
+//        [[[NSNib alloc] initWithNibData:[NSData dataWithContentsOfFile:nibPath] bundle:nil] instantiateWithOwner:viewController
+//                                                                                                 topLevelObjects:nil];
+//    });
+//    viewController.view.frame = NSMakeRect(0, 0, 100, 100);
+//    [self.view addSubview:viewController.view];
 }
 
 @end

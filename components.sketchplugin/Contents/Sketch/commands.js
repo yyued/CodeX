@@ -28,3 +28,8 @@ $.commands.createCommand("sidebar", function(ctx){
 	var pluginController = getPluginController(ctx);
 	pluginController.showSidebar();
 });
+
+$.commands.createCommand("library", function(ctx){
+	var pluginController = getPluginController(ctx);
+	pluginController.showLibraryChooser();
+});

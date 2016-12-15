@@ -7,7 +7,7 @@
 //
 
 var UILabel = {
-    parse: function (nodeID, nodeXML, nodeProps) {
+    parse: function(nodeID, nodeXML, nodeProps) {
         var output = UIView.parse(nodeID, nodeXML, nodeProps);
         var xml = $.create(nodeXML);
         output["text"] = UILabel.findText(nodeID, xml);
@@ -16,10 +16,10 @@ var UILabel = {
         output["rangeAttrs"] = UILabel.findRangeTextAttributes(nodeID, xml, output);
         return output;
     },
-    findFirstTextAttributes: function (nodeID, xml) {
+    findFirstTextAttributes: function(nodeID, xml) {
         var firstText;
         var use = false;
-        $(xml).find('#' + nodeID).find('use').each(function () {
+        $(xml).find('#' + nodeID).find('use').each(function() {
             if ($(this).attrs('filter', xml) !== undefined) {
                 return;
             }
@@ -48,7 +48,7 @@ var UILabel = {
         }
         return {};
     },
-    findRangeTextAttributes: function (nodeID, xml, standardAttrs) {
+    findRangeTextAttributes: function(nodeID, xml, standardAttrs) {
         var rangeAttrs = [];
         var currentRange = {
             location: 0,
@@ -61,7 +61,7 @@ var UILabel = {
                 continue;
             }
             use = true;
-            $(element).find('tspan').each(function () {
+            $(element).find('tspan').each(function() {
                 var item = {};
                 var cRange = {}
                 currentRange.location += currentRange.length;
@@ -96,7 +96,7 @@ var UILabel = {
             });
         }
         if (!use) {
-            $(xml).find('#' + nodeID).find('tspan').each(function () {
+            $(xml).find('#' + nodeID).find('tspan').each(function() {
                 var item = {};
                 var cRange = {}
                 currentRange.location += currentRange.length;
@@ -132,7 +132,7 @@ var UILabel = {
         }
         return rangeAttrs;
     },
-    findText: function (nodeID, xml) {
+    findText: function(nodeID, xml) {
         var text = "";
         var use = false;
         for (var index = 0; index < $(xml).find('#' + nodeID).find('use').length; index++) {
@@ -141,20 +141,20 @@ var UILabel = {
                 continue;
             }
             use = true;
-            $(element).find('tspan').each(function () {
+            $(element).find('tspan').each(function() {
                 text += $(this).text();
             });
         }
         if (!use) {
-            $(xml).find('#' + nodeID).find('tspan').each(function () {
+            $(xml).find('#' + nodeID).find('tspan').each(function() {
                 text += $(this).text();
             });
         }
         return text;
     },
-    findShadow: function (nodeID, xml) {
+    findShadow: function(nodeID, xml) {
         var output = {};
-        $(xml).find('#' + nodeID).find('use').each(function () {
+        $(xml).find('#' + nodeID).find('use').each(function() {
             if ($(this).attr('filter') !== undefined) {
                 var filterID = $(this).attr('filter').replace(/url\((.*?)\)/, "$1");
                 var filterNode = $(xml).find(filterID);
@@ -173,7 +173,7 @@ var UILabel = {
         })
         return output;
     },
-    convertColorMatrixToHex: function (feColor) {
+    convertColorMatrixToHex: function(feColor) {
         var rows = feColor.split("  ");
         if (rows.length == 4) {
             var r = 0.0;
@@ -212,18 +212,27 @@ var UILabel = {
     },
 }
 
-UILabel.oc_class = function (props) {
+UILabel.defaultProps = function() {
+    return Object.assign(UIView.defaultProps(), {
+        numberOfLines: {
+            value: 1,
+            type: "Number",
+        },
+    })
+};
+
+UILabel.oc_class = function(props) {
     return "COXLabel";
 }
 
-UILabel.oc_code = function (props) {
+UILabel.oc_code = function(props) {
     var code = "";
     code += oc_init("COXLabel", "view");
     code += UILabel.oc_codeWithProps(props);
     return code;
 }
 
-UILabel.oc_codeWithProps = function (props) {
+UILabel.oc_codeWithProps = function(props) {
     var code = UIView.oc_codeWithProps(props);
     if (props.fontFamily !== undefined && props.fontSize !== undefined) {
         code += "[view setFontWithFamilyName:@\"" + props.fontFamily + "\" fontSize:" + props.fontSize + "];\n";

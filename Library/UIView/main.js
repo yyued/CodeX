@@ -71,6 +71,15 @@ var UIView = {
     },
 }
 
+UIView.defaultProps = function () {
+    return {
+        outletID: {
+            value: undefined,
+            type: "String",
+        },
+    }
+}
+
 UIView.oc_class = function (props) {
     return "UIView";
 }

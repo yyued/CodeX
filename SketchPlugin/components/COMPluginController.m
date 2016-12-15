@@ -33,6 +33,17 @@ static COMPublishWindowController *publishWindowController;
     return [COMPluginController new];
 }
 
+- (void)showLibraryChooser {
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setCanChooseFiles:NO];
+    [openPanel setCanChooseDirectories:YES];
+    [openPanel setAllowsMultipleSelection:NO];
+    NSInteger result = [openPanel runModal];
+    if (result == NSFileHandlingPanelOKButton) {
+        [[NSUserDefaults standardUserDefaults] setValue:[openPanel.URL path] forKey:@"com.yy.ued.sketch.components.libPath"];
+    }
+}
+
 - (void)showSidebar {
     [COMSidebarViewController toggleSidebar];
 }
