@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import <JavaScriptCore/JavaScriptCore.h>
+#import <WebKit/WebKit.h>
 #import "COMGenerator.h"
 #import "COMSidebarViewController.h"
 
@@ -18,6 +19,10 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    WebView *webView = [WebView new];
+    JSContext *context = webView.mainFrame.javaScriptContext;
+    NSArray *keys = [[context evaluateScript:@"Object.keys(window)"] toArray];
+    
 //    COMGenerator *generator = [COMGenerator new];
 //    generator.className = @"MyView";
 //    COMGenLayer *layer = [generator parse];
