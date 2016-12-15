@@ -26,30 +26,24 @@
 			"handler": "command_replace"
 		},
 		{
-			"name": "Edit Properties",
-			"identifier": "command_edit",
-			"shortcut": "control shift e",
-			"script": "dynamicCommands.js",
-			"handler": "command_edit"
-		},
-		{
-			"name": "Publish",
-			"identifier": "command_publish",
-			"shortcut": "control shift g",
-			"script": "dynamicCommands.js",
-			"handler": "command_publish"
-		},
-		{
-			"name": "Show Sidebar",
-			"identifier": "command_sidebar",
-			"script": "dynamicCommands.js",
-			"handler": "command_sidebar"
-		},
-		{
 			"name": "Choose Library",
 			"identifier": "command_library",
 			"script": "dynamicCommands.js",
 			"handler": "command_library"
+		},
+		{
+			"name": "Show Sidebar",
+			"identifier": "command_sidebar",
+			"shortcut": "shift command ,",
+			"script": "dynamicCommands.js",
+			"handler": "command_sidebar"
+		},
+		{
+			"name": "Update Layout",
+			"identifier": "command_updatelayout",
+			"shortcut": "shift command u",
+			"script": "dynamicCommands.js",
+			"handler": "command_updatelayout"
 		}
 	],
 
@@ -58,9 +52,10 @@
 		"items": [
 			"command_add",
 			"command_replace",
-			"command_edit",
-			"command_publish",
+			"-",
 			"command_sidebar",
+			"command_updatelayout",
+			"-",
 			"command_library"
 		]
 	}

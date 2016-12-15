@@ -28,6 +28,19 @@ var UIImageView = {
     },
 }
 
+UIImageView.defaultProps = function() {
+    return Object.assign(UIView.defaultProps(), {
+        sourceType: {
+            value: ["Local", "Remote"],
+            type: "Enum",
+        },
+        sourceName: {
+            value: undefined,
+            type: "String",
+        }
+    })
+};
+
 UIImageView.oc_class = function (props) {
     return "UIImageView";
 }

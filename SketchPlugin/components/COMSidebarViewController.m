@@ -7,6 +7,7 @@
 //
 
 #import "COMSidebarViewController.h"
+#import "COMPluginController.h"
 #import <MCSketchPluginFramework/MCSketchPluginFramework.h>
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <WebKit/WebKit.h>
@@ -18,6 +19,26 @@
 @property(weak) IBOutlet NSTableView *tableView;
 @property(weak) IBOutlet NSComboBox *classComboBox;
 @property(nonatomic, copy) NSArray *currentProps;
+@property(nonatomic, copy) NSDictionary *currentPropsTemplate;
+
+// Layouts
+@property(weak) IBOutlet NSSegmentedControl *alignmentRelative;
+@property(weak) IBOutlet NSButton *centerHCheckbox;
+@property(weak) IBOutlet NSButton *centerVCheckbox;
+@property(weak) IBOutlet NSSegmentedControl *sizeRelative;
+@property(weak) IBOutlet NSButton *widthCheckbox;
+@property(weak) IBOutlet NSTextField *widthTextField;
+@property(weak) IBOutlet NSButton *heightCheckbox;
+@property(weak) IBOutlet NSTextField *heightTextField;
+@property(weak) IBOutlet NSSegmentedControl *pinRelative;
+@property(weak) IBOutlet NSButton *topCheckbox;
+@property(weak) IBOutlet NSTextField *topTextField;
+@property(weak) IBOutlet NSButton *leftCheckbox;
+@property(weak) IBOutlet NSTextField *leftTextField;
+@property(weak) IBOutlet NSButton *bottomCheckbox;
+@property(weak) IBOutlet NSTextField *bottomTextField;
+@property(weak) IBOutlet NSButton *rightCheckbox;
+@property(weak) IBOutlet NSTextField *rightTextField;
 
 @end
 
@@ -44,11 +65,13 @@
                     }
                     [viewController.view setAlphaValue:1.0];
                     [viewController loadClass];
+                    [viewController loadPropsTemplate];
                     [viewController loadProps];
+                      [viewController loadLayout];
                     [viewController.tableView reloadData];
                   }];
-        [viewController loadLibrary];
-        [viewController findAvailableClasses];
+      [viewController loadLibrary];
+      [viewController findAvailableClasses];
     });
     NSView *view = [[[[[NSApplication sharedApplication] mainWindow] contentView] subviews][0] subviews][1];
     {
@@ -203,6 +226,14 @@ static WebView *webView;
     }
 }
 
+- (void)loadPropsTemplate {
+    NSString *className = self.classComboBox.stringValue;
+    if (className != nil) {
+        NSDictionary *defaultProps = [[context[className][@"defaultProps"] callWithArguments:@[]] toDictionary];
+        self.currentPropsTemplate = defaultProps;
+    }
+}
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
     return self.currentProps.count;
 }
@@ -211,7 +242,7 @@ static WebView *webView;
     if (row < self.currentProps.count) {
         NSDictionary *item = self.currentProps[row];
         if ([tableColumn.identifier isEqualToString:@"Key"]) {
-            NSTextField *view = [[NSTextField alloc] initWithFrame:NSMakeRect(0, -5, 200, 22)];
+            NSTextField *view = [[NSTextField alloc] initWithFrame:NSZeroRect];
             view.accessibilityIdentifier = @"Key";
             view.tag = row;
             view.maximumNumberOfLines = 1;
@@ -224,7 +255,7 @@ static WebView *webView;
         }
         if ([tableColumn.identifier isEqualToString:@"Value"]) {
             if ([item[@"type"] isEqualToString:@"String"] || [item[@"type"] isEqualToString:@"Number"]) {
-                NSTextField *view = [[NSTextField alloc] initWithFrame:NSMakeRect(0, -5, 200, 22)];
+                NSTextField *view = [[NSTextField alloc] initWithFrame:NSZeroRect];
                 view.accessibilityIdentifier = @"Value";
                 view.tag = row;
                 view.maximumNumberOfLines = 1;
@@ -249,25 +280,28 @@ static WebView *webView;
                 checkbox.frame = NSMakeRect(0, 0, 200, 22);
                 return checkbox;
             } else if ([item[@"type"] isEqualToString:@"Enum"]) {
-                NSPopUpButton *view = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(0, 0, 88, 27)];
+                NSPopUpButton *view = [[NSPopUpButton alloc] initWithFrame:NSZeroRect];
                 view.accessibilityIdentifier = @"Value";
                 view.tag = row;
                 view.bordered = NO;
-                [view addItemsWithTitles:@[
-                    @"Option1",
-                    @"Option2",
-                    @"Option3",
-                    @"Option4",
-                ]];
+                if ([self.currentPropsTemplate[item[@"key"]][@"value"] isKindOfClass:[NSArray class]]) {
+                    [view addItemsWithTitles:self.currentPropsTemplate[item[@"key"]][@"value"]];
+                    if ([item[@"value"] isKindOfClass:[NSString class]]) {
+                        [view selectItemWithTitle:item[@"value"]];
+                    }
+                } else if ([item[@"value"] isKindOfClass:[NSString class]]) {
+                    [view addItemsWithTitles:@[ item[@"value"] ]];
+                }
                 [view setTarget:self];
                 [view setAction:@selector(saveProps:)];
                 return view;
             }
         }
         if ([tableColumn.identifier isEqualToString:@"Type"]) {
-            NSPopUpButton *view = [[NSPopUpButton alloc] initWithFrame:NSMakeRect(-5, -5, 86, 27)];
+            NSPopUpButton *view = [[NSPopUpButton alloc] initWithFrame:NSZeroRect];
             view.accessibilityIdentifier = @"Type";
             view.tag = row;
+            view.bordered = NO;
             [view addItemsWithTitles:@[
                 @"String",
                 @"Number",
@@ -277,6 +311,7 @@ static WebView *webView;
             [view selectItemWithTitle:item[@"type"]];
             [view setTarget:self];
             [view setAction:@selector(saveProps:)];
+            view.enabled = self.currentPropsTemplate[item[@"key"]] == nil;
             return view;
         }
     }
@@ -284,10 +319,11 @@ static WebView *webView;
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-    return 22.0;
+    return 18.0;
 }
 
 - (IBAction)onPropsRefreshButtonClicked:(id)sender {
+    [self loadPropsTemplate];
     NSString *className = self.classComboBox.stringValue;
     if (className != nil) {
         NSDictionary *defaultProps = [[context[className][@"defaultProps"] callWithArguments:@[]] toDictionary];
@@ -296,7 +332,7 @@ static WebView *webView;
           if ([obj isKindOfClass:[NSDictionary class]] && obj[@"type"] != nil) {
               [currentProps addObject:@{
                   @"key" : key,
-                  @"value" : obj[@"value"] != nil ? [NSString stringWithFormat:@"%@", obj[@"value"]] : @"",
+                  @"value" : obj[@"value"] != nil ? obj[@"value"] : @"",
                   @"type" : obj[@"type"],
               }];
           }
@@ -335,6 +371,7 @@ static WebView *webView;
 - (void)controlTextDidEndEditing:(NSNotification *)obj {
     [self saveClass];
     [self saveProps:obj.object];
+    [self saveLayout];
 }
 
 - (void)saveProps:(NSView *)sender {
@@ -348,6 +385,10 @@ static WebView *webView;
                     dict[@"value"] = [(NSTextField *)sender stringValue];
                 } else if ([dict[@"type"] isEqualToString:@"Number"]) {
                     dict[@"value"] = [[NSNumberFormatter new] numberFromString:[(NSTextField *)sender stringValue]];
+                }
+            } else if ([sender isKindOfClass:[NSPopUpButton class]]) {
+                if ([dict[@"type"] isEqualToString:@"Enum"]) {
+                    dict[@"value"] = [[(NSPopUpButton *)sender selectedItem] title];
                 }
             } else if ([sender isKindOfClass:[NSButton class]]) {
                 if ([dict[@"type"] isEqualToString:@"Bool"]) {
@@ -387,10 +428,10 @@ static WebView *webView;
 - (void)findAvailableClasses {
     [self.classComboBox removeAllItems];
     NSArray *keys = [[context evaluateScript:@"Object.keys(window)"] toArray];
-    [keys enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([[context[obj][@"defaultProps"] callWithArguments:@[]] toDictionary] != nil) {
-            [self.classComboBox addItemWithObjectValue:obj];
-        }
+    [keys enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+      if ([[context[obj][@"defaultProps"] callWithArguments:@[]] toDictionary] != nil) {
+          [self.classComboBox addItemWithObjectValue:obj];
+      }
     }];
 }
 
@@ -414,6 +455,171 @@ static WebView *webView;
                                 forPluginIdentifier:@"com.yy.ued.sketch.components"];
             }];
     }
+}
+
+#pragma mark - Relative Layout
+
+- (void)loadLayout {
+    MSLayer *layer = [Sketch_GetSelectedLayers(Sketch_GetCurrentDocument()) firstObject];
+    if (layer != nil) {
+        NSDictionary *layoutAttrs = [[MSPluginCommand_Class new] valueForKey:@"constraints"
+                                                                     onLayer:layer
+                                                         forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+        if ([layoutAttrs[@"centerRelativeTo"] isEqualToNumber:@(2)]) {
+            [self.alignmentRelative setSelectedSegment:1];
+        }
+        else {
+            [self.alignmentRelative setSelectedSegment:0];
+        }
+        if ([layoutAttrs[@"centerHorizontally"] isEqualToNumber:@(1)]) {
+            self.centerHCheckbox.state = 1;
+        }
+        else {
+            self.centerHCheckbox.state = 0;
+        }
+        if ([layoutAttrs[@"centerVertically"] isEqualToNumber:@(1)]) {
+            self.centerVCheckbox.state = 1;
+        }
+        else {
+            self.centerVCheckbox.state = 0;
+        }
+        if ([layoutAttrs[@"sizeRelativeTo"] isEqualToNumber:@(2)]) {
+            [self.sizeRelative setSelectedSegment:1];
+        }
+        else {
+            [self.sizeRelative setSelectedSegment:0];
+        }
+        if ([layoutAttrs[@"useFixedWidth"] isEqualToNumber:@(1)]) {
+            self.widthCheckbox.state = 1;
+        }
+        else {
+            self.widthCheckbox.state = 0;
+        }
+        if ([layoutAttrs[@"useFixedHeight"] isEqualToNumber:@(1)]) {
+            self.heightCheckbox.state = 1;
+        }
+        else {
+            self.heightCheckbox.state = 0;
+        }
+        if ([layoutAttrs[@"fixedWidth"] isKindOfClass:[NSString class]]) {
+            [self.widthTextField setStringValue:layoutAttrs[@"fixedWidth"]];
+        }
+        else {
+            [self.widthTextField setStringValue:@""];
+        }
+        if ([layoutAttrs[@"fixedHeight"] isKindOfClass:[NSString class]]) {
+            [self.heightTextField setStringValue:layoutAttrs[@"fixedHeight"]];
+        }
+        else {
+            [self.heightTextField setStringValue:@""];
+        }
+        if ([layoutAttrs[@"pinRelativeTo"] isEqualToNumber:@(2)]) {
+            [self.pinRelative setSelectedSegment:1];
+        }
+        else {
+            [self.pinRelative setSelectedSegment:0];
+        }
+        if ([layoutAttrs[@"useTopPinning"] isEqualToNumber:@(1)]) {
+            self.topCheckbox.state = 1;
+        }
+        else {
+            self.topCheckbox.state = 0;
+        }
+        if ([layoutAttrs[@"topPinning"] isKindOfClass:[NSString class]]) {
+            [self.topTextField setStringValue:layoutAttrs[@"topPinning"]];
+        }
+        else {
+            [self.topTextField setStringValue:@""];
+        }
+        if ([layoutAttrs[@"useLeftPinning"] isEqualToNumber:@(1)]) {
+            self.leftCheckbox.state = 1;
+        }
+        else {
+            self.leftCheckbox.state = 0;
+        }
+        if ([layoutAttrs[@"leftPinning"] isKindOfClass:[NSString class]]) {
+            [self.leftTextField setStringValue:layoutAttrs[@"leftPinning"]];
+        }
+        else {
+            [self.leftTextField setStringValue:@""];
+        }
+        if ([layoutAttrs[@"useBottomPinning"] isEqualToNumber:@(1)]) {
+            self.bottomCheckbox.state = 1;
+        }
+        else {
+            self.bottomCheckbox.state = 0;
+        }
+        if ([layoutAttrs[@"bottomPinning"] isKindOfClass:[NSString class]]) {
+            [self.bottomTextField setStringValue:layoutAttrs[@"bottomPinning"]];
+        }
+        else {
+            [self.bottomTextField setStringValue:@""];
+        }
+        if ([layoutAttrs[@"useRightPinning"] isEqualToNumber:@(1)]) {
+            self.rightCheckbox.state = 1;
+        }
+        else {
+            self.rightCheckbox.state = 0;
+        }
+        if ([layoutAttrs[@"rightPinning"] isKindOfClass:[NSString class]]) {
+            [self.rightTextField setStringValue:layoutAttrs[@"rightPinning"]];
+        }
+        else {
+            [self.rightTextField setStringValue:@""];
+        }
+    }
+}
+
+- (void)saveLayout {
+    NSDictionary *attrs = @{
+                            @"centerRelativeTo": self.alignmentRelative.selectedSegment == 0 ? @(1) : @(2),
+                            @"centerHorizontally": @(self.centerHCheckbox.state),
+                            @"centerVertically": @(self.centerVCheckbox.state),
+                            @"sizeRelativeTo": self.sizeRelative.selectedSegment == 0 ? @(1) : @(2),
+                            @"useFixedWidth": @(self.widthCheckbox.state),
+                            @"useFixedHeight": @(self.heightCheckbox.state),
+                            @"fixedWidth": self.widthTextField.stringValue,
+                            @"fixedHeight": self.heightTextField.stringValue,
+                            @"pinRelativeTo": self.pinRelative.selectedSegment == 0 ? @(1) : @(2),
+                            @"useTopPinning": @(self.topCheckbox.state),
+                            @"topPinning": self.topTextField.stringValue,
+                            @"useLeftPinning": @(self.leftCheckbox.state),
+                            @"leftPinning": self.leftTextField.stringValue,
+                            @"useBottomPinning": @(self.bottomCheckbox.state),
+                            @"bottomPinning": self.bottomTextField.stringValue,
+                            @"useRightPinning": @(self.rightCheckbox.state),
+                            @"rightPinning": self.rightTextField.stringValue,
+                            };
+    [Sketch_GetSelectedLayers(Sketch_GetCurrentDocument())
+     enumerateObjectsUsingBlock:^(id _Nonnull layer, NSUInteger idx, BOOL *_Nonnull stop) {
+         [[MSPluginCommand_Class new] setValue:attrs
+                                        forKey:@"constraints"
+                                       onLayer:layer
+                           forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+         [[MSPluginCommand_Class new] setValue:attrs
+                                        forKey:@"constraints"
+                                       onLayer:layer
+                           forPluginIdentifier:@"com.yy.ued.sketch.components"];
+     }];
+}
+
+- (IBAction)onLayoutCheckboxChanged:(id)sender {
+    [self saveLayout];
+}
+
+- (IBAction)onLayoutClearButtonClicked:(id)sender {
+    [Sketch_GetSelectedLayers(Sketch_GetCurrentDocument())
+     enumerateObjectsUsingBlock:^(id _Nonnull layer, NSUInteger idx, BOOL *_Nonnull stop) {
+         [[MSPluginCommand_Class new] setValue:@{}
+                                        forKey:@"constraints"
+                                       onLayer:layer
+                           forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+         [[MSPluginCommand_Class new] setValue:@{}
+                                        forKey:@"constraints"
+                                       onLayer:layer
+                           forPluginIdentifier:@"com.yy.ued.sketch.components"];
+     }];
+    [self loadLayout];
 }
 
 @end

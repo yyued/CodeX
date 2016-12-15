@@ -14,16 +14,6 @@ $.commands.createCommand("replace", function(ctx){
 	pluginController.showDialog(true);
 });
 
-$.commands.createCommand("edit", function(ctx){
-	var pluginController = getPluginController(ctx);
-	pluginController.showProps();
-});
-
-$.commands.createCommand("publish", function(ctx){
-	var pluginController = getPluginController(ctx);
-	pluginController.showPublisher();
-});
-
 $.commands.createCommand("sidebar", function(ctx){
 	var pluginController = getPluginController(ctx);
 	pluginController.showSidebar();
@@ -32,4 +22,9 @@ $.commands.createCommand("sidebar", function(ctx){
 $.commands.createCommand("library", function(ctx){
 	var pluginController = getPluginController(ctx);
 	pluginController.showLibraryChooser();
+});
+
+$.commands.createCommand("updatelayout", function(ctx){
+	var pluginController = [MCFluidPluginController pluginController:ctx.plugin pluginCommand:ctx.command];
+	pluginController.updateLayout();
 });
