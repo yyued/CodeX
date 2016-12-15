@@ -17,8 +17,6 @@
 
 - (void)showDialog:(BOOL)replacing;
 
-- (void)showProps;
-
 - (void)showPublisher;
 
 @end

@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "COXConstraint.h"
 
 @interface UIView (COXRuntime)
 
 @property (nonatomic, assign) BOOL cox_automaticallyAdjustsSpace;
-@property (nonatomic, copy) NSDictionary *cox_constraints;
+@property (nonatomic, strong) COXConstraint *cox_constraint;
 
 - (CGSize)cox_intrinsicContentSize;
 

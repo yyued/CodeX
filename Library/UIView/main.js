@@ -77,6 +77,10 @@ UIView.defaultProps = function () {
             value: undefined,
             type: "String",
         },
+        autoAdjust: {
+            value: false,
+            type: "Bool",
+        }
     }
 }
 
@@ -118,16 +122,42 @@ UIView.oc_codeWithProps = function (props) {
         code += "view.layer.borderWidth = " + props.borderWidth + ";\n";
     }
     if (props.constraints !== undefined) {
-        var constraints = "";
-        for (var key in props.constraints) {
-            if (props.constraints.hasOwnProperty(key)) {
-                var element = props.constraints[key];
-                constraints += "    @\"" + key + "\"" + ": @\"" + element + "\",\n";
-            }
+        code += "view.cox_constraint = [COXConstraint new];\n";
+        if (props.constraints.centerRelativeTo == 2) {
+            code += "view.cox_constraint.aligmentRelate = COXLayoutRelateToPrevious;\n";
         }
-        code += "view.cox_constraints = @{\n" + constraints + "};\n";
+        if (props.constraints.centerHorizontally == 1) {
+            code += "view.cox_constraint.centerHorizontally = YES;\n";
+        }
+        if (props.constraints.centerVertically == 1) {
+            code += "view.cox_constraint.centerVertically = YES;\n";
+        }
+        if (props.constraints.sizeRelativeTo == 2) {
+            code += "view.cox_constraint.sizeRelate = COXLayoutRelateToPrevious;\n";
+        }
+        if (props.constraints.useFixedWidth == 1 && props.constraints.fixedWidth !== undefined) {
+            code += "view.cox_constraint.width = @\"" + props.constraints.fixedWidth + "\";\n";
+        }
+        if (props.constraints.useFixedHeight == 1 && props.constraints.fixedHeight !== undefined) {
+            code += "view.cox_constraint.height = @\"" + props.constraints.fixedHeight + "\";\n";
+        }
+        if (props.constraints.pinRelativeTo == 2) {
+            code += "view.cox_constraint.pinRelate = COXLayoutRelateToPrevious;\n";
+        }
+        if (props.constraints.useTopPinning == 1 && props.constraints.topPinning !== undefined) {
+            code += "view.cox_constraint.top = @\"" + props.constraints.topPinning + "\";\n";
+        }
+        if (props.constraints.useLeftPinning == 1 && props.constraints.leftPinning !== undefined) {
+            code += "view.cox_constraint.left = @\"" + props.constraints.leftPinning + "\";\n";
+        }
+        if (props.constraints.useBottomPinning == 1 && props.constraints.bottomPinning !== undefined) {
+            code += "view.cox_constraint.bottom = @\"" + props.constraints.bottomPinning + "\";\n";
+        }
+        if (props.constraints.useRightPinning == 1 && props.constraints.rightPinning !== undefined) {
+            code += "view.cox_constraint.right = @\"" + props.constraints.rightPinning + "\";\n";
+        }
     }
-    if (props.automaticallyAdjustsSpace === true) {
+    if (props.autoAdjust === true) {
         code += "view.cox_automaticallyAdjustsSpace = YES;\n";
     }
     return code;

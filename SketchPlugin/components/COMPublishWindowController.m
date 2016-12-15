@@ -156,37 +156,37 @@
         context = [JSContext new];
         [context evaluateScript:@"function a(b){eval('var e = '+b);return e}"];
     });
-    NSString *pString =
-        [command valueForKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
-    if ([pString isKindOfClass:[NSString class]]) {
+    NSString *className = [command valueForKey:@"class" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
+    NSDictionary *layerProps = [command valueForKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
+    if (className != nil) {
+        if (![layerProps isKindOfClass:[NSDictionary class]]) {
+            layerProps = @{};
+        }
         NSString *uuid = [[NSUUID UUID] UUIDString];
         [layer setName:uuid];
-        context[@"pString"] = ^(){
-            return pString;
-        };
-        JSValue *value = [context evaluateScript:@"a(pString())"];
-        NSDictionary *dict = [value toDictionary];
-        if (dict != nil) {
+        {
+            NSMutableDictionary *mDict = [layerProps mutableCopy];
+            mDict[@"class"] = className;
+            layerProps = [mDict copy];
+        }
+        {
             NSString *cDict =
             [command valueForKey:@"constraints" onLayer:layer forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
             if ([cDict isKindOfClass:[NSDictionary class]]) {
-                NSMutableDictionary *mDict = [dict mutableCopy];
+                NSMutableDictionary *mDict = [layerProps mutableCopy];
                 mDict[@"constraints"] = cDict;
-                dict = [mDict copy];
+                layerProps = [mDict copy];
             }
-            props[uuid] = dict;
         }
         if ([layer isKindOfClass:MSTextLayer_Class]) {
-            if (dict != nil) {
-                NSNumber *alignment = [(MSTextLayer *)layer valueForKey:@"textAlignment"];
-                if (alignment != nil) {
-                    NSMutableDictionary *mDict = [dict mutableCopy];
-                    mDict[@"alignment"] = alignment;
-                    dict = [mDict copy];
-                }
-                props[uuid] = dict;
+            NSNumber *alignment = [(MSTextLayer *)layer valueForKey:@"textAlignment"];
+            if (alignment != nil) {
+                NSMutableDictionary *mDict = [layerProps mutableCopy];
+                mDict[@"alignment"] = alignment;
+                layerProps = [mDict copy];
             }
         }
+        props[uuid] = layerProps;
     }
     if ([layer isKindOfClass:MSLayerGroup_Class]) {
         for (MSLayer *sublayer in [(MSLayerGroup *)layer layers]) {

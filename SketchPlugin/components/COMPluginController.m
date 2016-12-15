@@ -8,12 +8,10 @@
 
 #import "COMPluginController.h"
 #import "COMModalWindowController.h"
-#import "COMPropsWindowController.h"
 #import "COMPublishWindowController.h"
 #import "COMSidebarViewController.h"
 
 static COMModalWindowController *modalWindowController;
-static COMPropsWindowController *propsWindowController;
 static COMPublishWindowController *publishWindowController;
 
 @interface COMPluginController ()
@@ -57,26 +55,6 @@ static COMPublishWindowController *publishWindowController;
     modalWindowController.modalSession =
         [[NSApplication sharedApplication] beginModalSessionForWindow:modalWindowController.window];
 }
-
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wundeclared-selector"
-
-- (void)showProps {
-    if ([[MSDocument_Class currentDocument] selectedLayers].count > 1) {
-        [[MSDocument_Class currentDocument] performSelector:@selector(showMessage:)
-                                                 withObject:@"Only one layer can be configured!"];
-        return;
-    }
-    MSLayer *layer = [[[MSDocument_Class currentDocument] selectedLayers] firstObject];
-    if ([layer isKindOfClass:MSLayer_Class]) {
-        propsWindowController = [COMPropsWindowController new];
-        [propsWindowController setLayer:layer];
-        propsWindowController.modalSession =
-            [[NSApplication sharedApplication] beginModalSessionForWindow:propsWindowController.window];
-    }
-}
-
-#pragma GCC diagnostic
 
 - (void)showPublisher {
     if (publishWindowController == nil) {

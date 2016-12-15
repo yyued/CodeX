@@ -622,6 +622,12 @@ static WebView *webView;
     [self loadLayout];
 }
 
+#pragma mark - Publish
+
+- (IBAction)onPublishButtonClicked:(id)sender {
+    [[COMPluginController new] showPublisher];
+}
+
 @end
 
 @interface COMClearView : NSView

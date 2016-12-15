@@ -17,6 +17,11 @@ var UIButton = {
     },
 }
 
+UIButton.defaultProps = function() {
+    return Object.assign(UIView.defaultProps(), {
+    })
+};
+
 UIButton.oc_class = function (props) {
     if (props.buttonType === "Text") {
         return "UIButton";

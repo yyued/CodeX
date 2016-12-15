@@ -19,6 +19,11 @@ var UISwitch = {
     },
 }
 
+UISwitch.defaultProps = function() {
+    return Object.assign(UIView.defaultProps(), {
+    })
+};
+
 UISwitch.oc_class = function (props) {
     return "UISwitch";
 }

@@ -18,6 +18,11 @@ var UISlider = {
     },
 }
 
+UISlider.defaultProps = function() {
+    return Object.assign(UIView.defaultProps(), {
+    })
+};
+
 UISlider.oc_class = function (props) {
     return "UISlider";
 }

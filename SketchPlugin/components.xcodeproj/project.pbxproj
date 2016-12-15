@@ -19,10 +19,6 @@
 		903331351DF9013D00B8C0B9 /* COMComponentEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 903331341DF9013D00B8C0B9 /* COMComponentEntity.m */; };
 		903331361DF9033F00B8C0B9 /* COMSourceEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 903331311DF9013400B8C0B9 /* COMSourceEntity.m */; };
 		903331371DF9033F00B8C0B9 /* COMComponentEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 903331341DF9013D00B8C0B9 /* COMComponentEntity.m */; };
-		9033313B1DF9410E00B8C0B9 /* COMPropsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 903331391DF9410E00B8C0B9 /* COMPropsWindowController.m */; };
-		9033313C1DF9410E00B8C0B9 /* COMPropsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9033313A1DF9410E00B8C0B9 /* COMPropsWindowController.xib */; };
-		9033313D1DF943AD00B8C0B9 /* COMPropsWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 903331391DF9410E00B8C0B9 /* COMPropsWindowController.m */; };
-		9033313E1DF943B100B8C0B9 /* COMPropsWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9033313A1DF9410E00B8C0B9 /* COMPropsWindowController.xib */; };
 		903331421DF9583200B8C0B9 /* COMPublishWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 903331401DF9583200B8C0B9 /* COMPublishWindowController.m */; };
 		903331431DF9583200B8C0B9 /* COMPublishWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 903331411DF9583200B8C0B9 /* COMPublishWindowController.xib */; };
 		903331441DF959BC00B8C0B9 /* COMPublishWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 903331401DF9583200B8C0B9 /* COMPublishWindowController.m */; };
@@ -76,9 +72,6 @@
 		903331311DF9013400B8C0B9 /* COMSourceEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMSourceEntity.m; sourceTree = "<group>"; };
 		903331331DF9013D00B8C0B9 /* COMComponentEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMComponentEntity.h; sourceTree = "<group>"; };
 		903331341DF9013D00B8C0B9 /* COMComponentEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMComponentEntity.m; sourceTree = "<group>"; };
-		903331381DF9410E00B8C0B9 /* COMPropsWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMPropsWindowController.h; sourceTree = "<group>"; };
-		903331391DF9410E00B8C0B9 /* COMPropsWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMPropsWindowController.m; sourceTree = "<group>"; };
-		9033313A1DF9410E00B8C0B9 /* COMPropsWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = COMPropsWindowController.xib; sourceTree = "<group>"; };
 		9033313F1DF9583200B8C0B9 /* COMPublishWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMPublishWindowController.h; sourceTree = "<group>"; };
 		903331401DF9583200B8C0B9 /* COMPublishWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMPublishWindowController.m; sourceTree = "<group>"; };
 		903331411DF9583200B8C0B9 /* COMPublishWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = COMPublishWindowController.xib; sourceTree = "<group>"; };
@@ -179,9 +172,6 @@
 				903331311DF9013400B8C0B9 /* COMSourceEntity.m */,
 				903331331DF9013D00B8C0B9 /* COMComponentEntity.h */,
 				903331341DF9013D00B8C0B9 /* COMComponentEntity.m */,
-				903331381DF9410E00B8C0B9 /* COMPropsWindowController.h */,
-				903331391DF9410E00B8C0B9 /* COMPropsWindowController.m */,
-				9033313A1DF9410E00B8C0B9 /* COMPropsWindowController.xib */,
 				9033313F1DF9583200B8C0B9 /* COMPublishWindowController.h */,
 				903331401DF9583200B8C0B9 /* COMPublishWindowController.m */,
 				903331411DF9583200B8C0B9 /* COMPublishWindowController.xib */,
@@ -319,7 +309,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9033313C1DF9410E00B8C0B9 /* COMPropsWindowController.xib in Resources */,
 				90D181551E00E226000E9828 /* COMSidebarViewController.xib in Resources */,
 				903331431DF9583200B8C0B9 /* COMPublishWindowController.xib in Resources */,
 				903331261DF80D6500B8C0B9 /* COMModalWindowController.xib in Resources */,
@@ -332,7 +321,6 @@
 			files = (
 				90D181561E00E4B4000E9828 /* COMSidebarViewController.xib in Resources */,
 				903331451DF959BF00B8C0B9 /* COMPublishWindowController.xib in Resources */,
-				9033313E1DF943B100B8C0B9 /* COMPropsWindowController.xib in Resources */,
 				903331271DF80D6B00B8C0B9 /* COMModalWindowController.xib in Resources */,
 				90F870BF1DF802D000B1F64D /* Assets.xcassets in Resources */,
 				90F870C21DF802D000B1F64D /* Main.storyboard in Resources */,
@@ -442,7 +430,6 @@
 				903331421DF9583200B8C0B9 /* COMPublishWindowController.m in Sources */,
 				9098B2C01DFA730B0058E8A9 /* COMGenLayer.m in Sources */,
 				903331351DF9013D00B8C0B9 /* COMComponentEntity.m in Sources */,
-				9033313B1DF9410E00B8C0B9 /* COMPropsWindowController.m in Sources */,
 				903331321DF9013400B8C0B9 /* COMSourceEntity.m in Sources */,
 				9033312C1DF80F7000B8C0B9 /* COMComponentCollectionViewItem.m in Sources */,
 				90F870A41DF7DC7900B1F64D /* COMPluginController.m in Sources */,
@@ -460,7 +447,6 @@
 				9098B2C11DFA7D540058E8A9 /* COMGenLayer.m in Sources */,
 				9098B2BD1DFA5F900058E8A9 /* COMGenerator.m in Sources */,
 				903331441DF959BC00B8C0B9 /* COMPublishWindowController.m in Sources */,
-				9033313D1DF943AD00B8C0B9 /* COMPropsWindowController.m in Sources */,
 				903331361DF9033F00B8C0B9 /* COMSourceEntity.m in Sources */,
 				903331371DF9033F00B8C0B9 /* COMComponentEntity.m in Sources */,
 				9033312F1DF80F8400B8C0B9 /* COMComponentCollectionViewItem.m in Sources */,
