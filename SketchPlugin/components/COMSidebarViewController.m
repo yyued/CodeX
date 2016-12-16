@@ -84,6 +84,15 @@
     viewController.view.frame = NSMakeRect(0, 0, 100, 100);
     [view addSubview:viewController.view];
     [view addObserver:viewController forKeyPath:@"frame" options:NSKeyValueObservingOptionNew context:NULL];
+    {
+        [viewController.view setAlphaValue:1.0];
+        [viewController loadClass];
+        [viewController loadPropsTemplate];
+        [viewController loadProps];
+        [viewController loadLayout];
+        [viewController.tableView reloadData];
+    }
+
 }
 
 static JSContext *context;

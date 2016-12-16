@@ -28,3 +28,8 @@ $.commands.createCommand("updatelayout", function(ctx){
 	var pluginController = [MCFluidPluginController pluginController:ctx.plugin pluginCommand:ctx.command];
 	pluginController.updateLayout();
 });
+
+$.commands.createCommand("preview", function(ctx){
+	var pluginController = [MCFluidPluginController pluginController:ctx.plugin pluginCommand:ctx.command];
+	pluginController.preview();
+});

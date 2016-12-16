@@ -15,7 +15,7 @@ var UIStatusBar = {
 UIStatusBar.defaultProps = function() {
     return {
         barStyle: {
-            value: ["Normal", "Light"],
+            value: ["Normal", "Light", "Hidden"],
             type: "Enum",
         }
     }
@@ -25,6 +25,9 @@ UIStatusBar.oc_load = function (props) {
     var code = "";
     if (props.barStyle === "Light") {
         code += "[self cox_setStatusBarStyle:UIStatusBarStyleLightContent];\n";
+    }
+    else if (props.barStyle === "Hidden") {
+        code += "[self cox_setStatusBarHidden:YES animation:UIStatusBarAnimationNone];\n";
     }
     return code;
 }

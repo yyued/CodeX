@@ -8,11 +8,16 @@
 
 var UINavigationBar = {
     parse: function (nodeID, nodeXML, nodeProps) {
-        return nodeProps;
+        var output = nodeProps;
+        var xml = $.create(nodeXML);
+        if (nodeProps.titleView === "Title") {
+            output["titleText"] = $(xml).find('#Title').find('tspan').text();
+        }
+        return output;
     },
 }
 
-UINavigationBar.defaultProps = function() {
+UINavigationBar.defaultProps = function () {
     return {
         titleView: {
             value: ["Title", "Title_SubTitle", "SegmentedControl", "Image"],
@@ -21,14 +26,9 @@ UINavigationBar.defaultProps = function() {
     }
 };
 
-UINavigationBar.oc_class = function (props) {
-    return "";
-}
-
-UINavigationBar.oc_code = function (props) {
-    return "";
-}
-
-UINavigationBar.oc_codeWithProps = function (props) {
-    return "";
+UINavigationBar.oc_viewDidLoad = function (props) {
+    if (props.titleView === "Title" && props.titleText !== undefined) {
+        return "self.title = @\"" + oc_text(props.titleText) + "\";\n";
+    }
+    return undefined;
 }
