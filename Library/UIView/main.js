@@ -77,10 +77,10 @@ UIView.defaultProps = function () {
             value: undefined,
             type: "String",
         },
-        autoAdjust: {
+        adjustFrame: {
             value: false,
             type: "Bool",
-        }
+        },
     }
 }
 
@@ -160,7 +160,7 @@ UIView.oc_codeWithProps = function (props) {
             code += "view.cox_constraint.right = @\"" + props.constraints.rightPinning + "\";\n";
         }
     }
-    if (props.autoAdjust === true) {
+    if (props.adjustFrame === true) {
         code += "view.cox_automaticallyAdjustsSpace = YES;\n";
     }
     return code;
