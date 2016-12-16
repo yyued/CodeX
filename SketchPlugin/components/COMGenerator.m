@@ -27,13 +27,16 @@ static WebView *webView;
     webView = [WebView new];
     context = webView.mainFrame.javaScriptContext;
     context[@"oc_writeAssets"] = ^(NSString *base64String, CGFloat baseWidth, CGFloat baseHeight, NSString *fileName) {
-        NSData *data = [[NSData alloc] initWithBase64EncodedString:base64String options:kNilOptions];
-        if (data != nil) {
-            NSImage *image = [[NSImage alloc] initWithData:data];
-            if (image != nil) {
-                [COMAssetsWritter writeIOSImage:image baseSize:CGSizeMake(baseWidth, baseHeight) toAssetsPath:self.assetsPath fileName:fileName];
-            }
-        }
+      NSData *data = [[NSData alloc] initWithBase64EncodedString:base64String options:kNilOptions];
+      if (data != nil) {
+          NSImage *image = [[NSImage alloc] initWithData:data];
+          if (image != nil) {
+              [COMAssetsWritter writeIOSImage:image
+                                     baseSize:CGSizeMake(baseWidth, baseHeight)
+                                 toAssetsPath:self.assetsPath
+                                     fileName:fileName];
+          }
+      }
     };
     for (NSString *dirName in [[NSFileManager defaultManager] enumeratorAtPath:self.libraryPath]) {
         NSString *subPath = [self.libraryPath stringByAppendingFormat:@"/%@", dirName];
@@ -41,7 +44,7 @@ static WebView *webView;
             if ([fileName hasSuffix:@".js"]) {
                 NSString *filePath = [subPath stringByAppendingFormat:@"/%@", fileName];
                 NSString *fileContents =
-                [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
+                    [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:NULL];
                 if (fileContents != nil) {
                     [context evaluateScript:fileContents];
                 }
@@ -101,13 +104,14 @@ static WebView *webView;
         initWithFormat:
             @"//\n//  %@.h\n//  %@\n//\n//  Created by CodeX on %@.\n\n#import \"%@.h\"\n\n@implementation %@\n\n",
             self.className, self.className, [NSDate date], self.className, self.className];
+    NSMutableString *loadCode = [[NSMutableString alloc] initWithString:@""];
+    NSMutableString *viewDidLoadCode = [[NSMutableString alloc] initWithString:@""];
     if (genType == COMGenTypeViewController) {
         [implementationCode appendString:@"- (void)loadView {\n"];
         [implementationCode appendString:@"    self.view = [self rootView];\n"];
         [implementationCode appendString:@"    self.view.backgroundColor = [UIColor whiteColor];\n"];
         [implementationCode appendString:@"}\n\n"];
-    }
-    else if (genType == COMGenTypeView) {
+    } else if (genType == COMGenTypeView) {
         [implementationCode appendString:@"- (void)willMoveToSuperview:(UIView *)newSuperview {\n"];
         [implementationCode appendString:@"    [super willMoveToSuperview:newSuperview];\n"];
         [implementationCode appendString:@"    UIView *rootView = self.rootView;\n"];
@@ -117,7 +121,18 @@ static WebView *webView;
         [implementationCode appendString:@"    [self addSubview:rootView];\n"];
         [implementationCode appendString:@"}\n\n"];
     }
-    [self oc_code:layer headerCode:headerCode implementationCode:implementationCode];
+    [self oc_code:layer
+                headerCode:headerCode
+        implementationCode:implementationCode
+                  loadCode:loadCode
+           viewDidLoadCode:viewDidLoadCode];
+    
+    if (genType == COMGenTypeViewController && loadCode.length) {
+        [implementationCode appendFormat:@"\n+ (void)load {\n%@}\n\n", loadCode];
+    }
+    if (genType == COMGenTypeViewController && viewDidLoadCode.length) {
+        [implementationCode appendFormat:@"\n- (void)viewDidLoad {\n    [super viewDidLoad];\n%@}\n\n", viewDidLoadCode];
+    }
     [headerCode appendString:@"\n@end\n"];
     [implementationCode appendString:@"@end\n"];
     return @{
@@ -128,8 +143,34 @@ static WebView *webView;
 
 - (void)oc_code:(COMGenLayer *)layer
             headerCode:(NSMutableString *)headerCode
-    implementationCode:(NSMutableString *)implementationCode {
+    implementationCode:(NSMutableString *)implementationCode
+              loadCode:(NSMutableString *)loadCode
+       viewDidLoadCode:(NSMutableString *)viewDidLoadCode {
     NSString *outlet = layer.props[@"outlet"];
+    {
+        NSString *_loadCode = [[context[layer.layerClass][@"oc_load"] callWithArguments:@[layer.props]] toString];
+        if (_loadCode != nil && _loadCode.length && ![_loadCode isEqualToString:@"undefined"]) {
+            [[_loadCode componentsSeparatedByString:@"\n"]
+             enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+                 if (!obj.length) {
+                     return;
+                 }
+                 [loadCode appendString:[NSString stringWithFormat:@"    %@\n", obj]];
+             }];
+        }
+    }
+    {
+        NSString *_viewDidLoadCode = [[context[layer.layerClass][@"oc_viewDidLoad"] callWithArguments:@[layer.props]] toString];
+        if (_viewDidLoadCode != nil && _viewDidLoadCode.length && ![_viewDidLoadCode isEqualToString:@"undefined"]) {
+            [[_viewDidLoadCode componentsSeparatedByString:@"\n"]
+             enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+                 if (!obj.length) {
+                     return;
+                 }
+                 [viewDidLoadCode appendString:[NSString stringWithFormat:@"    %@\n", obj]];
+             }];
+        }
+    }
     NSString *ocClass = [[context[layer.layerClass][@"oc_class"] callWithArguments:@[ layer.props ]] toString];
     if ([ocClass isEqualToString:@"undefined"]) {
         return;
@@ -137,10 +178,10 @@ static WebView *webView;
     if (outlet != nil && outlet.length) {
         [headerCode appendFormat:@"@property (nonatomic, strong) %@ *%@;\n", ocClass, outlet];
         NSMutableString *mCode = [NSMutableString new];
-        [mCode appendFormat:@"- (%@ *)%@ {\n", ocClass, outlet];
-        [mCode appendFormat:@"    if (_%@ == nil) {\n", outlet];
         NSString *mmCode = [[context[layer.layerClass][@"oc_code"] callWithArguments:@[ layer.props ]] toString];
-        if (mmCode != nil) {
+        if (mmCode != nil && mmCode.length > 0 && ![mmCode isEqualToString:@"undefined"]) {
+            [mCode appendFormat:@"- (%@ *)%@ {\n", ocClass, outlet];
+            [mCode appendFormat:@"    if (_%@ == nil) {\n", outlet];
             [[mmCode componentsSeparatedByString:@"\n"]
                 enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
                   if (!obj.length) {
@@ -149,8 +190,9 @@ static WebView *webView;
                   [mCode appendString:[NSString stringWithFormat:@"        %@\n", obj]];
                 }];
             for (COMGenLayer *sublayer in layer.sublayers) {
-                NSString *ocClass = [[context[sublayer.layerClass][@"oc_class"] callWithArguments:@[ sublayer.props ]] toString];
-                if ([ocClass isEqualToString:@"undefined"]) {
+                NSString *ocClass =
+                    [[context[sublayer.layerClass][@"oc_class"] callWithArguments:@[ sublayer.props ]] toString];
+                if (ocClass == nil || !ocClass.length || [ocClass isEqualToString:@"undefined"]) {
                     continue;
                 }
                 NSString *sublayerOutlet = sublayer.props[@"outlet"];
@@ -162,18 +204,17 @@ static WebView *webView;
                 }
             }
             [mCode appendFormat:@"        _%@ = view;\n", outlet];
+            [mCode appendFormat:@"    }\n"];
+            [mCode appendFormat:@"    return _%@;\n", outlet];
+            [mCode appendFormat:@"}\n\n"];
         }
-        [mCode appendFormat:@"    }\n"];
-        [mCode appendFormat:@"    return _%@;\n", outlet];
-        [mCode appendFormat:@"}\n\n"];
         [implementationCode appendString:mCode];
-    }
-    else {
+    } else {
         NSMutableString *mCode = [NSMutableString new];
-        [mCode appendFormat:@"- (%@ *)_%@ {\n", ocClass,
-                            [layer.layerID stringByReplacingOccurrencesOfString:@"-" withString:@"_"]];
         NSString *mmCode = [[context[layer.layerClass][@"oc_code"] callWithArguments:@[ layer.props ]] toString];
-        if (mmCode != nil) {
+        if (mmCode != nil && mmCode.length > 0 && ![mmCode isEqualToString:@"undefined"]) {
+            [mCode appendFormat:@"- (%@ *)_%@ {\n", ocClass,
+             [layer.layerID stringByReplacingOccurrencesOfString:@"-" withString:@"_"]];
             [[mmCode componentsSeparatedByString:@"\n"]
                 enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
                   if (!obj.length) {
@@ -182,8 +223,9 @@ static WebView *webView;
                   [mCode appendString:[NSString stringWithFormat:@"    %@\n", obj]];
                 }];
             for (COMGenLayer *sublayer in layer.sublayers) {
-                NSString *ocClass = [[context[sublayer.layerClass][@"oc_class"] callWithArguments:@[ sublayer.props ]] toString];
-                if ([ocClass isEqualToString:@"undefined"]) {
+                NSString *ocClass =
+                    [[context[sublayer.layerClass][@"oc_class"] callWithArguments:@[ sublayer.props ]] toString];
+                if (ocClass == nil || !ocClass.length || [ocClass isEqualToString:@"undefined"]) {
                     continue;
                 }
                 NSString *sublayerOutlet = sublayer.props[@"outlet"];
@@ -195,14 +237,16 @@ static WebView *webView;
                 }
             }
             [mCode appendString:@"    return view;\n"];
-        } else {
-            [mCode appendString:@"    return nil;\n"];
+            [mCode appendFormat:@"}\n\n"];
         }
-        [mCode appendFormat:@"}\n\n"];
         [implementationCode appendString:mCode];
     }
     for (COMGenLayer *sublayer in layer.sublayers) {
-        [self oc_code:sublayer headerCode:headerCode implementationCode:implementationCode];
+        [self oc_code:sublayer
+                    headerCode:headerCode
+            implementationCode:implementationCode
+                      loadCode:loadCode
+               viewDidLoadCode:viewDidLoadCode];
     }
 }
 

@@ -289,8 +289,13 @@ static WebView *webView;
                     if ([item[@"value"] isKindOfClass:[NSString class]]) {
                         [view selectItemWithTitle:item[@"value"]];
                     }
-                } else if ([item[@"value"] isKindOfClass:[NSString class]]) {
+                    else {
+                        [view selectItemWithTitle:[self.currentPropsTemplate[item[@"key"]][@"value"] firstObject]];
+                    }
+                }
+                else if ([item[@"value"] isKindOfClass:[NSString class]]) {
                     [view addItemsWithTitles:@[ item[@"value"] ]];
+                    [view selectItemWithTitle:item[@"value"]];
                 }
                 [view setTarget:self];
                 [view setAction:@selector(saveProps:)];

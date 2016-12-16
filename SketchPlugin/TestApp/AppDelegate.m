@@ -19,10 +19,6 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    WebView *webView = [WebView new];
-    JSContext *context = webView.mainFrame.javaScriptContext;
-    NSArray *keys = [[context evaluateScript:@"Object.keys(window)"] toArray];
-    
 //    COMGenerator *generator = [COMGenerator new];
 //    generator.className = @"MyView";
 //    COMGenLayer *layer = [generator parse];
@@ -33,17 +29,17 @@
 //                   error:NULL];
 //    }];
 //    [[NSApplication sharedApplication] mainWindow]
-//    COMGenerator *generator = [COMGenerator new];
-//    generator.className = @"ViewController";
-//    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
-//    generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
-//    COMGenLayer *layer = [generator parse];
-//    [[generator oc_code:layer genType:COMGenTypeViewController] enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
-//        [obj writeToFile:[NSString stringWithFormat:@"/Users/cuiminghui/Desktop/test/test/%@", key]
-//              atomically:YES
-//                encoding:NSUTF8StringEncoding
-//                   error:NULL];
-//    }];
+    COMGenerator *generator = [COMGenerator new];
+    generator.className = @"ViewController";
+    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
+    generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
+    COMGenLayer *layer = [generator parse];
+    [[generator oc_code:layer genType:COMGenTypeViewController] enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
+        [obj writeToFile:[NSString stringWithFormat:@"/Users/cuiminghui/Desktop/test/test/%@", key]
+              atomically:YES
+                encoding:NSUTF8StringEncoding
+                   error:NULL];
+    }];
 }
 
 

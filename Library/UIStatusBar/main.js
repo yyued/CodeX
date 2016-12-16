@@ -21,14 +21,10 @@ UIStatusBar.defaultProps = function() {
     }
 };
 
-UIStatusBar.oc_class = function (props) {
-    return "";
-}
-
-UIStatusBar.oc_code = function (props) {
-    return "";
-}
-
-UIStatusBar.oc_codeWithProps = function (props) {
-    return "";
+UIStatusBar.oc_load = function (props) {
+    var code = "";
+    if (props.barStyle === "Light") {
+        code += "[self cox_setStatusBarStyle:UIStatusBarStyleLightContent];\n";
+    }
+    return code;
 }
