@@ -15,6 +15,7 @@ var UISegmentedControl = {
             titles.push($(this).find('tspan').text())
         })
         output['titles'] = titles.reverse();
+        output['tintColor'] = $(xml).find('#' + nodeID).find('[stroke]:eq(0)').attr('stroke');
         return output;
     },
 }

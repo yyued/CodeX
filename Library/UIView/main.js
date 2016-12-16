@@ -121,6 +121,9 @@ UIView.oc_codeWithProps = function (props) {
     if (props.borderWidth !== undefined) {
         code += "view.layer.borderWidth = " + props.borderWidth + ";\n";
     }
+    if (props.tintColor !== undefined) {
+        code += "view.tintColor = " + oc_color(props.tintColor) + ";\n";
+    }
     if (props.constraints !== undefined) {
         code += "view.cox_constraint = [COXConstraint new];\n";
         if (props.constraints.centerRelativeTo == 2) {
