@@ -67,11 +67,26 @@ static WebView *webView;
     rootLayer.layerClass = @"UIView";
     rootLayer.props = @{
         @"class" : @"UIView",
-        @"outlet" : @"rootView",
-        @"tag" : @(999999999),
+        @"outletID" : @"rootView",
     };
     [self parseLayer:rootLayer element:image.DOMDocument.rootElement];
-    return rootLayer;
+    COMGenLayer *deeperRootLayer = [self findRootLayer:rootLayer.sublayers];
+    return deeperRootLayer != nil ? deeperRootLayer : rootLayer;
+}
+
+- (COMGenLayer *)findRootLayer:(NSArray<COMGenLayer *> *)sublayers {
+    for (COMGenLayer *sublayer in sublayers) {
+        if ([sublayer.props[@"outletID"] isKindOfClass:[NSString class]] && [sublayer.props[@"outletID"] isEqualToString:@"rootView"]) {
+            return sublayer;
+        }
+        else {
+            COMGenLayer *deeper = [self findRootLayer:[sublayer sublayers]];
+            if (deeper != nil) {
+                return deeper;
+            }
+        }
+    }
+    return nil;
 }
 
 - (void)parseLayer:(COMGenLayer *)layer element:(SVGKNode *)element {
@@ -146,7 +161,7 @@ static WebView *webView;
     implementationCode:(NSMutableString *)implementationCode
               loadCode:(NSMutableString *)loadCode
        viewDidLoadCode:(NSMutableString *)viewDidLoadCode {
-    NSString *outlet = layer.props[@"outlet"];
+    NSString *outlet = layer.props[@"outletID"];
     {
         NSString *_loadCode = [[context[layer.layerClass][@"oc_load"] callWithArguments:@[layer.props]] toString];
         if (_loadCode != nil && _loadCode.length && ![_loadCode isEqualToString:@"undefined"]) {
@@ -195,7 +210,7 @@ static WebView *webView;
                 if (ocClass == nil || !ocClass.length || [ocClass isEqualToString:@"undefined"]) {
                     continue;
                 }
-                NSString *sublayerOutlet = sublayer.props[@"outlet"];
+                NSString *sublayerOutlet = sublayer.props[@"outletID"];
                 if (sublayerOutlet != nil && sublayerOutlet.length) {
                     [mCode appendFormat:@"        [view addSubview:self.%@];\n", sublayerOutlet];
                 } else {
@@ -228,7 +243,7 @@ static WebView *webView;
                 if (ocClass == nil || !ocClass.length || [ocClass isEqualToString:@"undefined"]) {
                     continue;
                 }
-                NSString *sublayerOutlet = sublayer.props[@"outlet"];
+                NSString *sublayerOutlet = sublayer.props[@"outletID"];
                 if (sublayerOutlet != nil && sublayerOutlet.length) {
                     [mCode appendFormat:@"    [view addSubview:self.%@];\n", sublayerOutlet];
                 } else {
