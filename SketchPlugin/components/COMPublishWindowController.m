@@ -8,6 +8,7 @@
 
 #import "COMPublishWindowController.h"
 #import "COMGenerator.h"
+#import "COMAssetsWritter.h"
 
 @interface COMPublishWindowController ()
 
@@ -116,7 +117,9 @@
         [self.currentLayer performSelector:@selector(setIsVisible:) withObject:@(NO)];
     }
     NSMutableDictionary *props = [NSMutableDictionary dictionary];
-    [self fetchProps:newLayer props:props];
+    NSMutableDictionary *layers = [NSMutableDictionary dictionary];
+    [self fetchProps:newLayer props:props layers:layers];
+    [self saveShapesAsAssets:layers props:props];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         MSExportRequest *request = [MSExportRequest_Class exportRequestsFromExportableLayer:newLayer].firstObject;
         [[MSDocument_Class currentDocument] saveArtboardOrSlice:request toFile:@"/tmp/com.yy.ued.sketch.components/tmp.svg"];
@@ -147,7 +150,7 @@
     [[NSUserDefaults standardUserDefaults] setValue:@(self.outtypeViewController.state) forKey:@"com.yy.ued.sketch.components.outtypeViewController"];
 }
 
-- (void)fetchProps:(MSLayer *)layer props:(NSMutableDictionary *)props {
+- (void)fetchProps:(MSLayer *)layer props:(NSMutableDictionary *)props layers:(NSMutableDictionary *)layers {
     static MSPluginCommand *command;
     static JSContext *context;
     static dispatch_once_t onceToken;
@@ -187,12 +190,36 @@
             }
         }
         props[uuid] = layerProps;
+        layers[uuid] = layer;
     }
     if ([layer isKindOfClass:MSLayerGroup_Class]) {
         for (MSLayer *sublayer in [(MSLayerGroup *)layer layers]) {
-            [self fetchProps:sublayer props:props];
+            [self fetchProps:sublayer props:props layers:layers];
         }
     }
+}
+
+- (void)saveShapesAsAssets:(NSDictionary *)layers props:(NSDictionary *)props {
+    NSString *assetsPath = self.assetsTextField.stringValue;
+    [props enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+        if (![obj[@"class"] isKindOfClass:[NSString class]] || ![obj[@"sourceType"] isKindOfClass:[NSString class]] || ![obj[@"sourceName"] isKindOfClass:[NSString class]]) {
+            return;
+        }
+        if ([obj[@"class"] isEqualToString:@"UIImageView"] && [obj[@"sourceType"] isEqualToString:@"Shape"]) {
+            MSLayer *layer = layers[key];
+            if (layer == nil) {
+                return;
+            }
+            MSExportRequest *request = [(id)[MSExportRequest_Class exportRequestsFromExportableLayer:layer] firstObject];
+            [request setValue:@(3.0) forKey:@"scale"];
+            [[MSDocument_Class currentDocument] saveArtboardOrSlice:request toFile:@"/tmp/com.yy.ued.sketch.components/tmp.png"];
+            NSImage *image = [[NSImage alloc] initWithContentsOfFile:@"/tmp/com.yy.ued.sketch.components/tmp.png"];
+            [COMAssetsWritter writeIOSImage:image
+                                   baseSize:CGSizeMake(image.size.width / 3.0, image.size.height / 3.0)
+                               toAssetsPath:assetsPath
+                                   fileName:obj[@"sourceName"]];
+        }
+    }];
 }
 
 - (IBAction)onOuttypeViewController:(id)sender {

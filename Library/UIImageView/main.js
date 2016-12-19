@@ -31,7 +31,7 @@ var UIImageView = {
 UIImageView.defaultProps = function() {
     return Object.assign(UIView.defaultProps(), {
         sourceType: {
-            value: ["Local", "Remote"],
+            value: ["Local", "Remote", "Shape"],
             type: "Enum",
         },
         sourceName: {
@@ -57,6 +57,13 @@ UIImageView.oc_codeWithProps = function (props) {
     if (props.sourceType === "Local") {
         if (props.fileData !== undefined && props.sourceName !== undefined) {
             oc_writeAssets(props.fileData, props.frame.width, props.frame.height, props.sourceName);
+            var sourceName = props.sourceName;
+            sourceName = sourceName.split('/').pop();
+            code += "view.image = [UIImage imageNamed:@\"" + sourceName + "\"];\n";
+        }
+    }
+    else if (props.sourceType === "Shape") {
+        if (props.sourceName !== undefined) {
             var sourceName = props.sourceName;
             sourceName = sourceName.split('/').pop();
             code += "view.image = [UIImage imageNamed:@\"" + sourceName + "\"];\n";
