@@ -91,7 +91,8 @@
         return self.currentSource.components;
     }
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(COMComponentEntity * _Nullable evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
-        return [evaluatedObject.componentName hasPrefix:self.currentFilter];
+        return [evaluatedObject.componentName hasPrefix:[NSString stringWithFormat:@"%@/", self.currentFilter]] ||
+        [evaluatedObject.componentName isEqualToString:self.currentFilter];
     }];
     return [self.currentSource.components filteredArrayUsingPredicate:predicate];
 }

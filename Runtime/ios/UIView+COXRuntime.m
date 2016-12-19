@@ -33,11 +33,7 @@
 }
 
 - (void)cox_layoutSubviews {
-    static int kOldBoundsTag;
     [self cox_layoutSubviews];
-    if (CGSizeEqualToSize([objc_getAssociatedObject(self, &kOldBoundsTag) CGSizeValue], self.bounds.size)) {
-        return;
-    }
     UIView *previous;
     for (UIView *subview in self.subviews) {
         if (subview.cox_constraint != nil && !subview.cox_constraint.disabled) {
@@ -47,8 +43,6 @@
         [subview automaticallyAdjustsTopSpace];
         previous = subview;
     }
-    objc_setAssociatedObject(self, &kOldBoundsTag, [NSValue valueWithCGSize:self.bounds.size],
-                             OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (CGSize)cox_intrinsicContentSize {
