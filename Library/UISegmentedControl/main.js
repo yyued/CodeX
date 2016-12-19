@@ -16,6 +16,7 @@ var UISegmentedControl = {
         })
         output['titles'] = titles.reverse();
         output['tintColor'] = $(xml).find('#' + nodeID).find('[stroke]:eq(0)').attr('stroke');
+        output['selectedColor'] = $(xml).find('#' + nodeID).find('text:eq(' + (titles.length - 2) + ')').attr('fill');
         return output;
     },
 }
@@ -50,6 +51,13 @@ UISegmentedControl.oc_codeWithProps = function (props) {
         if (props.titles.length > 0) {
             code += "[view setSelectedSegmentIndex:0];\n";
         }
+    }
+    if (props.selectedColor != undefined) {
+        code += "";
+        code += "[view setTitleTextAttributes:@{\n";
+        code += "                               NSForegroundColorAttributeName: " + oc_color(props.selectedColor) + ",\n";
+        code += "                               }\n";
+        code += "                    forState:UIControlStateSelected];\n";
     }
     return code;
 }

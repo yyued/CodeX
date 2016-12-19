@@ -126,3 +126,14 @@ static int kCOXStatusBarAnimationTag;
 }
 
 @end
+
+@implementation UITabBarController (COXRuntime)
+
+- (UIViewController *)childViewControllerForStatusBarStyle {
+    return self.selectedViewController;
+}
+- (UIViewController *)childViewControllerForStatusBarHidden {
+    return self.selectedViewController;
+}
+
+@end
