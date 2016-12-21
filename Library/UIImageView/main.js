@@ -15,6 +15,19 @@ var UIImageView = {
             if (fileData !== undefined) {
                 fileData = fileData.split('data:image/png;base64,')[1];
             }
+            else {
+                var fill = $(xml).find('#' + nodeID).find('#Bitmap').attrs('fill', xml);
+                if (fill !== undefined) {
+                    fill = fill.replace('url(', '').replace(')', '');
+                    var href = $(xml).find(fill).find('use').attrs('xlink:href', xml);
+                    if (href !== undefined) {
+                        fileData = $(xml).find(href).attrs('xlink:href', xml);
+                        if (fileData !== undefined) {
+                            fileData = fileData.split('data:image/png;base64,')[1];
+                        }
+                    }
+                }
+            }
             output["fileData"] = fileData;
         }
         else if (nodeProps.sourceType === "Remote") {
@@ -28,7 +41,7 @@ var UIImageView = {
     },
 }
 
-UIImageView.defaultProps = function() {
+UIImageView.defaultProps = function () {
     return Object.assign(UIView.defaultProps(), {
         sourceType: {
             value: ["Local", "Remote", "Shape"],

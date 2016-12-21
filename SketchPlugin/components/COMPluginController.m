@@ -10,6 +10,7 @@
 #import "COMModalWindowController.h"
 #import "COMPublishWindowController.h"
 #import "COMSidebarViewController.h"
+#import <objc/runtime.h>
 
 static COMModalWindowController *modalWindowController;
 static COMPublishWindowController *publishWindowController;

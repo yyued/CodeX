@@ -15,7 +15,7 @@
     self = [super initWithCoder:coder];
     if (self) {
         self.letterSpacing = [coder decodeDoubleForKey:@"letterSpacing"];
-        self.lineSpacing = [coder decodeDoubleForKey:@"lineSpacing"];
+        self.cox_lineSpacing = [coder decodeDoubleForKey:@"cox_lineSpacing"];
         self.underlineStyle = [coder decodeIntegerForKey:@"underlineStyle"];
         self.deletelineStyle = [coder decodeIntegerForKey:@"deletelineStyle"];
         self.strokeColor = [coder decodeObjectForKey:@"strokeColor"];
@@ -28,7 +28,7 @@
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
     [aCoder encodeDouble:self.letterSpacing forKey:@"letterSpacing"];
-    [aCoder encodeDouble:self.lineSpacing forKey:@"lineSpacing"];
+    [aCoder encodeDouble:self.cox_lineSpacing forKey:@"cox_lineSpacing"];
     [aCoder encodeInteger:self.underlineStyle forKey:@"underlineStyle"];
     [aCoder encodeInteger:self.deletelineStyle forKey:@"deletelineStyle"];
     [aCoder encodeObject:self.strokeColor forKey:@"strokeColor"];
@@ -74,8 +74,8 @@
     NSMutableParagraphStyle *paraStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
     paraStyle.lineBreakMode = self.lineBreakMode;
     paraStyle.alignment = self.textAlignment;
-    if (self.lineSpacing > 0) {
-        paraStyle.lineSpacing = self.lineSpacing;
+    if (self.cox_lineSpacing > 0) {
+        paraStyle.lineSpacing = self.cox_lineSpacing;
     }
     if (self.underlineStyle != NSUnderlineStyleNone) {
         attrs[NSUnderlineStyleAttributeName] = @(self.underlineStyle);

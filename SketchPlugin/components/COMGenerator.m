@@ -58,11 +58,14 @@ static WebView *webView;
     self.xmlString = [NSString stringWithContentsOfFile:@"/tmp/com.yy.ued.sketch.components/tmp.svg"
                                                encoding:NSUTF8StringEncoding
                                                   error:NULL];
+    NSString *unsupportedXMLString = self.xmlString;
+    unsupportedXMLString = [unsupportedXMLString stringByReplacingOccurrencesOfString:@"<pattern " withString:@"<!--<pattern "];
+    unsupportedXMLString = [unsupportedXMLString stringByReplacingOccurrencesOfString:@"</pattern>" withString:@"</pattern>-->"];
     self.spec = [NSJSONSerialization
         JSONObjectWithData:[NSData dataWithContentsOfFile:@"/tmp/com.yy.ued.sketch.components/tmp.json"]
                    options:kNilOptions
                      error:NULL];
-    SVGKImage *image = [SVGKImage imageWithData:[self.xmlString dataUsingEncoding:NSUTF8StringEncoding]];
+    SVGKImage *image = [SVGKImage imageWithData:[unsupportedXMLString dataUsingEncoding:NSUTF8StringEncoding]];
     COMGenLayer *rootLayer = [COMGenLayer new];
     rootLayer.layerClass = @"UIView";
     rootLayer.props = @{

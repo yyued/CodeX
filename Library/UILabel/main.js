@@ -259,7 +259,7 @@ UILabel.oc_codeWithProps = function(props) {
         code += "view.letterSpacing = " + props.letterSpacing + ";\n";
     }
     if (props.lineSpacing !== undefined) {
-        code += "view.lineSpacing = " + props.lineSpacing + ";\n";
+        code += "view.cox_lineSpacing = " + props.lineSpacing + ";\n";
     }
     if (props.numberOfLines !== undefined) {
         code += "view.numberOfLines = " + props.numberOfLines + ";\n";

@@ -19,7 +19,7 @@
 /**
  行距
  */
-@property (nonatomic, assign) CGFloat lineSpacing;
+@property (nonatomic, assign) CGFloat cox_lineSpacing;
 
 /**
  下划线样式
@@ -55,7 +55,6 @@
  获取默认的 attributes
  */
 - (NSDictionary *)defaultAttributes;
-
 
 /**
  设置指定范围的文本属性

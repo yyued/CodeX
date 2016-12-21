@@ -161,7 +161,7 @@
     });
     NSString *className = [command valueForKey:@"class" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
     NSDictionary *layerProps = [command valueForKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
-    if (className != nil) {
+    if (className != nil && className.length) {
         if (![layerProps isKindOfClass:[NSDictionary class]]) {
             layerProps = @{};
         }
@@ -170,6 +170,18 @@
         {
             NSMutableDictionary *mDict = [layerProps mutableCopy];
             mDict[@"class"] = className;
+            layerProps = [mDict copy];
+        }
+        {
+            NSMutableDictionary *mDict = [layerProps mutableCopy];
+            [[mDict copy] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
+                if (mDict[[NSString stringWithFormat:@"_%@", key]] != nil &&
+                    [mDict[[NSString stringWithFormat:@"_%@", key]] isEqualToString:@"Enum"] &&
+                    [obj isKindOfClass:[NSArray class]] &&
+                    [obj firstObject] != nil) {
+                    [mDict setObject:[obj firstObject] forKey:key];
+                }
+            }];
             layerProps = [mDict copy];
         }
         {
