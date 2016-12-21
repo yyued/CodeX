@@ -9,6 +9,7 @@
 #ifndef COXRuntime_h
 #define COXRuntime_h
 
+#import "COXConditionView.h"
 #import "UIView+COXRuntime.h"
 #import "UILabel+COXRuntime.h"
 #import "UIButton+COXRuntime.h"
