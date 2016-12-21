@@ -51,6 +51,13 @@
 			"shortcut": "shift command .",
 			"script": "dynamicCommands.js",
 			"handler": "command_preview"
+		},
+		{
+			"name": "Add Bounds",
+			"identifier": "command_addBounds",
+			"shortcut": "shift command b",
+			"script": "dynamicCommands.js",
+			"handler": "command_addBounds"
 		}
 	],
 
@@ -59,6 +66,7 @@
 		"items": [
 			"command_add",
 			"command_replace",
+			"command_addBounds",
 			"-",
 			"command_sidebar",
 			"command_updatelayout",

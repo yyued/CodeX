@@ -33,3 +33,8 @@ $.commands.createCommand("preview", function(ctx){
 	var pluginController = [MCFluidPluginController pluginController:ctx.plugin pluginCommand:ctx.command];
 	pluginController.preview();
 });
+
+$.commands.createCommand("addBounds", function(ctx){
+	var pluginController = getPluginController(ctx);
+	pluginController.addBounds();
+});

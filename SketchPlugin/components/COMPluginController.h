@@ -19,4 +19,6 @@
 
 - (void)showPublisher;
 
+- (void)addBounds;
+
 @end
