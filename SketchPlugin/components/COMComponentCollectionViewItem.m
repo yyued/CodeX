@@ -20,12 +20,14 @@
     NSView *view = [NSView new];
     [view setWantsLayer:YES];
     [view.layer addSublayer:self.selectedLayer];
-    view.frame = NSMakeRect(0, 0, 128, 88);
+    view.frame = NSMakeRect(0, 0, 128, 108);
     [view addSubview:self.titleView];
     [view addSubview:self.iconImageView];
-    NSGestureRecognizer *clickGesture = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(onClick)];
+    NSGestureRecognizer *clickGesture =
+        [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(onClick)];
     [view addGestureRecognizer:clickGesture];
-    NSClickGestureRecognizer *dbclickGesture = [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(onDoubleClick)];
+    NSClickGestureRecognizer *dbclickGesture =
+        [[NSClickGestureRecognizer alloc] initWithTarget:self action:@selector(onDoubleClick)];
     dbclickGesture.numberOfClicksRequired = 2;
     [view addGestureRecognizer:dbclickGesture];
     self.view = view;
@@ -37,9 +39,10 @@
 }
 
 - (void)onClick {
-    [[self.collectionView visibleItems] enumerateObjectsUsingBlock:^(NSCollectionViewItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [[(COMComponentCollectionViewItem *)obj selectedLayer] setHidden:YES];
-    }];
+    [[self.collectionView visibleItems]
+        enumerateObjectsUsingBlock:^(NSCollectionViewItem *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+          [[(COMComponentCollectionViewItem *)obj selectedLayer] setHidden:YES];
+        }];
     self.selectedLayer.hidden = NO;
 }
 
@@ -48,14 +51,14 @@
     [self.modalWindowController close];
     if (self.modalWindowController.replacing) {
         [self replaceLayer];
-    }
-    else {
+    } else {
         [self addLayer];
     }
 }
 
 - (void)addLayer {
-    if ([[self representedObject] componentLayer] == nil || ![[[self representedObject] componentLayer] isKindOfClass:MSLayer_Class]) {
+    if ([[self representedObject] componentLayer] == nil ||
+        ![[[self representedObject] componentLayer] isKindOfClass:MSLayer_Class]) {
         return;
     }
     if ([[MSDocument_Class currentDocument] selectedLayers].count > 0) {
@@ -63,7 +66,7 @@
         [newLayer removeFromParent];
         MSLayerGroup *firstLayer = [[MSDocument_Class currentDocument] selectedLayers].firstObject;
         if ([firstLayer isKindOfClass:MSLayerGroup_Class]) {
-            [firstLayer addLayers:@[newLayer]];
+            [firstLayer addLayers:@[ newLayer ]];
             MSRect *newRect = [MSRect_Class new];
             [newRect setX:(firstLayer.frame.width - newLayer.frame.width) / 2.0];
             [newRect setY:(firstLayer.frame.height - newLayer.frame.height) / 2.0];
@@ -77,14 +80,17 @@
         MSLayer *newLayer = [[[self representedObject] componentLayer] duplicate];
         [newLayer removeFromParent];
         MSRect *newRect = [MSRect_Class new];
-        [newRect setX:([[[MSDocument_Class currentDocument] currentPage] currentArtboard].frame.width - newLayer.frame.width) / 2.0];
-        [newRect setY:([[[MSDocument_Class currentDocument] currentPage] currentArtboard].frame.height - newLayer.frame.height) / 2.0];
+        [newRect setX:([[[MSDocument_Class currentDocument] currentPage] currentArtboard].frame.width -
+                       newLayer.frame.width) /
+                      2.0];
+        [newRect setY:([[[MSDocument_Class currentDocument] currentPage] currentArtboard].frame.height -
+                       newLayer.frame.height) /
+                      2.0];
         [newRect setWidth:newLayer.frame.width];
         [newRect setHeight:newLayer.frame.height];
         [newLayer setFrame:newRect];
-        [[[[MSDocument_Class currentDocument] currentPage] currentArtboard] insertLayers:@[newLayer] atIndex:0];
-    }
-    else {
+        [[[[MSDocument_Class currentDocument] currentPage] currentArtboard] insertLayers:@[ newLayer ] atIndex:0];
+    } else {
         MSLayerGroup *firstLayer = [[[MSDocument_Class currentDocument] currentPage] artboards].firstObject;
         MSLayer *newLayer = [[[self representedObject] componentLayer] duplicate];
         [newLayer removeFromParent];
@@ -94,20 +100,37 @@
         [newRect setWidth:newLayer.frame.width];
         [newRect setHeight:newLayer.frame.height];
         [newLayer setFrame:newRect];
-        [[[[MSDocument_Class currentDocument] currentPage] artboards].firstObject insertLayers:@[newLayer] atIndex:0];
+        [[[[MSDocument_Class currentDocument] currentPage] artboards].firstObject insertLayers:@[ newLayer ] atIndex:0];
     }
 }
 
 - (void)replaceLayer {
-    if ([[self representedObject] componentLayer] == nil || ![[[self representedObject] componentLayer] isKindOfClass:MSLayer_Class]) {
+    if ([[self representedObject] componentLayer] == nil ||
+        ![[[self representedObject] componentLayer] isKindOfClass:MSLayer_Class]) {
         return;
     }
     if ([[MSDocument_Class currentDocument] selectedLayers].count > 0) {
         for (MSLayer *layer in [[MSDocument_Class currentDocument] selectedLayers]) {
             MSLayer *newLayer = [[[self representedObject] componentLayer] duplicate];
             [newLayer removeFromParent];
-            [[layer parentGroup] insertLayers:@[newLayer] afterLayer:layer];
+            [[layer parentGroup] insertLayers:@[ newLayer ] afterLayer:layer];
+            [newLayer setName:layer.name];
             [newLayer setFrame:[layer frame]];
+            {
+                id value = [[MSPluginCommand_Class new] valueForKey:@"constraints"
+                                                            onLayer:layer
+                                                forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+                if (value != nil) {
+                    [[MSPluginCommand_Class new] setValue:value
+                                                   forKey:@"constraints"
+                                                  onLayer:newLayer
+                                      forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+                    [[MSPluginCommand_Class new] setValue:value
+                                                   forKey:@"constraints"
+                                                  onLayer:newLayer
+                                      forPluginIdentifier:@"com.yy.ued.sketch.components"];
+                }
+            }
             [layer removeFromParent];
         }
     }
@@ -123,7 +146,7 @@
 - (CALayer *)selectedLayer {
     if (_selectedLayer == nil) {
         _selectedLayer = [CALayer layer];
-        _selectedLayer.frame = CGRectMake(0, 0, 128, 88);
+        _selectedLayer.frame = CGRectMake(0, 0, 128, 108);
         _selectedLayer.backgroundColor = [NSColor colorWithWhite:0.0 alpha:0.05].CGColor;
         _selectedLayer.hidden = YES;
         _selectedLayer.cornerRadius = 6.0;
@@ -133,14 +156,14 @@
 
 - (NSImageView *)iconImageView {
     if (_iconImageView == nil) {
-        _iconImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 33, 128, 33)];
+        _iconImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 44, 128, 64)];
     }
     return _iconImageView;
 }
 
 - (NSTextView *)titleView {
     if (_titleView == nil) {
-        _titleView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 128, 22)];
+        _titleView = [[NSTextView alloc] initWithFrame:NSMakeRect(0, 0, 128, 44)];
         _titleView.backgroundColor = [NSColor clearColor];
         _titleView.font = [NSFont systemFontOfSize:14.0];
         _titleView.textColor = [NSColor blackColor];

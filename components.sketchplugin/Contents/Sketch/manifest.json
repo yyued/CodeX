@@ -46,13 +46,6 @@
 			"handler": "command_updatelayout"
 		},
 		{
-			"name": "Preview",
-			"identifier": "command_preview",
-			"shortcut": "shift command .",
-			"script": "dynamicCommands.js",
-			"handler": "command_preview"
-		},
-		{
 			"name": "Add Bounds",
 			"identifier": "command_addBounds",
 			"shortcut": "shift command b",
@@ -70,7 +63,6 @@
 			"-",
 			"command_sidebar",
 			"command_updatelayout",
-			"command_preview",
 			"-",
 			"command_library"
 		]

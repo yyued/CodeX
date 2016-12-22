@@ -80,7 +80,9 @@
     if (indexPath.item < [self filteredComponents].count) {
         COMComponentEntity *componentItem = [self filteredComponents][indexPath.item];
         item.representedObject = componentItem;
-        item.titleView.string = componentItem.componentName;
+        item.titleView.string = [componentItem.componentName
+                                 stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@/", self.currentFilter]
+                                 withString:@""];
         item.iconImageView.image = componentItem.iconImage;
     }
     return item;
@@ -227,7 +229,17 @@
 - (void)onSourceChanged:(NSMenuItem *)sender {
     if (sender.tag < self.sources.count) {
         self.currentSource = self.sources[sender.tag];
+        self.currentFilter = nil;
+        NSMutableArray *categoires = [NSMutableArray array];
+        [self.currentSource.components enumerateObjectsUsingBlock:^(COMComponentEntity * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            NSString *prefix = [obj.componentName componentsSeparatedByString:@"/"].firstObject;
+            if (![categoires containsObject:prefix]) {
+                [categoires addObject:prefix];
+            }
+        }];
+        self.categories = categoires;
         [self.collectionView reloadData];
+        [self.outlineView reloadData];
     }
 }
 
