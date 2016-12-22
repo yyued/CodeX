@@ -19,12 +19,18 @@ var UIView = {
         }
         output['cornerRadius'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml) && parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('rx', xml));
         output['borderColor'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke', xml);
-        output['borderWidth'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml) && (parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml)) / 2.0);
+        output['borderOpacity'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-opacity', xml) && parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-opacity', xml));
+        output['borderWidth'] = $(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml) && (parseFloat($(xml).find('#' + nodeID).find('#Bounds').attrs('stroke-width', xml)) / 1.0);
         if (output['borderColor'] === "none") {
             output['borderColor'] = undefined;
         }
-        if (output['borderColor'] !== undefined && output['borderWidth'] === undefined) {
-            output['borderWidth'] = 1.0;
+        if (output['borderColor'] !== undefined) {
+            if (output['borderOpacity'] !== undefined) {
+                output['borderColor'] = colorWithAlpha(output['borderColor'], output['borderOpacity']);
+            }
+            if (output['borderWidth'] === undefined) {
+                output['borderWidth'] = 1.0;
+            }
         }
         if (output['borderColor'] === undefined) {
             output['borderWidth'] = undefined;

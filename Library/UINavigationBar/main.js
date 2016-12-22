@@ -11,7 +11,7 @@ var UINavigationBar = {
         var output = nodeProps;
         var xml = $.create(nodeXML);
         if (nodeProps.titleView === "Title") {
-            output["titleText"] = $(xml).find('#Title').find('tspan').text();
+            output["titleText"] = $(xml).find("#" + nodeID).find('#Title').find('tspan').text();
         }
         return output;
     },

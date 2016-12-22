@@ -75,7 +75,10 @@
     paraStyle.lineBreakMode = self.lineBreakMode;
     paraStyle.alignment = self.textAlignment;
     if (self.cox_lineSpacing > 0) {
-        paraStyle.lineSpacing = self.cox_lineSpacing;
+        paraStyle.minimumLineHeight = self.cox_lineSpacing;
+        paraStyle.maximumLineHeight = self.cox_lineSpacing;
+        CGFloat offset = ((self.cox_lineSpacing + self.font.descender) - ((self.cox_lineSpacing - self.font.lineHeight) / 2.0 + self.font.ascender)) / 2.0;
+        attrs[NSBaselineOffsetAttributeName] = @(offset);
     }
     if (self.underlineStyle != NSUnderlineStyleNone) {
         attrs[NSUnderlineStyleAttributeName] = @(self.underlineStyle);

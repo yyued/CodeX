@@ -112,6 +112,8 @@
     MSLayer *newLayer = [self.currentLayer duplicate];
     if ([self.currentLayer isKindOfClass:MSArtboardGroup_Class]) {
         [newLayer.frame setOrigin:CGPointMake(1000000, 1000000)];
+        [newLayer.frame setWidth:100000];
+        [newLayer.frame setHeight:100000];
     }
     else {
         [self.currentLayer performSelector:@selector(setIsVisible:) withObject:@(NO)];

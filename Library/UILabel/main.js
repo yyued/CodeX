@@ -36,7 +36,7 @@ var UILabel = {
             output["underline"] = $(firstText).attrs('text-decoration', xml) === "underline";
             output["deleteline"] = $(firstText).attrs('text-decoration', xml) === "line-through";
             output["letterSpacing"] = $(firstText).attrs('letter-spacing', xml) && parseFloat($(firstText).attrs('letter-spacing', xml));
-            output["lineSpacing"] = $(firstText).attrs('line-spacing', xml) && (parseFloat($(firstText).attrs('line-spacing', xml)) / 2.0);
+            output["lineSpacing"] = $(firstText).attrs('line-spacing', xml) && parseFloat($(firstText).attrs('line-spacing', xml));
             output["textColor"] = $(firstText).attrs('fill', xml);
             output["strokeWidth"] = $(firstText).attrs('stroke-width', xml) && (parseFloat($(firstText).attrs('stroke-width', xml)) * 2.0);
             output["strokeColor"] = $(firstText).attrs('stroke', xml);
@@ -83,8 +83,8 @@ var UILabel = {
                 if (($(this).attrs('letter-spacing', xml) && parseFloat($(this).attrs('letter-spacing', xml))) !== standardAttrs["letterSpacing"]) {
                     item["letterSpacing"] = ($(this).attrs('letter-spacing', xml) && parseFloat($(this).attrs('letter-spacing', xml)));
                 }
-                if (($(this).attrs('line-spacing', xml) && (parseFloat($(this).attrs('line-spacing', xml)) / 2.0)) !== standardAttrs["lineSpacing"]) {
-                    item["lineSpacing"] = ($(this).attrs('line-spacing', xml) && (parseFloat($(this).attrs('line-spacing', xml)) / 2.0));
+                if (($(this).attrs('line-spacing', xml) && parseFloat($(this).attrs('line-spacing', xml))) !== standardAttrs["lineSpacing"]) {
+                    item["lineSpacing"] = ($(this).attrs('line-spacing', xml) && parseFloat($(this).attrs('line-spacing', xml)));
                 }
                 if ($(this).attrs('fill', xml) !== standardAttrs["textColor"]) {
                     item["textColor"] = $(this).attrs('fill', xml);
@@ -118,8 +118,8 @@ var UILabel = {
                 if (($(this).attrs('letter-spacing', xml) && parseFloat($(this).attrs('letter-spacing', xml))) !== standardAttrs["letterSpacing"]) {
                     item["letterSpacing"] = ($(this).attrs('letter-spacing', xml) && parseFloat($(this).attrs('letter-spacing', xml)));
                 }
-                if (($(this).attrs('line-spacing', xml) && (parseFloat($(this).attrs('line-spacing', xml)) / 2.0)) !== standardAttrs["lineSpacing"]) {
-                    item["lineSpacing"] = ($(this).attrs('line-spacing', xml) && (parseFloat($(this).attrs('line-spacing', xml)) / 2.0));
+                if (($(this).attrs('line-spacing', xml) && parseFloat($(this).attrs('line-spacing', xml))) !== standardAttrs["lineSpacing"]) {
+                    item["lineSpacing"] = ($(this).attrs('line-spacing', xml) && parseFloat($(this).attrs('line-spacing', xml)));
                 }
                 if ($(this).attrs('fill', xml) !== standardAttrs["textColor"]) {
                     item["textColor"] = $(this).attrs('fill', xml);
