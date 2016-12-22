@@ -16,9 +16,9 @@ var UIConditionView = {
 
 UIConditionView.defaultProps = function () {
     return Object.assign(UIView.defaultProps(), {
-        whereXXX: {
+        "where_x=0": {
             value: undefined,
-            type: "String",
+            type: "Layer",
         },
     })
 };

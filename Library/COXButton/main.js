@@ -15,28 +15,30 @@ var COXButton = {
 }
 
 COXButton.defaultProps = function () {
-    return Object.assign(UIConditionView.defaultProps(), {
+    var obj = Object.assign(UIConditionView.defaultProps(), {
         "where_Normal=0": {
             value: undefined,
-            type: "String",
+            type: "Layer",
         },
         "where_Highlighted=1": {
             value: undefined,
-            type: "String",
+            type: "Layer",
         },
         "where_Selected=4": {
             value: undefined,
-            type: "String",
+            type: "Layer",
         },
         "where_Disabled=2": {
             value: undefined,
-            type: "String",
+            type: "Layer",
         },
         "where_Selected_Highlighted=5": {
             value: undefined,
-            type: "String",
+            type: "Layer",
         },
-    })
+    });
+    delete obj["where_x=0"];
+    return obj;
 };
 
 COXButton.oc_class = function (props) {

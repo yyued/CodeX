@@ -252,6 +252,7 @@ static WebView *webView;
         NSDictionary *item = self.currentProps[row];
         if ([tableColumn.identifier isEqualToString:@"Key"]) {
             NSTextField *view = [[NSTextField alloc] initWithFrame:NSZeroRect];
+            [view setPreferredMaxLayoutWidth:300];
             view.accessibilityIdentifier = @"Key";
             view.tag = row;
             view.maximumNumberOfLines = 1;
@@ -309,6 +310,28 @@ static WebView *webView;
                 [view setTarget:self];
                 [view setAction:@selector(saveProps:)];
                 return view;
+            } else if ([item[@"type"] isEqualToString:@"Layer"]) {
+                NSPopUpButton *view = [[NSPopUpButton alloc] initWithFrame:NSZeroRect];
+                view.accessibilityIdentifier = @"Value";
+                view.tag = row;
+                view.bordered = NO;
+                NSMutableArray *layersName = [NSMutableArray array];
+                for (MSLayer *sublayer in Sketch_GetSelectedLayers(Sketch_GetCurrentDocument())) {
+                    [layersName addObject:sublayer.name];
+                }
+                if ([item[@"value"] isKindOfClass:[NSString class]]) {
+                    if (![layersName containsObject:item[@"value"]]) {
+                        [layersName addObject:item[@"value"]];
+                    }
+                    [view addItemsWithTitles:layersName];
+                    [view selectItemWithTitle:item[@"value"]];
+                }
+                else {
+                    [view addItemsWithTitles:layersName];
+                }
+                [view setTarget:self];
+                [view setAction:@selector(saveProps:)];
+                return view;
             }
         }
         if ([tableColumn.identifier isEqualToString:@"Type"]) {
@@ -321,6 +344,7 @@ static WebView *webView;
                 @"Number",
                 @"Bool",
                 @"Enum",
+                @"Layer",
             ]];
             [view selectItemWithTitle:item[@"type"]];
             [view setTarget:self];
@@ -402,6 +426,9 @@ static WebView *webView;
                 }
             } else if ([sender isKindOfClass:[NSPopUpButton class]]) {
                 if ([dict[@"type"] isEqualToString:@"Enum"]) {
+                    dict[@"value"] = [[(NSPopUpButton *)sender selectedItem] title];
+                }
+                else if ([dict[@"type"] isEqualToString:@"Layer"]) {
                     dict[@"value"] = [[(NSPopUpButton *)sender selectedItem] title];
                 }
             } else if ([sender isKindOfClass:[NSButton class]]) {
