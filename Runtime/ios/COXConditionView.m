@@ -70,6 +70,13 @@
 }
 
 - (void)resetConditionView {
+    if (self.views.count == 0 && self.subviews.count > 0) {
+        [self.subviews enumerateObjectsUsingBlock:^(__kindof UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (obj.tag >= 0) {
+                [self setView:obj forCondition:obj.tag];
+            }
+        }];
+    }
     if (self.views[@(self.condition)] != nil) {
         for (NSNumber *aKey in self.views) {
             self.views[aKey].alpha = 0.0;

@@ -17,7 +17,7 @@ var UIButton = {
     },
 }
 
-UIButton.defaultProps = function() {
+UIButton.defaultProps = function () {
     return Object.assign(UIView.defaultProps(), {
         buttonType: {
             value: ["Text"],
@@ -27,37 +27,24 @@ UIButton.defaultProps = function() {
 };
 
 UIButton.oc_class = function (props) {
-    if (props.buttonType === "Text") {
-        return "UIButton";
-    }
-    return "COXButton";
+    return "UIButton";
 }
 
 UIButton.oc_code = function (props) {
     var code = "";
-    if (props.buttonType === "Text") {
-        code += "UIButton *view = [UIButton buttonWithType:UIButtonTypeSystem];\n";
-    }
-    else {
-        code += oc_init("COXButton", "view");
-    }
+    code += "UIButton *view = [UIButton buttonWithType:UIButtonTypeSystem];\n";
     code += UIButton.oc_codeWithProps(props);
     return code;
 }
 
 UIButton.oc_codeWithProps = function (props) {
     var code = UIView.oc_codeWithProps(props);
-    if (props.buttonType === "Text") {
-        if (props.text !== undefined) {
-            code += "{\n";
-            code += "    " + oc_init("COXLabel", "titleLabel");
-            code += (UILabel.oc_codeWithProps(props.text).replace(/view\./ig, '    titleLabel.').replace(/\[view/ig, '    [titleLabel'));
-            code += "    [view setAttributedTitle:titleLabel.attributedText forState:UIControlStateNormal];\n";
-            code += "}\n";
-        }
-    }
-    else {
-
+    if (props.text !== undefined) {
+        code += "{\n";
+        code += "    " + oc_init("COXLabel", "titleLabel");
+        code += (UILabel.oc_codeWithProps(props.text).replace(/view\./ig, '    titleLabel.').replace(/\[view/ig, '    [titleLabel'));
+        code += "    [view setAttributedTitle:titleLabel.attributedText forState:UIControlStateNormal];\n";
+        code += "}\n";
     }
     return code;
 }

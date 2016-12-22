@@ -37,6 +37,7 @@
 
 - (void)createButton {
     self.mButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    self.mButton.tag = -1;
     self.mButton.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     self.mButton.frame = self.bounds;
     [self.mButton addTarget:self action:@selector(resetState) forControlEvents:UIControlEventTouchCancel];
