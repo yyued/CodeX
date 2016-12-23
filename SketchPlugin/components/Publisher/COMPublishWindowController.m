@@ -329,7 +329,7 @@
     }
 }
 
-- (void)saveShapesAsAssets:(NSDictionary *)layers props:(NSDictionary *)props {
+- (void)saveShapesAsAssets:(NSMutableDictionary *)layers props:(NSMutableDictionary *)props {
     NSString *assetsPath = self.assetsTextField.stringValue;
     [props enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if (![obj[@"class"] isKindOfClass:[NSString class]] ||
@@ -346,10 +346,17 @@
             [request setValue:@(3.0) forKey:@"scale"];
             [[MSDocument_Class currentDocument] saveArtboardOrSlice:request toFile:@"/tmp/com.yy.ued.sketch.components/tmp.png"];
             NSImage *image = [[NSImage alloc] initWithContentsOfFile:@"/tmp/com.yy.ued.sketch.components/tmp.png"];
+            NSString *filenameWithSize = [NSString stringWithFormat:@"%@_%dx%d",
+                                          obj[@"sourceName"],
+                                          (int)(image.size.width / 3.0),
+                                          (int)(image.size.height / 3.0)];
             [COMAssetsWritter writeIOSImage:image
-                                   baseSize:CGSizeMake(image.size.width / 6.0, image.size.height / 6.0)
+                                   baseSize:CGSizeMake(image.size.width / 3.0, image.size.height / 3.0)
                                toAssetsPath:assetsPath
-                                   fileName:obj[@"sourceName"]];
+                                   fileName:filenameWithSize];
+            NSMutableDictionary *newObj = [obj mutableCopy];
+            [newObj setObject:filenameWithSize forKey:@"sourceName"];
+            [props setObject:newObj forKey:key];
         }
     }];
 }

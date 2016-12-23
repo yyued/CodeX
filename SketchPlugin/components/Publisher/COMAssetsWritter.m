@@ -19,6 +19,7 @@
 @implementation COMAssetsWritter
 
 + (NSImage *)resizeImage:(NSImage *)image newSize:(NSSize)newSize {
+    newSize = CGSizeMake(newSize.width / 2.0, newSize.height / 2.0);
     NSImage *newImage = [[NSImage alloc] initWithSize:newSize];
     [newImage lockFocus];
     [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
@@ -33,9 +34,11 @@
     if (![[NSFileManager defaultManager] fileExistsAtPath:basePath]) {
         [[NSFileManager defaultManager] createDirectoryAtPath:basePath withIntermediateDirectories:YES attributes:nil error:NULL];
     }
+    CGSize originSize = image.size;
     NSMutableArray<NSDictionary<NSString *, NSString *> *> *images = [NSMutableArray array];
     CGFloat scale = 1.0;
     NSString *finalFilename = [self stripFilename:fileName];
+    image.size = originSize;
     if (image.size.height >= baseSize.height * 3 && image.size.width >= baseSize.width * 3) {
         scale = MAX(3.0, scale);
         NSData *newData = [[self resizeImage:image newSize:NSMakeSize(baseSize.width * 3, baseSize.height * 3)] imagePNGRepresentation];
@@ -46,6 +49,7 @@
                             @"filename": [NSString stringWithFormat:@"%@@3x.png", finalFilename],
                             }];
     }
+    image.size = originSize;
     if (image.size.height >= baseSize.height * 2 && image.size.width >= baseSize.width * 2) {
         scale = MAX(2.0, scale);
         NSData *newData = [[self resizeImage:image newSize:NSMakeSize(baseSize.width * 2, baseSize.height * 2)] imagePNGRepresentation];
@@ -56,6 +60,7 @@
                             @"filename": [NSString stringWithFormat:@"%@@2x.png", finalFilename],
                             }];
     }
+    image.size = originSize;
     if (image.size.height >= baseSize.height * 1 && image.size.width >= baseSize.width * 1) {
         scale = MAX(1.0, scale);
         NSData *newData = [[self resizeImage:image newSize:NSMakeSize(baseSize.width, baseSize.height)] imagePNGRepresentation];
