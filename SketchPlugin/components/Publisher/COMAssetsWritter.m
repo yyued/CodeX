@@ -38,7 +38,7 @@
     NSString *finalFilename = [self stripFilename:fileName];
     if (image.size.height >= baseSize.height * 3 && image.size.width >= baseSize.width * 3) {
         scale = MAX(3.0, scale);
-        NSData *newData = [[self resizeImage:image newSize:NSMakeSize(image.size.width, image.size.height)] imagePNGRepresentation];
+        NSData *newData = [[self resizeImage:image newSize:NSMakeSize(baseSize.width * 3, baseSize.height * 3)] imagePNGRepresentation];
         [newData writeToFile:[NSString stringWithFormat:@"%@/%@@3x.png", basePath, finalFilename] atomically:YES];
         [images addObject:@{
                             @"idiom": @"universal",
@@ -48,7 +48,7 @@
     }
     if (image.size.height >= baseSize.height * 2 && image.size.width >= baseSize.width * 2) {
         scale = MAX(2.0, scale);
-        NSData *newData = [[self resizeImage:image newSize:NSMakeSize(image.size.width / scale * 2, image.size.height / scale * 2)] imagePNGRepresentation];
+        NSData *newData = [[self resizeImage:image newSize:NSMakeSize(baseSize.width * 2, baseSize.height * 2)] imagePNGRepresentation];
         [newData writeToFile:[NSString stringWithFormat:@"%@/%@@2x.png", basePath, finalFilename] atomically:YES];
         [images addObject:@{
                             @"idiom": @"universal",
@@ -58,7 +58,7 @@
     }
     if (image.size.height >= baseSize.height * 1 && image.size.width >= baseSize.width * 1) {
         scale = MAX(1.0, scale);
-        NSData *newData = [[self resizeImage:image newSize:NSMakeSize(image.size.width / scale * 1, image.size.height / scale * 1)] imagePNGRepresentation];
+        NSData *newData = [[self resizeImage:image newSize:NSMakeSize(baseSize.width, baseSize.height)] imagePNGRepresentation];
         [newData writeToFile:[NSString stringWithFormat:@"%@/%@.png", basePath, finalFilename] atomically:YES];
         [images addObject:@{
                             @"idiom": @"universal",

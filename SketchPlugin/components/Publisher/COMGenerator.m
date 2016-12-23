@@ -26,6 +26,9 @@ static WebView *webView;
 - (void)loadLibrary {
     webView = [WebView new];
     context = webView.mainFrame.javaScriptContext;
+    context[@"spec"] = ^(NSString *uuid) {
+        return self.spec[uuid];
+    };
     context[@"oc_writeAssets"] = ^(NSString *base64String, CGFloat baseWidth, CGFloat baseHeight, NSString *fileName) {
       NSData *data = [[NSData alloc] initWithBase64EncodedString:base64String options:kNilOptions];
       if (data != nil) {

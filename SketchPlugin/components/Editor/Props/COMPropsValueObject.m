@@ -292,6 +292,7 @@ static WebView *webView;
 - (void)findAvailableClasses {
     [self.viewController.classComboBox removeAllItems];
     NSArray *keys = [[context evaluateScript:@"Object.keys(window)"] toArray];
+    keys = [keys sortedArrayUsingSelector:@selector(compare:)];
     [keys enumerateObjectsUsingBlock:^(id _Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
         if ([[context[obj][@"defaultProps"] callWithArguments:@[]] toDictionary] != nil) {
             [self.viewController.classComboBox addItemWithObjectValue:obj];

@@ -13,6 +13,14 @@ var UINavigationBar = {
         if (nodeProps.titleView === "Title") {
             output["titleText"] = $(xml).find("#" + nodeID).find('#Title').find('tspan').text();
         }
+        output["rightText"] = $(xml).find("#" + nodeID).find('#Right-Side').find('text').find('tspan:eq(0)').text();
+        var imageUUID = $(xml).find("#" + nodeID).find('#Right-Side').find('g:eq(0)').attr('id');
+        if (imageUUID !== undefined) {
+            var imageProps = spec(imageUUID);
+            if (typeof imageProps === "object" && imageProps.sourceName !== undefined) {
+                output["rightImage"] = imageProps.sourceName;
+            }
+        }
         return output;
     },
 }
@@ -34,11 +42,18 @@ UINavigationBar.oc_class = function (props) {
 }
 
 UINavigationBar.oc_viewDidLoad = function (props) {
+    var code = "";
     if (props.titleView === "Title" && props.titleText !== undefined) {
-        return "self.title = @\"" + oc_text(props.titleText) + "\";\n";
+        code += "self.title = @\"" + oc_text(props.titleText) + "\";\n";
     }
     else if (props.titleView === "Custom") {
-        return "self.navigationItem.titleView = [self titleView];\n";
+        code += "self.navigationItem.titleView = [self titleView];\n";
     }
-    return undefined;
+    if (props.rightText !== undefined && props.rightText.length > 0) {
+        code += "self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@\"" + oc_text(props.rightText) + "\" style:UIBarButtonItemStylePlain target:nil action:nil];\n"
+    }
+    if (props.rightImage !== undefined && props.rightImage.length > 0) {
+        code += "self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@\"" + props.rightImage + "\"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:nil action:nil];\n"
+    }
+    return code;
 }

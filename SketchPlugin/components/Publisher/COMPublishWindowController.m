@@ -347,7 +347,7 @@
             [[MSDocument_Class currentDocument] saveArtboardOrSlice:request toFile:@"/tmp/com.yy.ued.sketch.components/tmp.png"];
             NSImage *image = [[NSImage alloc] initWithContentsOfFile:@"/tmp/com.yy.ued.sketch.components/tmp.png"];
             [COMAssetsWritter writeIOSImage:image
-                                   baseSize:CGSizeMake(image.size.width / 3.0, image.size.height / 3.0)
+                                   baseSize:CGSizeMake(image.size.width / 6.0, image.size.height / 6.0)
                                toAssetsPath:assetsPath
                                    fileName:obj[@"sourceName"]];
         }
