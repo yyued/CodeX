@@ -15,4 +15,6 @@
 @property (nonatomic, strong) NSImage *iconImage;
 @property (nonatomic, strong) MSLayer *componentLayer;
 
+- (NSImage *)snapImage;
+
 @end

@@ -10,4 +10,16 @@
 
 @implementation COMComponentSourceEntity
 
+- (NSArray *)categories {
+    NSMutableArray *categoires = [NSMutableArray array];
+    [self.components enumerateObjectsUsingBlock:^(COMComponentEntity * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSString *prefix = [obj.componentName componentsSeparatedByString:@"/"].firstObject;
+        if (![categoires containsObject:prefix]) {
+            [categoires addObject:prefix];
+        }
+    }];
+    [categoires sortUsingSelector:@selector(compare:)];
+    return categoires;
+}
+
 @end

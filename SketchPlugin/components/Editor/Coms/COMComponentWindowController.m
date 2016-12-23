@@ -13,7 +13,6 @@
 @interface COMComponentWindowController ()<NSCollectionViewDataSource, NSCollectionViewDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource>
 
 @property (nonatomic, copy) NSArray<COMComponentSourceEntity *> *sources;
-@property (nonatomic, copy) NSArray<NSString *> *categories;
 @property (nonatomic, strong) NSString *currentFilter;
 @property (nonatomic, strong) COMComponentSourceEntity *currentSource;
 
@@ -102,7 +101,7 @@
 #pragma mark - NSOutlineView DataSource & Delegate
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item {
-    return self.categories.count;
+    return self.currentSource.categories.count;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item {
@@ -110,8 +109,8 @@
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item {
-    if (index < self.categories.count) {
-        return self.categories[index];
+    if (index < self.currentSource.categories.count) {
+        return self.currentSource.categories[index];
     }
     return nil;
 }
@@ -142,8 +141,8 @@
 }
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification {
-    if ([self.outlineView selectedRow] < self.categories.count) {
-        self.currentFilter = self.categories[[self.outlineView selectedRow]];
+    if ([self.outlineView selectedRow] < self.currentSource.categories.count) {
+        self.currentFilter = self.currentSource.categories[[self.outlineView selectedRow]];
         [[self.collectionView visibleItems] enumerateObjectsUsingBlock:^(NSCollectionViewItem * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             [(COMComponentCollectionViewItem *)obj selectedLayer].hidden = YES;
         }];
@@ -169,14 +168,6 @@
     self.currentSource = self.sources.firstObject;
     self.currentFilter = nil;
     [self.collectionView reloadData];
-    NSMutableArray *categoires = [NSMutableArray array];
-    [self.currentSource.components enumerateObjectsUsingBlock:^(COMComponentEntity * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSString *prefix = [obj.componentName componentsSeparatedByString:@"/"].firstObject;
-        if (![categoires containsObject:prefix]) {
-            [categoires addObject:prefix];
-        }
-    }];
-    self.categories = categoires;
     [self.outlineView reloadData];
 }
 
@@ -190,11 +181,14 @@
           NSMutableArray<COMComponentEntity *> *components = [NSMutableArray array];
           for (MSArtboardGroup *artboard in [obj artboards]) {
               for (MSLayerGroup *layer in [artboard layers]) {
-                  if ([layer isKindOfClass:MSLayerGroup_Class]) {
+                  if ([layer isKindOfClass:MSLayerGroup_Class] &&
+                      [[MSPluginCommand_Class new] valueForKey:@"class"
+                                                       onLayer:layer
+                                           forPluginIdentifier:@"com.yy.ued.sketch.components"] != nil) {
                       COMComponentEntity *componentItem = [COMComponentEntity new];
                       componentItem.componentName = [layer name];
-                      componentItem.iconImage = [self snapImageWithLayer:layer];
                       componentItem.componentLayer = layer;
+                      componentItem.iconImage = [componentItem snapImage];
                       [components insertObject:componentItem atIndex:0];
                   }
               }
@@ -204,15 +198,6 @@
       }
     }];
     self.sources = items;
-}
-
-- (NSImage *)snapImageWithLayer:(MSLayer *)layer {
-    MSExportRequest *request = [[MSExportRequest_Class exportRequestsFromExportableLayer:layer] firstObject];
-    NSString *snapImageFileKey =
-        [NSString stringWithFormat:@"/tmp/com.yy.ued.sketch.components/.snap.%@.png",
-                                   [layer.name stringByReplacingOccurrencesOfString:@"/" withString:@"_"]];
-    [[MSDocument_Class currentDocument] saveArtboardOrSlice:request toFile:snapImageFileKey];
-    return [[NSImage alloc] initWithContentsOfFile:snapImageFileKey];
 }
 
 - (void)fetchMockSources {
@@ -230,14 +215,6 @@
     if (sender.tag < self.sources.count) {
         self.currentSource = self.sources[sender.tag];
         self.currentFilter = nil;
-        NSMutableArray *categoires = [NSMutableArray array];
-        [self.currentSource.components enumerateObjectsUsingBlock:^(COMComponentEntity * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            NSString *prefix = [obj.componentName componentsSeparatedByString:@"/"].firstObject;
-            if (![categoires containsObject:prefix]) {
-                [categoires addObject:prefix];
-            }
-        }];
-        self.categories = categoires;
         [self.collectionView reloadData];
         [self.outlineView reloadData];
     }

@@ -14,4 +14,6 @@
 @property (nonatomic, copy) NSString *sourceName;
 @property (nonatomic, copy) NSArray<COMComponentEntity *> *components;
 
+- (NSArray *)categories;
+
 @end
