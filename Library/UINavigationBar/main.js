@@ -21,6 +21,14 @@ var UINavigationBar = {
                 output["rightImage"] = imageProps.sourceName;
             }
         }
+        output["leftText"] = $(xml).find("#" + nodeID).find('#Left-Side').find('text').find('tspan:eq(0)').text();
+        var imageUUID = $(xml).find("#" + nodeID).find('#Left-Side').find('g:eq(0)').attr('id');
+        if (imageUUID !== undefined) {
+            var imageProps = spec(imageUUID);
+            if (typeof imageProps === "object" && imageProps.sourceName !== undefined) {
+                output["leftImage"] = imageProps.sourceName;
+            }
+        }
         return output;
     },
 }
@@ -54,6 +62,12 @@ UINavigationBar.oc_viewDidLoad = function (props) {
     }
     if (props.rightImage !== undefined && props.rightImage.length > 0) {
         code += "self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@\"" + props.rightImage + "\"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:nil action:nil];\n"
+    }
+    if (props.leftText !== undefined && props.leftText.length > 0) {
+        code += "self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@\"" + oc_text(props.rightText) + "\" style:UIBarButtonItemStylePlain target:nil action:nil];\n"
+    }
+    if (props.leftImage !== undefined && props.leftImage.length > 0) {
+        code += "self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[[UIImage imageNamed:@\"" + props.rightImage + "\"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:nil action:nil];\n"
     }
     return code;
 }
