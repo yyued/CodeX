@@ -25,4 +25,6 @@ typedef enum : NSUInteger {
 
 - (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType;
 
+- (NSXMLDocument *)xib_code:(COMGenLayer *)layer genType:(COMGenType)genType;
+
 @end

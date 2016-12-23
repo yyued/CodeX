@@ -171,3 +171,42 @@ UIView.oc_codeWithProps = function (props) {
     }
     return code;
 }
+
+UIView.xib_code = function (id, layer) {
+    var xml = $.create('<view contentMode="scaleToFill"></view>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "UIView");
+    UIView.xib_codeWithProps(layer.props, xml);
+    return xml.innerHTML;
+}
+
+UIView.xib_codeWithProps = function (props, xml) {
+    $(xml).append('<userDefinedRuntimeAttributes></userDefinedRuntimeAttributes>')
+    if (props.tag !== undefined) {
+        $(xml).find(':first').attr('tag', props.tag);
+    }
+    if (props.frame !== undefined) {
+        $(xml).find(':first').append('<rect key="frame" x="' + props.frame.x + '" y="' + props.frame.y + '" width="' + props.frame.width + '" height="' + props.frame.height + '"/>');
+    }
+    if (props.alpha !== undefined) {
+        $(xml).find(':first').attr('alpha', props.alpha);
+    }
+    if (props.backgroundColor !== undefined && oc_color(props.backgroundColor) != "nil") {
+        $(xml).find(':first').append(xib_color('backgroundColor', props.backgroundColor));
+    }
+    if (props.cornerRadius !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius"><integer key="value" value="' + props.cornerRadius + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.masksToBounds === true) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>');
+    }
+    if (props.borderColor !== undefined && oc_color(props.borderColor) != "nil") {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="color" keyPath="cox_borderColor">' + xib_color('value', props.borderColor) + '</userDefinedRuntimeAttribute>');
+    }
+    if (props.borderWidth !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth"><integer key="value" value="' + props.borderWidth + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.tintColor !== undefined) {
+        $(xml).find(':first').append(xib_color('tintColor', props.backgroundColor));
+    }
+}

@@ -271,4 +271,123 @@ static WebView *webView;
     }
 }
 
+- (NSXMLDocument *)xib_code:(COMGenLayer *)layer genType:(COMGenType)genType {
+    NSXMLDocument *document = [NSXMLDocument document];
+    NSXMLElement *rootElement = [NSXMLElement elementWithName:@"document"];
+    [rootElement setAttributesAsDictionary:@{
+                                             @"type": @"com.apple.InterfaceBuilder3.CocoaTouch.XIB",
+                                             @"version": @"3.0",
+                                             @"toolsVersion": @"11762",
+                                             @"systemVersion": @"16C67",
+                                             @"targetRuntime": @"iOS.CocoaTouch",
+                                             @"propertyAccessControl": @"none",
+                                             @"useAutolayout": @"YES",
+                                             @"useTraitCollections": @"YES",
+                                             @"colorMatched": @"YES",
+                                             }];
+    {
+        NSXMLElement *deviceElement = [NSXMLElement elementWithName:@"device"];
+        {
+            NSXMLElement *adaptation = [NSXMLElement elementWithName:@"adaptation"];
+            [adaptation setAttributesAsDictionary:@{
+                                                    @"id": @"fullscreen",
+                                                    }];
+            [deviceElement addChild:adaptation];
+        }
+        [deviceElement setAttributesAsDictionary:@{
+                                                   @"id": @"retina4_7",
+                                                   @"orientation": @"portrait",
+                                                   }];
+        [rootElement addChild:deviceElement];
+    }
+    {
+        NSXMLElement *dependenciesElement = [NSXMLElement elementWithName:@"dependencies"];
+        {
+            NSXMLElement *deployment = [NSXMLElement elementWithName:@"deployment"];
+            [deployment setAttributesAsDictionary:@{
+                                                    @"identifier": @"iOS",
+                                                    }];
+            [dependenciesElement addChild:deployment];
+        }
+        {
+            NSXMLElement *plugIn = [NSXMLElement elementWithName:@"plugIn"];
+            [plugIn setAttributesAsDictionary:@{
+                                                    @"identifier": @"com.apple.InterfaceBuilder.IBCocoaTouchPlugin",
+                                                    @"version": @"11757",
+                                                    }];
+            [dependenciesElement addChild:plugIn];
+        }
+        {
+            NSXMLElement *capability = [NSXMLElement elementWithName:@"capability"];
+            [capability setAttributesAsDictionary:@{
+                                                    @"name": @"documents saved in the Xcode 8 format",
+                                                    @"minToolsVersion": @"8.0",
+                                                    }];
+            [dependenciesElement addChild:capability];
+        }
+        [rootElement addChild:dependenciesElement];
+    }
+    {
+        NSXMLElement *objects = [NSXMLElement elementWithName:@"objects"];
+        {
+            NSXMLElement *placeholder = [NSXMLElement elementWithName:@"placeholder"];
+            [placeholder setAttributesAsDictionary:@{
+                                                     @"placeholderIdentifier": @"IBFilesOwner",
+                                                     @"id": @"-1",
+                                                     @"userLabel": @"File's Owner",
+                                                     @"customClass": self.className, // todo
+                                                     }];
+            {
+                NSXMLElement *connections = [NSXMLElement elementWithName:@"connections"];
+                {
+                    NSXMLElement *outlet = [NSXMLElement elementWithName:@"outlet"];
+                    [outlet setAttributesAsDictionary:@{
+                                                        @"property": @"view",
+                                                        @"destination": layer.layerID,
+                                                        @"id": [[NSUUID UUID] UUIDString],
+                                                        }];
+                    [connections addChild:outlet];
+                }
+                [placeholder addChild:connections];
+            }
+            [objects addChild:placeholder];
+        }
+        {
+            NSXMLElement *placeholder = [NSXMLElement elementWithName:@"placeholder"];
+            [placeholder setAttributesAsDictionary:@{
+                                                     @"placeholderIdentifier": @"IBFirstResponder",
+                                                     @"id": @"-2",
+                                                     @"customClass": @"UIResponder",
+                                                     }];
+            [objects addChild:placeholder];
+        }
+        {
+            NSDictionary *hierarchy = [self xib_buildHierarchy:layer];
+            NSString *code = [[context[layer.layerClass][@"xib_code"]
+                               callWithArguments:@[layer.layerID, hierarchy]] toString];
+            if (code != nil) {
+                NSXMLNode *node = [[NSXMLNode alloc] initWithKind:NSXMLTextKind];
+                [node setStringValue:code];
+                [objects addChild:node];
+            }
+        }
+        [rootElement addChild:objects];
+    }
+    [document addChild:rootElement];
+    return document;
+}
+
+- (NSDictionary *)xib_buildHierarchy:(COMGenLayer *)layer {
+    NSMutableArray *sublayers = [NSMutableArray array];
+    for (COMGenLayer *sublayer in layer.sublayers) {
+        [sublayers addObject:[self xib_buildHierarchy:sublayer]];
+    }
+    return @{
+             @"class": layer.layerClass,
+             @"id": layer.layerID,
+             @"props": layer.props,
+             @"sublayers": sublayers,
+             };
+}
+
 @end
