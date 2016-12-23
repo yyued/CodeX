@@ -1,30 +1,30 @@
 //
-//  COMModalWindowController.m
+//  COMComponentWindowController.m
 //  components
 //
 //  Created by 崔明辉 on 2016/12/7.
 //  Copyright © 2016年 UED Center. All rights reserved.
 //
 
-#import "COMModalWindowController.h"
+#import "COMComponentWindowController.h"
 #import "COMComponentCollectionViewItem.h"
-#import "COMSourceEntity.h"
+#import "COMComponentSourceEntity.h"
 
-@interface COMModalWindowController ()<NSCollectionViewDataSource, NSCollectionViewDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource>
+@interface COMComponentWindowController ()<NSCollectionViewDataSource, NSCollectionViewDelegate, NSOutlineViewDelegate, NSOutlineViewDataSource>
 
-@property (nonatomic, copy) NSArray<COMSourceEntity *> *sources;
+@property (nonatomic, copy) NSArray<COMComponentSourceEntity *> *sources;
 @property (nonatomic, copy) NSArray<NSString *> *categories;
 @property (nonatomic, strong) NSString *currentFilter;
-@property (nonatomic, strong) COMSourceEntity *currentSource;
+@property (nonatomic, strong) COMComponentSourceEntity *currentSource;
 
 @end
 
-@implementation COMModalWindowController
+@implementation COMComponentWindowController
 
 + (instancetype) new {
-    COMModalWindowController *obj = [[COMModalWindowController alloc] init];
+    COMComponentWindowController *obj = [[COMComponentWindowController alloc] init];
     NSString *nibPath = [[[NSBundle bundleForClass:[self class]] bundlePath]
-        stringByAppendingString:@"/Contents/Resources/COMModalWindowController.nib"];
+        stringByAppendingString:@"/Contents/Resources/COMComponentWindowController.nib"];
     [[[NSNib alloc] initWithNibData:[NSData dataWithContentsOfFile:nibPath] bundle:nil] instantiateWithOwner:obj
                                                                                              topLevelObjects:nil];
     return obj;
@@ -160,7 +160,7 @@
         [self fetchMockSources];
     }
     [self.sourceMenu removeAllItems];
-    [self.sources enumerateObjectsUsingBlock:^(COMSourceEntity *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+    [self.sources enumerateObjectsUsingBlock:^(COMComponentSourceEntity *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
       NSMenuItem *menuItem =
           [[NSMenuItem alloc] initWithTitle:obj.sourceName action:@selector(onSourceChanged:) keyEquivalent:@""];
       menuItem.tag = idx;
@@ -182,10 +182,10 @@
 
 - (void)fetchSketchSources {
     NSArray<MSPage *> *pages = [[MSDocument_Class currentDocument] pages];
-    NSMutableArray<COMSourceEntity *> *items = [NSMutableArray array];
+    NSMutableArray<COMComponentSourceEntity *> *items = [NSMutableArray array];
     [pages enumerateObjectsUsingBlock:^(MSPage *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
       if ([obj.name hasPrefix:@"TPL - "]) {
-          COMSourceEntity *item = [COMSourceEntity new];
+          COMComponentSourceEntity *item = [COMComponentSourceEntity new];
           item.sourceName = [obj.name stringByReplacingOccurrencesOfString:@"TPL - " withString:@""];
           NSMutableArray<COMComponentEntity *> *components = [NSMutableArray array];
           for (MSArtboardGroup *artboard in [obj artboards]) {
@@ -216,7 +216,7 @@
 }
 
 - (void)fetchMockSources {
-    COMSourceEntity *item = [COMSourceEntity new];
+    COMComponentSourceEntity *item = [COMComponentSourceEntity new];
     item.sourceName = @"Mock UI";
     COMComponentEntity *cItem = [COMComponentEntity new];
     cItem.componentName = @"Slider";

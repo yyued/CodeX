@@ -7,16 +7,16 @@
 //
 
 #import "ViewController.h"
-#import "COMModalWindowController.h"
+#import "COMComponentWindowController.h"
 #import "COMPublishWindowController.h"
-#import "COMSidebarViewController.h"
+#import "COMPropsViewController.h"
 
-static COMModalWindowController *modalWindowController;
+static COMComponentWindowController *modalWindowController;
 static COMPublishWindowController *publishWindowController;
 
 @interface ViewController ()
 
-@property (nonatomic, strong) COMModalWindowController *obj;
+@property (nonatomic, strong) COMComponentWindowController *obj;
 
 @end
 
@@ -24,12 +24,12 @@ static COMPublishWindowController *publishWindowController;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    static COMSidebarViewController *viewController;
+//    static COMPropsViewController *viewController;
 //    static dispatch_once_t onceToken;
 //    dispatch_once(&onceToken, ^{
-//        viewController = [[COMSidebarViewController alloc] init];
+//        viewController = [[COMPropsViewController alloc] init];
 //        NSString *nibPath = [[[NSBundle bundleForClass:[self class]] bundlePath]
-//                             stringByAppendingString:@"/Contents/Resources/COMSidebarViewController.nib"];
+//                             stringByAppendingString:@"/Contents/Resources/COMPropsViewController.nib"];
 //        [[[NSNib alloc] initWithNibData:[NSData dataWithContentsOfFile:nibPath] bundle:nil] instantiateWithOwner:viewController
 //                                                                                                 topLevelObjects:nil];
 //    });

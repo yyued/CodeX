@@ -1,13 +1,13 @@
 //
-//  COMSourceEntity.m
+//  COMComponentSourceEntity.m
 //  components
 //
 //  Created by 崔明辉 on 2016/12/8.
 //  Copyright © 2016年 UED Center. All rights reserved.
 //
 
-#import "COMSourceEntity.h"
+#import "COMComponentSourceEntity.h"
 
-@implementation COMSourceEntity
+@implementation COMComponentSourceEntity
 
 @end

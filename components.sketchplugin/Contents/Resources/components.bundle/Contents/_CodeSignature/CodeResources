@@ -4,40 +4,40 @@
 <dict>
 	<key>files</key>
 	<dict>
-		<key>Resources/COMModalWindowController.nib</key>
+		<key>Resources/COMComponentWindowController.nib</key>
 		<data>
-		PnBAZh1l9bEkp3UU5lxWgkR++G8=
+		fgauZQFBtBbxuhDQQQdNm1ZYXeU=
+		</data>
+		<key>Resources/COMPropsViewController.nib</key>
+		<data>
+		/qFlzCesqy7NITCA8YY92GiNSOc=
 		</data>
 		<key>Resources/COMPublishWindowController.nib</key>
 		<data>
-		9Ets7sUrHg8N78dLmnPIZqunTMY=
-		</data>
-		<key>Resources/COMSidebarViewController.nib</key>
-		<data>
-		aozZvXHotAxdIXI60IsFjX3guQc=
+		EiVHem1LxuLuvKMjDRtgnf6LHlA=
 		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
-		<key>Resources/COMModalWindowController.nib</key>
+		<key>Resources/COMComponentWindowController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			DHqF4B5RRzuulewz3FAWJo4q/6oCUcfD4Nuzdb8O8So=
+			zf4jvbJK3KoS1fRi7GXVX/AGHinwVJcWoGdJnPCqhVU=
+			</data>
+		</dict>
+		<key>Resources/COMPropsViewController.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			RLD1EhQwlV8Rz1W/eIWhBOHGmuJY0gdkkhEGu9oQd5A=
 			</data>
 		</dict>
 		<key>Resources/COMPublishWindowController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			/dzL0nxTuJkqdS5qGLumO3TkyXj8gmWUU5R4gmxE6V0=
-			</data>
-		</dict>
-		<key>Resources/COMSidebarViewController.nib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			WDipr5h5BZ0Xax8YJABcCxJyOK73/lA54aZQYfyhD3U=
+			cRj8LwdhJISwgKnMxl6e8eYkhdeargFzSgUc2CvWy4A=
 			</data>
 		</dict>
 	</dict>

@@ -1,5 +1,5 @@
 //
-//  COMModalWindowController.h
+//  COMComponentWindowController.h
 //  components
 //
 //  Created by 崔明辉 on 2016/12/7.
@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface COMModalWindowController : NSWindowController
+@interface COMComponentWindowController : NSWindowController
 
 @property (assign) NSModalSession modalSession;
 @property (nonatomic, assign) BOOL replacing;

@@ -7,12 +7,12 @@
 //
 
 #import "COMPluginController.h"
-#import "COMModalWindowController.h"
+#import "COMComponentWindowController.h"
 #import "COMPublishWindowController.h"
-#import "COMSidebarViewController.h"
+#import "COMPropsViewController.h"
 #import <objc/runtime.h>
 
-static COMModalWindowController *modalWindowController;
+static COMComponentWindowController *modalWindowController;
 static COMPublishWindowController *publishWindowController;
 
 @interface COMPluginController ()
@@ -45,12 +45,12 @@ static COMPublishWindowController *publishWindowController;
 }
 
 - (void)showSidebar {
-    [COMSidebarViewController toggleSidebar];
+    [COMPropsViewController toggleSidebar];
 }
 
 - (void)showDialog:(BOOL)replacing {
     if (modalWindowController == nil) {
-        modalWindowController = [COMModalWindowController new];
+        modalWindowController = [COMComponentWindowController new];
     }
     modalWindowController.replacing = replacing;
     [modalWindowController requestSources];

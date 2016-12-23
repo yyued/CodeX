@@ -10,7 +10,7 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <WebKit/WebKit.h>
 #import "COMGenerator.h"
-#import "COMSidebarViewController.h"
+#import "COMPropsViewController.h"
 
 @interface AppDelegate ()
 

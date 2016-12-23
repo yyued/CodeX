@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="COMSidebarViewController">
+        <customObject id="-2" userLabel="File's Owner" customClass="COMPropsViewController">
             <connections>
                 <outlet property="alignmentRelative" destination="4Sf-cb-pg4" id="4b9-YB-BIm"/>
                 <outlet property="bottomCheckbox" destination="ADC-cl-SsG" id="yje-4V-bue"/>
@@ -169,9 +169,6 @@
                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </comboBoxCell>
-                                            <connections>
-                                                <outlet property="delegate" destination="-2" id="RLU-zN-a1y"/>
-                                            </connections>
                                         </comboBox>
                                     </subviews>
                                     <constraints>
@@ -354,16 +351,12 @@
                                                         </prototypeCellViews>
                                                     </tableColumn>
                                                 </tableColumns>
-                                                <connections>
-                                                    <outlet property="dataSource" destination="-2" id="vzZ-Eg-Tik"/>
-                                                    <outlet property="delegate" destination="-2" id="N3H-my-UiH"/>
-                                                </connections>
                                             </tableView>
                                         </subviews>
                                         <nil key="backgroundColor"/>
                                     </clipView>
                                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="Uyb-4r-OUf">
-                                        <rect key="frame" x="1" y="416" width="257" height="16"/>
+                                        <rect key="frame" x="1" y="395" width="257" height="16"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                     <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="J3a-HJ-du9">
@@ -742,7 +735,7 @@
                 <constraint firstItem="V58-wA-VyC" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="tcU-JN-uli"/>
                 <constraint firstItem="f9L-1u-y5M" firstAttribute="centerY" secondItem="Hz6-mo-xeY" secondAttribute="centerY" id="zCU-RT-xUX"/>
             </constraints>
-            <point key="canvasLocation" x="-175" y="280"/>
+            <point key="canvasLocation" x="-179" y="280"/>
         </customView>
     </objects>
     <resources>

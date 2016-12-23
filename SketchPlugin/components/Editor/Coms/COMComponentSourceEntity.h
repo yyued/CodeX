@@ -1,5 +1,5 @@
 //
-//  COMSourceEntity.h
+//  COMComponentSourceEntity.h
 //  components
 //
 //  Created by 崔明辉 on 2016/12/8.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "COMComponentEntity.h"
 
-@interface COMSourceEntity : NSObject
+@interface COMComponentSourceEntity : NSObject
 
 @property (nonatomic, copy) NSString *sourceName;
 @property (nonatomic, copy) NSArray<COMComponentEntity *> *components;

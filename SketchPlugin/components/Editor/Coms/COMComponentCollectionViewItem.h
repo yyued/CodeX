@@ -7,11 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "COMModalWindowController.h"
+#import "COMComponentWindowController.h"
 
 @interface COMComponentCollectionViewItem : NSCollectionViewItem
 
-@property (nonatomic, weak) COMModalWindowController *modalWindowController;
+@property (nonatomic, weak) COMComponentWindowController *modalWindowController;
 @property (nonatomic, strong) CALayer *selectedLayer;
 @property (nonatomic, strong) NSImageView *iconImageView;
 @property (nonatomic, strong) NSTextView *titleView;
