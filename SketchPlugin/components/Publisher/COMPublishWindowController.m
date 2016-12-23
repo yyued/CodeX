@@ -169,6 +169,14 @@
             layerProps = @{};
         }
         NSString *uuid = [[NSUUID UUID] UUIDString];
+        if ([className isEqualToString:@"UIImageView"]) {
+            NSMutableDictionary *mDict = [layerProps mutableCopy];
+            mDict[@"sourceName"] = [COMAssetsWritter stripFilename:layer.name];
+            if ([layer isKindOfClass:MSShapeGroup_Class]) {
+                mDict[@"sourceType"] = @"Shape";
+            }
+            layerProps = [mDict copy];
+        }
         [layer setName:uuid];
         {
             NSMutableDictionary *mDict = [layerProps mutableCopy];
@@ -324,7 +332,9 @@
 - (void)saveShapesAsAssets:(NSDictionary *)layers props:(NSDictionary *)props {
     NSString *assetsPath = self.assetsTextField.stringValue;
     [props enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if (![obj[@"class"] isKindOfClass:[NSString class]] || ![obj[@"sourceType"] isKindOfClass:[NSString class]] || ![obj[@"sourceName"] isKindOfClass:[NSString class]]) {
+        if (![obj[@"class"] isKindOfClass:[NSString class]] ||
+            ![obj[@"sourceType"] isKindOfClass:[NSString class]] ||
+            ![obj[@"sourceName"] isKindOfClass:[NSString class]]) {
             return;
         }
         if ([obj[@"class"] isEqualToString:@"UIImageView"] && [obj[@"sourceType"] isEqualToString:@"Shape"]) {

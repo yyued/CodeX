@@ -24,6 +24,21 @@
 		900FF0621E0CBD31001A73DC /* COMPropsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900FF05B1E0CBD31001A73DC /* COMPropsViewController.xib */; };
 		900FF0651E0CBED3001A73DC /* COMPropsValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0641E0CBED3001A73DC /* COMPropsValueObject.m */; };
 		900FF0681E0CC132001A73DC /* COMPropsLayoutObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0671E0CC132001A73DC /* COMPropsLayoutObject.m */; };
+		904ACA7A1E0CD60A00BFE892 /* COMPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C01FA1E0CB79700246CC1 /* COMPluginController.m */; };
+		904ACA7B1E0CD60A00BFE892 /* COMComponentWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0541E0CBD31001A73DC /* COMComponentWindowController.m */; };
+		904ACA7C1E0CD60A00BFE892 /* COMComponentSourceEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0571E0CBD31001A73DC /* COMComponentSourceEntity.m */; };
+		904ACA7D1E0CD60A00BFE892 /* COMComponentEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0521E0CBD31001A73DC /* COMComponentEntity.m */; };
+		904ACA7E1E0CD60A00BFE892 /* COMComponentCollectionViewItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0501E0CBD31001A73DC /* COMComponentCollectionViewItem.m */; };
+		904ACA7F1E0CD60A00BFE892 /* COMPropsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF05A1E0CBD31001A73DC /* COMPropsViewController.m */; };
+		904ACA801E0CD60A00BFE892 /* COMPropsValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0641E0CBED3001A73DC /* COMPropsValueObject.m */; };
+		904ACA811E0CD60A00BFE892 /* COMPropsLayoutObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0671E0CC132001A73DC /* COMPropsLayoutObject.m */; };
+		904ACA821E0CD60A00BFE892 /* COMAssetsWritter.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020A1E0CB79700246CC1 /* COMAssetsWritter.m */; };
+		904ACA831E0CD60A00BFE892 /* COMGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020C1E0CB79700246CC1 /* COMGenerator.m */; };
+		904ACA841E0CD60A00BFE892 /* COMGenLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020E1E0CB79700246CC1 /* COMGenLayer.m */; };
+		904ACA851E0CD60A00BFE892 /* COMPublishWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C02101E0CB79700246CC1 /* COMPublishWindowController.m */; };
+		904ACA861E0CD61000BFE892 /* COMComponentWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900FF0551E0CBD31001A73DC /* COMComponentWindowController.xib */; };
+		904ACA871E0CD61000BFE892 /* COMPropsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900FF05B1E0CBD31001A73DC /* COMPropsViewController.xib */; };
+		904ACA881E0CD61000BFE892 /* COMPublishWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900C02111E0CB79700246CC1 /* COMPublishWindowController.xib */; };
 		90F870A11DF7DC5F00B1F64D /* MCSketchPluginFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F870A01DF7DC5F00B1F64D /* MCSketchPluginFramework.framework */; };
 		90F870B71DF802D000B1F64D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F870B61DF802D000B1F64D /* AppDelegate.m */; };
 		90F870BA1DF802D000B1F64D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F870B91DF802D000B1F64D /* main.m */; };
@@ -356,6 +371,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				904ACA861E0CD61000BFE892 /* COMComponentWindowController.xib in Resources */,
+				904ACA871E0CD61000BFE892 /* COMPropsViewController.xib in Resources */,
+				904ACA881E0CD61000BFE892 /* COMPublishWindowController.xib in Resources */,
 				90F870BF1DF802D000B1F64D /* Assets.xcassets in Resources */,
 				90F870C21DF802D000B1F64D /* Main.storyboard in Resources */,
 			);
@@ -478,6 +496,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				904ACA7A1E0CD60A00BFE892 /* COMPluginController.m in Sources */,
+				904ACA7B1E0CD60A00BFE892 /* COMComponentWindowController.m in Sources */,
+				904ACA7C1E0CD60A00BFE892 /* COMComponentSourceEntity.m in Sources */,
+				904ACA7D1E0CD60A00BFE892 /* COMComponentEntity.m in Sources */,
+				904ACA7E1E0CD60A00BFE892 /* COMComponentCollectionViewItem.m in Sources */,
+				904ACA7F1E0CD60A00BFE892 /* COMPropsViewController.m in Sources */,
+				904ACA801E0CD60A00BFE892 /* COMPropsValueObject.m in Sources */,
+				904ACA811E0CD60A00BFE892 /* COMPropsLayoutObject.m in Sources */,
+				904ACA821E0CD60A00BFE892 /* COMAssetsWritter.m in Sources */,
+				904ACA831E0CD60A00BFE892 /* COMGenerator.m in Sources */,
+				904ACA841E0CD60A00BFE892 /* COMGenLayer.m in Sources */,
+				904ACA851E0CD60A00BFE892 /* COMPublishWindowController.m in Sources */,
 				90F870BD1DF802D000B1F64D /* ViewController.m in Sources */,
 				90F870BA1DF802D000B1F64D /* main.m in Sources */,
 				90F870B71DF802D000B1F64D /* AppDelegate.m in Sources */,

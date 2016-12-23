@@ -73,7 +73,43 @@ static COMPublishWindowController *publishWindowController;
 }
 
 - (void)addBounds {
-    [self addBounds:Sketch_GetSelectedLayers(Sketch_GetCurrentDocument())];
+    if (Sketch_GetSelectedLayers(Sketch_GetCurrentDocument()).count == 1 &&
+        [[Sketch_GetSelectedLayers(Sketch_GetCurrentDocument()) firstObject] isKindOfClass:MSShapeGroup_Class]) {
+        [self makeBounds:[Sketch_GetSelectedLayers(Sketch_GetCurrentDocument()) firstObject]];
+    }
+    else {
+        [self addBounds:Sketch_GetSelectedLayers(Sketch_GetCurrentDocument())];
+    }
+}
+
+- (void)makeBounds:(MSShapeGroup *)shapeLayer {
+    [shapeLayer setName:@"Bounds"];
+    [[MSPluginCommand_Class new] setValue:@{
+                                            @"centerHorizontally" : @(1),
+                                            @"centerVertically" : @(1),
+                                            @"centerRelativeTo" : @(1),
+                                            @"useFixedWidth": @(1),
+                                            @"useFixedHeight": @(1),
+                                            @"fixedWidth" : @"100%",
+                                            @"fixedHeight" : @"100%",
+                                            @"sizeRelativeTo" : @(1),
+                                            }
+                                   forKey:@"constraints"
+                                  onLayer:shapeLayer
+                      forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+    [[MSPluginCommand_Class new] setValue:@{
+                                            @"centerHorizontally" : @(1),
+                                            @"centerVertically" : @(1),
+                                            @"centerRelativeTo" : @(1),
+                                            @"useFixedWidth": @(1),
+                                            @"useFixedHeight": @(1),
+                                            @"fixedWidth" : @"100%",
+                                            @"fixedHeight" : @"100%",
+                                            @"sizeRelativeTo" : @(1),
+                                            }
+                                   forKey:@"constraints"
+                                  onLayer:shapeLayer
+                      forPluginIdentifier:@"com.yy.ued.sketch.components"];
 }
 
 - (void)addBounds:(NSArray *)layers {

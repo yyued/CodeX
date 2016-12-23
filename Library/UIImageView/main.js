@@ -47,10 +47,6 @@ UIImageView.defaultProps = function () {
             value: ["Local", "Remote", "Shape"],
             type: "Enum",
         },
-        sourceName: {
-            value: undefined,
-            type: "String",
-        }
     })
 };
 

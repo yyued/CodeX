@@ -35,34 +35,35 @@
     }
     NSMutableArray<NSDictionary<NSString *, NSString *> *> *images = [NSMutableArray array];
     CGFloat scale = 1.0;
+    NSString *finalFilename = [self stripFilename:fileName];
     if (image.size.height >= baseSize.height * 3 && image.size.width >= baseSize.width * 3) {
         scale = MAX(3.0, scale);
         NSData *newData = [[self resizeImage:image newSize:NSMakeSize(image.size.width, image.size.height)] imagePNGRepresentation];
-        [newData writeToFile:[NSString stringWithFormat:@"%@/%@@3x.png", basePath, fileName] atomically:YES];
+        [newData writeToFile:[NSString stringWithFormat:@"%@/%@@3x.png", basePath, finalFilename] atomically:YES];
         [images addObject:@{
                             @"idiom": @"universal",
                             @"scale": @"3x",
-                            @"filename": [NSString stringWithFormat:@"%@@3x.png", [fileName lastPathComponent]],
+                            @"filename": [NSString stringWithFormat:@"%@@3x.png", finalFilename],
                             }];
     }
     if (image.size.height >= baseSize.height * 2 && image.size.width >= baseSize.width * 2) {
         scale = MAX(2.0, scale);
         NSData *newData = [[self resizeImage:image newSize:NSMakeSize(image.size.width / scale * 2, image.size.height / scale * 2)] imagePNGRepresentation];
-        [newData writeToFile:[NSString stringWithFormat:@"%@/%@@2x.png", basePath, fileName] atomically:YES];
+        [newData writeToFile:[NSString stringWithFormat:@"%@/%@@2x.png", basePath, finalFilename] atomically:YES];
         [images addObject:@{
                             @"idiom": @"universal",
                             @"scale": @"2x",
-                            @"filename": [NSString stringWithFormat:@"%@@2x.png", [fileName lastPathComponent]],
+                            @"filename": [NSString stringWithFormat:@"%@@2x.png", finalFilename],
                             }];
     }
     if (image.size.height >= baseSize.height * 1 && image.size.width >= baseSize.width * 1) {
         scale = MAX(1.0, scale);
         NSData *newData = [[self resizeImage:image newSize:NSMakeSize(image.size.width / scale * 1, image.size.height / scale * 1)] imagePNGRepresentation];
-        [newData writeToFile:[NSString stringWithFormat:@"%@/%@.png", basePath, fileName] atomically:YES];
+        [newData writeToFile:[NSString stringWithFormat:@"%@/%@.png", basePath, finalFilename] atomically:YES];
         [images addObject:@{
                             @"idiom": @"universal",
                             @"scale": @"1x",
-                            @"filename": [NSString stringWithFormat:@"%@.png", [fileName lastPathComponent]],
+                            @"filename": [NSString stringWithFormat:@"%@.png", finalFilename],
                             }];
     }
     NSDictionary *JSONObject = @{
@@ -74,6 +75,10 @@
                                  };
     [[NSJSONSerialization dataWithJSONObject:JSONObject options:kNilOptions error:NULL]
      writeToFile:[NSString stringWithFormat:@"%@/Contents.json", basePath] atomically:YES];
+}
+
++ (NSString *)stripFilename:(NSString *)filename {
+    return [[[filename lowercaseString] stringByReplacingOccurrencesOfString:@"/" withString:@"_"] stringByReplacingOccurrencesOfString:@" " withString:@"_"];
 }
 
 @end

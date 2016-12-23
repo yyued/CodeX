@@ -36,6 +36,10 @@ COXButton.defaultProps = function () {
             value: undefined,
             type: "Layer",
         },
+        animated: {
+            value: false,
+            type: "Bool",
+        }
     });
     delete obj["where_x=0"];
     return obj;
@@ -53,5 +57,9 @@ COXButton.oc_code = function (props) {
 }
 
 COXButton.oc_codeWithProps = function (props) {
-    return UIConditionView.oc_codeWithProps(props);
+    var code = UIConditionView.oc_codeWithProps(props);
+    if (props.animated === true) {
+        code += "view.animated = YES;\n";
+    }
+    return code;
 }
