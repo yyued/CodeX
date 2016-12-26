@@ -50,7 +50,12 @@
     generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
     COMGenLayer *layer = [generator parse];
     NSXMLDocument *doc = [generator xib_code:layer genType:COMGenTypeViewController];
+    [[doc XMLString] writeToFile:@"/Users/cuiminghui/Desktop/test/test/ViewController.xib"
+                      atomically:YES
+                        encoding:NSUTF8StringEncoding
+                           error:nil];
     NSLog(@"%@", [doc XMLString]);
+    
 }
 
 

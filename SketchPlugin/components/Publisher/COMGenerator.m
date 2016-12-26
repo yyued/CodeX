@@ -366,9 +366,10 @@ static WebView *webView;
             NSString *code = [[context[layer.layerClass][@"xib_code"]
                                callWithArguments:@[layer.layerID, hierarchy]] toString];
             if (code != nil) {
-                NSXMLNode *node = [[NSXMLNode alloc] initWithKind:NSXMLTextKind];
-                [node setStringValue:code];
-                [objects addChild:node];
+                NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:code error:nil];
+                if (element != nil) {
+                    [objects addChild:element];
+                }
             }
         }
         [rootElement addChild:objects];

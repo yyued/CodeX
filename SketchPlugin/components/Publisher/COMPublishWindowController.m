@@ -21,6 +21,8 @@
 @property(weak) IBOutlet NSTextField *pathTextField;
 @property (weak) IBOutlet NSTextField *assetsTextField;
 @property (weak) IBOutlet NSTextField *libPathTextField;
+@property (weak) IBOutlet NSButton *platformOCButton;
+@property (weak) IBOutlet NSButton *platformOCXIBButton;
 
 @end
 
@@ -134,13 +136,25 @@
         generator.libraryPath = self.libPathTextField.stringValue;
         generator.className = self.classNameTextField.stringValue;
         COMGenLayer *layer = [generator parse];
-        [[generator oc_code:layer genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView]
-         enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
-            [obj writeToFile:[NSString stringWithFormat:@"%@/%@", self.pathTextField.stringValue, key]
-                  atomically:YES
-                    encoding:NSUTF8StringEncoding
-                       error:NULL];
-        }];
+        if (self.platformOCButton.state == 1) {
+            [[generator oc_code:layer genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView]
+             enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
+                 [obj writeToFile:[NSString stringWithFormat:@"%@/%@", self.pathTextField.stringValue, key]
+                       atomically:YES
+                         encoding:NSUTF8StringEncoding
+                            error:NULL];
+             }];
+        }
+        else if (self.platformOCXIBButton.state == 1) {
+            NSXMLDocument *doc = [generator xib_code:layer genType:
+                                  self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView];
+            [[doc XMLString] writeToFile:[NSString stringWithFormat:@"%@/%@.xib",
+                                          self.pathTextField.stringValue,
+                                          generator.className]
+                              atomically:YES
+                                encoding:NSUTF8StringEncoding
+                                   error:nil];
+        }
         [newLayer removeFromParent];
         [[NSApplication sharedApplication] endModalSession:self.modalSession];
         [self close];
@@ -369,6 +383,17 @@
 - (IBAction)onOuttypeView:(id)sender {
     [self.outtypeViewController setState:0];
     [self.outtypeView setState:1];
+}
+
+- (IBAction)onPlatformChanged:(id)sender {
+    self.platformOCButton.state = 0;
+    self.platformOCXIBButton.state = 0;
+    if (sender == self.platformOCButton) {
+        self.platformOCButton.state = 1;
+    }
+    else if (sender == self.platformOCXIBButton) {
+        self.platformOCXIBButton.state = 1;
+    }
 }
 
 #pragma mark - Helper

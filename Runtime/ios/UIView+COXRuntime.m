@@ -81,18 +81,11 @@ static int kAutomaticallyAdjustsSpace;
 static int kConstraintTag;
 
 - (COXConstraint *)cox_constraint {
-    if (objc_getAssociatedObject(self, &kConstraintTag) == nil) {
-        [self setCox_constraint:[COXConstraint new]];
-    }
     return objc_getAssociatedObject(self, &kConstraintTag);
 }
 
 - (void)setCox_constraint:(COXConstraint *)cox_constraint {
     objc_setAssociatedObject(self, &kConstraintTag, cox_constraint, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-}
-
-- (void)setCox_borderColor:(UIColor *)cox_borderColor {
-    self.layer.borderColor = [cox_borderColor CGColor];
 }
 
 @end

@@ -12,6 +12,16 @@
 @interface COXLabel: UILabel
 
 /**
+ 字符族
+ */
+@property (nonatomic, strong) NSString *fontFamily;
+
+/**
+ 字符大小
+ */
+@property (nonatomic, assign) CGFloat fontSize;
+
+/**
  字符间距
  */
 @property (nonatomic, assign) CGFloat letterSpacing;

@@ -48,3 +48,27 @@ UIButton.oc_codeWithProps = function (props) {
     }
     return code;
 }
+
+UIButton.xib_code = function (id, layer) {
+    var xml = $.xml('<view contentMode="scaleToFill"></view>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "COXUIButton");
+    UIButton.xib_codeWithProps(id, layer.props, xml);
+    return $(xml).html();
+}
+
+UIButton.xib_codeWithProps = function (id, props, xml) {
+    UIView.xib_codeWithProps(props, xml);
+    if (props.text !== undefined) {
+        if ($(xml).find(':first').find('subviews').length == 0) {
+            $(xml).find(':first').append('<subviews></subviews>');
+        }
+        $(xml).find(':first').find('subviews').append(
+            window["UILabel"].xib_code(id + "-TEXT", {
+                class: "UILabel",
+                id: id + "-TEXT",
+                props: Object.assign(props.text, {tag: -1}),
+            })
+        )
+    }
+}

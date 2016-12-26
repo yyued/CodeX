@@ -24,5 +24,5 @@ var xib_color = function (aKey, hexColor) {
         g = parseInt(hexColor.substring(4, 6), 16) / 255.0;
         b = parseInt(hexColor.substring(6, 8), 16) / 255.0;
     }
-    return '<color key="' + aKey + '" red="' + r + '" green="' + g + '" blue="' + b + '" alpha="' + a + '" colorSpace="calibratedRGB"/>';
+    return '<color key="' + aKey + '" red="' + r + '" green="' + g + '" blue="' + b + '" alpha="' + a + '" colorSpace="custom" customColorSpace="displayP3"/>';
 }

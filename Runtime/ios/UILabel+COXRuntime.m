@@ -14,6 +14,8 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
+        self.fontFamily = [coder decodeObjectForKey:@"fontFamily"];
+        self.fontSize = [coder decodeDoubleForKey:@"fontSize"];
         self.letterSpacing = [coder decodeDoubleForKey:@"letterSpacing"];
         self.cox_lineSpacing = [coder decodeDoubleForKey:@"cox_lineSpacing"];
         self.underlineStyle = [coder decodeIntegerForKey:@"underlineStyle"];
@@ -27,6 +29,8 @@
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
+    [aCoder encodeObject:self.fontFamily forKey:@"fontFamily"];
+    [aCoder encodeDouble:self.fontSize forKey:@"fontSize"];
     [aCoder encodeDouble:self.letterSpacing forKey:@"letterSpacing"];
     [aCoder encodeDouble:self.cox_lineSpacing forKey:@"cox_lineSpacing"];
     [aCoder encodeInteger:self.underlineStyle forKey:@"underlineStyle"];
@@ -41,16 +45,33 @@
 }
 
 - (void)setFontWithFamilyName:(NSString *)familyName fontSize:(CGFloat)fontSize {
-    NSArray<NSString *> *names = [familyName componentsSeparatedByString:@","];
+    self.fontFamily = familyName;
+    self.fontSize = fontSize;
+    [self resetFont];
+}
+
+- (void)resetFont {
+    NSArray<NSString *> *names = [self.fontFamily componentsSeparatedByString:@","];
     for (NSString *name in names) {
         UIFont *font =
-            [UIFont fontWithName:[name stringByReplacingOccurrencesOfString:@" " withString:@""] size:fontSize];
+        [UIFont fontWithName:[name stringByReplacingOccurrencesOfString:@" " withString:@""]
+                        size:self.fontSize];
         if (font != nil) {
             self.font = font;
             return;
         }
     }
-    self.font = [UIFont systemFontOfSize:fontSize];
+    self.font = [UIFont systemFontOfSize:self.fontSize];
+}
+
+- (void)setFontFamily:(NSString *)fontFamily {
+    _fontFamily = fontFamily;
+    [self resetFont];
+}
+
+- (void)setFontSize:(CGFloat)fontSize {
+    _fontSize = fontSize;
+    [self resetFont];
 }
 
 - (void)setText:(NSString *)text {

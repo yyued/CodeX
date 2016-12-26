@@ -42,3 +42,18 @@ UISwitch.oc_codeWithProps = function (props) {
     }
     return code;
 }
+
+UISwitch.xib_code = function (id, layer) {
+    var xml = $.xml('<switch contentMode="scaleToFill"></switch>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "UISwitch");
+    UISwitch.xib_codeWithProps(layer.props, xml);
+    return $(xml).html();
+}
+
+UISwitch.xib_codeWithProps = function (props, xml) {
+    UIView.xib_codeWithProps(props, xml);
+    if (props.onTintColor !== undefined) {
+        $(xml).find(':first').append(xib_color('onTintColor', props.onTintColor));
+    }
+}

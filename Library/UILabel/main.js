@@ -7,7 +7,7 @@
 //
 
 var UILabel = {
-    parse: function(nodeID, nodeXML, nodeProps) {
+    parse: function (nodeID, nodeXML, nodeProps) {
         var output = UIView.parse(nodeID, nodeXML, nodeProps);
         var xml = $.create(nodeXML);
         output["text"] = UILabel.findText(nodeID, xml);
@@ -16,10 +16,10 @@ var UILabel = {
         output["rangeAttrs"] = UILabel.findRangeTextAttributes(nodeID, xml, output);
         return output;
     },
-    findFirstTextAttributes: function(nodeID, xml) {
+    findFirstTextAttributes: function (nodeID, xml) {
         var firstText;
         var use = false;
-        $(xml).find('#' + nodeID).find('use').each(function() {
+        $(xml).find('#' + nodeID).find('use').each(function () {
             if ($(this).attrs('filter', xml) !== undefined) {
                 return;
             }
@@ -48,7 +48,7 @@ var UILabel = {
         }
         return {};
     },
-    findRangeTextAttributes: function(nodeID, xml, standardAttrs) {
+    findRangeTextAttributes: function (nodeID, xml, standardAttrs) {
         var rangeAttrs = [];
         var currentRange = {
             location: 0,
@@ -61,7 +61,7 @@ var UILabel = {
                 continue;
             }
             use = true;
-            $(element).find('tspan').each(function() {
+            $(element).find('tspan').each(function () {
                 var item = {};
                 var cRange = {}
                 currentRange.location += currentRange.length;
@@ -96,7 +96,7 @@ var UILabel = {
             });
         }
         if (!use) {
-            $(xml).find('#' + nodeID).find('tspan').each(function() {
+            $(xml).find('#' + nodeID).find('tspan').each(function () {
                 var item = {};
                 var cRange = {}
                 currentRange.location += currentRange.length;
@@ -132,7 +132,7 @@ var UILabel = {
         }
         return rangeAttrs;
     },
-    findText: function(nodeID, xml) {
+    findText: function (nodeID, xml) {
         var text = "";
         var use = false;
         for (var index = 0; index < $(xml).find('#' + nodeID).find('use').length; index++) {
@@ -141,20 +141,20 @@ var UILabel = {
                 continue;
             }
             use = true;
-            $(element).find('tspan').each(function() {
+            $(element).find('tspan').each(function () {
                 text += $(this).text();
             });
         }
         if (!use) {
-            $(xml).find('#' + nodeID).find('tspan').each(function() {
+            $(xml).find('#' + nodeID).find('tspan').each(function () {
                 text += $(this).text();
             });
         }
         return text;
     },
-    findShadow: function(nodeID, xml) {
+    findShadow: function (nodeID, xml) {
         var output = {};
-        $(xml).find('#' + nodeID).find('use').each(function() {
+        $(xml).find('#' + nodeID).find('use').each(function () {
             if ($(this).attr('filter') !== undefined) {
                 var filterID = $(this).attr('filter').replace(/url\((.*?)\)/, "$1");
                 var filterNode = $(xml).find(filterID);
@@ -173,7 +173,7 @@ var UILabel = {
         })
         return output;
     },
-    convertColorMatrixToHex: function(feColor) {
+    convertColorMatrixToHex: function (feColor) {
         var rows = feColor.split("  ");
         if (rows.length == 4) {
             var r = 0.0;
@@ -212,7 +212,7 @@ var UILabel = {
     },
 }
 
-UILabel.defaultProps = function() {
+UILabel.defaultProps = function () {
     return Object.assign(UIView.defaultProps(), {
         numberOfLines: {
             value: 1,
@@ -221,18 +221,18 @@ UILabel.defaultProps = function() {
     })
 };
 
-UILabel.oc_class = function(props) {
+UILabel.oc_class = function (props) {
     return "COXLabel";
 }
 
-UILabel.oc_code = function(props) {
+UILabel.oc_code = function (props) {
     var code = "";
     code += oc_init("COXLabel", "view");
     code += UILabel.oc_codeWithProps(props);
     return code;
 }
 
-UILabel.oc_codeWithProps = function(props) {
+UILabel.oc_codeWithProps = function (props) {
     var code = UIView.oc_codeWithProps(props);
     if (props.fontFamily !== undefined && props.fontSize !== undefined) {
         code += "[view setFontWithFamilyName:@\"" + props.fontFamily + "\" fontSize:" + props.fontSize + "];\n";
@@ -301,4 +301,72 @@ UILabel.oc_codeWithProps = function(props) {
         }
     }
     return code;
+}
+
+UILabel.xib_code = function (id, layer) {
+    var xml = $.xml('<view contentMode="scaleToFill"></view>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "COXLabel");
+    UILabel.xib_codeWithProps(layer.props, xml);
+    return $(xml).html();
+}
+
+UILabel.xib_codeWithProps = function (props, xml) {
+    UIView.xib_codeWithProps(props, xml);
+    if (props.fontFamily !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="fontFamily" value="' + props.fontFamily + '"/>');
+    }
+    if (props.fontSize !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="fontSize"><real key="value" value="' + props.fontSize + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.textColor !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="color" keyPath="textColor">' + xib_color('value', props.textColor) + '</userDefinedRuntimeAttribute>');
+    }
+    if (props.strokeColor !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="color" keyPath="strokeColor">' + xib_color('value', props.strokeColor) + '</userDefinedRuntimeAttribute>');
+    }
+    if (props.strokeWidth !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="strokeWidth"><real key="value" value="' + props.strokeWidth + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.deleteline !== undefined && props.deleteline == true) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="deletelineStyle"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.underline !== undefined && props.underline == true) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="underlineStyle"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.letterSpacing !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="letterSpacing"><real key="value" value="' + props.letterSpacing + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.lineSpacing !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="cox_lineSpacing"><real key="value" value="' + props.lineSpacing + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.numberOfLines !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="numberOfLines"><integer key="value" value="' + props.numberOfLines + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.shadowColor !== undefined) {
+        code += "view.layer.shadowColor = " + oc_color(props.shadowColor) + ".CGColor;\nview.layer.shadowOpacity = 1.0;\n";
+    }
+    if (props.shadowOffset !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="size" keyPath="layer.shadowOffset"><size key="value" width="' + props.shadowOffset.x + '" height="' + props.shadowOffset.y + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.shadowRadius !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="layer.shadowRadius"><real key="value" value="' + props.shadowRadius + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.maxWidth !== undefined && props.maxWidth > 0) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="maxWidth"><real key="value" value="' + props.maxWidth + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.alignment !== undefined) {
+        if (props.alignment == 0) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="textAlignment"><integer key="value" value="0"/></userDefinedRuntimeAttribute>');
+        }
+        else if (props.alignment == 2) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="textAlignment"><integer key="value" value="2"/></userDefinedRuntimeAttribute>');
+        }
+        else if (props.alignment == 1) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="textAlignment"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
+        }
+    }
+    if (props.text !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="text" value="' + oc_text(props.text) + '"/>');
+    }
 }

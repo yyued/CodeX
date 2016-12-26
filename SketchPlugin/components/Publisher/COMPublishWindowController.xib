@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11542"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,6 +14,8 @@
                 <outlet property="outtypeView" destination="bRa-m1-zaz" id="h4g-9a-2WH"/>
                 <outlet property="outtypeViewController" destination="NDp-iv-8Pk" id="SNz-7k-1jS"/>
                 <outlet property="pathTextField" destination="44d-UC-pA4" id="V4E-oQ-oS4"/>
+                <outlet property="platformOCButton" destination="9UC-OS-WJx" id="jEu-n6-tq2"/>
+                <outlet property="platformOCXIBButton" destination="S9h-zm-xcj" id="ulY-nG-cF2"/>
                 <outlet property="targetTextField" destination="gc6-8I-l9a" id="vXc-Gd-HLK"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
@@ -188,6 +190,19 @@ Gw
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
+                        <connections>
+                            <action selector="onPlatformChanged:" target="-2" id="xte-Fp-8f8"/>
+                        </connections>
+                    </button>
+                    <button translatesAutoresizingMaskIntoConstraints="NO" id="S9h-zm-xcj">
+                        <rect key="frame" x="237" y="216" width="112" height="18"/>
+                        <buttonCell key="cell" type="radio" title="iOS (OC + XIB)" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="FNU-eX-MQ1">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="onPlatformChanged:" target="-2" id="cHg-jD-yPq"/>
+                        </connections>
                     </button>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h0H-eg-4gg">
                         <rect key="frame" x="408" y="91" width="58" height="19"/>
@@ -201,6 +216,7 @@ Gw
                     </button>
                 </subviews>
                 <constraints>
+                    <constraint firstItem="S9h-zm-xcj" firstAttribute="leading" secondItem="9UC-OS-WJx" secondAttribute="trailing" constant="12" id="09J-fO-gHz"/>
                     <constraint firstAttribute="trailing" secondItem="MkA-WL-L6Y" secondAttribute="trailing" constant="76" id="0Y0-iU-Kup"/>
                     <constraint firstItem="dxK-dW-hZl" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="15" id="0gr-Bb-ufy"/>
                     <constraint firstItem="vyH-cc-4Pq" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="15" id="1mm-ta-xbe"/>
@@ -240,6 +256,7 @@ Gw
                     <constraint firstItem="gc6-8I-l9a" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="15" id="tcz-Rl-1NL"/>
                     <constraint firstItem="vyH-cc-4Pq" firstAttribute="top" secondItem="IXQ-gJ-2z2" secondAttribute="bottom" constant="12" id="ucQ-iS-jG9"/>
                     <constraint firstAttribute="bottom" secondItem="Tey-yd-aIa" secondAttribute="bottom" constant="20" id="vR2-Jr-2LC"/>
+                    <constraint firstItem="S9h-zm-xcj" firstAttribute="centerY" secondItem="9UC-OS-WJx" secondAttribute="centerY" id="vf7-pe-7eu"/>
                     <constraint firstItem="9UC-OS-WJx" firstAttribute="centerY" secondItem="rGC-6J-mJn" secondAttribute="centerY" id="xK0-TU-Pzc"/>
                     <constraint firstItem="Tey-yd-aIa" firstAttribute="leading" secondItem="Bo0-X9-Zs6" secondAttribute="trailing" constant="12" id="xWC-rM-UvI"/>
                 </constraints>

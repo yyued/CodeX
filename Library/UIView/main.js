@@ -173,15 +173,26 @@ UIView.oc_codeWithProps = function (props) {
 }
 
 UIView.xib_code = function (id, layer) {
-    var xml = $.create('<view contentMode="scaleToFill"></view>');
+    var xml = $.xml('<view contentMode="scaleToFill"></view>');
     $(xml).find(':first').attr('id', id);
     $(xml).find(':first').attr('customClass', "UIView");
     UIView.xib_codeWithProps(layer.props, xml);
-    return xml.innerHTML;
+    if (layer.sublayers !== undefined && layer.sublayers.length > 0) {
+        $(xml).find(':first').append('<subviews></subviews>');
+        for (var index = 0; index < layer.sublayers.length; index++) {
+            var sublayer = layer.sublayers[index];
+            if (window[sublayer.class] !== undefined && window[sublayer.class].xib_code !== undefined) {
+                $(xml).find(':first').find('subviews').append(
+                    window[sublayer.class].xib_code(sublayer.id, sublayer)
+                )
+            }
+        }
+    }
+    return $(xml).html();
 }
 
 UIView.xib_codeWithProps = function (props, xml) {
-    $(xml).append('<userDefinedRuntimeAttributes></userDefinedRuntimeAttributes>')
+    $(xml).find(':first').append('<userDefinedRuntimeAttributes></userDefinedRuntimeAttributes>')
     if (props.tag !== undefined) {
         $(xml).find(':first').attr('tag', props.tag);
     }
@@ -194,8 +205,14 @@ UIView.xib_codeWithProps = function (props, xml) {
     if (props.backgroundColor !== undefined && oc_color(props.backgroundColor) != "nil") {
         $(xml).find(':first').append(xib_color('backgroundColor', props.backgroundColor));
     }
+    else if (props['outletID'] === "rootView") {
+        $(xml).find(':first').append(xib_color('backgroundColor', '#ffffff'));
+    }
+    else {
+        $(xml).find(':first').append(xib_color('backgroundColor', '#00000000'));
+    }
     if (props.cornerRadius !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius"><integer key="value" value="' + props.cornerRadius + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius"><real key="value" value="' + props.cornerRadius + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.masksToBounds === true) {
         $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>');
@@ -204,9 +221,48 @@ UIView.xib_codeWithProps = function (props, xml) {
         $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="color" keyPath="cox_borderColor">' + xib_color('value', props.borderColor) + '</userDefinedRuntimeAttribute>');
     }
     if (props.borderWidth !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth"><integer key="value" value="' + props.borderWidth + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="layer.borderWidth"><real key="value" value="' + props.borderWidth + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.tintColor !== undefined) {
         $(xml).find(':first').append(xib_color('tintColor', props.backgroundColor));
+    }
+    if (props.constraints !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="boolean" keyPath="cox_constraintEnabled" value="YES"/>');
+        if (props.constraints.centerRelativeTo == 2) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="cox_constraint.aligmentRelate"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
+        }
+        if (props.constraints.centerHorizontally == 1) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="boolean" keyPath="cox_constraint.centerHorizontally" value="YES"/>');
+        }
+        if (props.constraints.centerVertically == 1) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="boolean" keyPath="cox_constraint.centerVertically" value="YES"/>');
+        }
+        if (props.constraints.sizeRelativeTo == 2) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="cox_constraint.sizeRelate"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
+        }
+        if (props.constraints.useFixedWidth == 1 && props.constraints.fixedWidth !== undefined) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_constraint.width" value="' + props.constraints.fixedWidth + '"/>');
+        }
+        if (props.constraints.useFixedHeight == 1 && props.constraints.fixedHeight !== undefined) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_constraint.height" value="' + props.constraints.fixedHeight + '"/>');
+        }
+        if (props.constraints.pinRelativeTo == 2) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="cox_constraint.pinRelate"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
+        }
+        if (props.constraints.useTopPinning == 1 && props.constraints.topPinning !== undefined) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_constraint.top" value="' + props.constraints.topPinning + '"/>');
+        }
+        if (props.constraints.useLeftPinning == 1 && props.constraints.leftPinning !== undefined) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_constraint.left" value="' + props.constraints.leftPinning + '"/>');
+        }
+        if (props.constraints.useBottomPinning == 1 && props.constraints.bottomPinning !== undefined) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_constraint.bottom" value="' + props.constraints.bottomPinning + '"/>');
+        }
+        if (props.constraints.useRightPinning == 1 && props.constraints.rightPinning !== undefined) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_constraint.right" value="' + props.constraints.rightPinning + '"/>');
+        }
+    }
+    if (props.adjustFrame === true) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="boolean" keyPath="cox_automaticallyAdjustsSpace" value="YES"/>');
     }
 }
