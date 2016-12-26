@@ -14,7 +14,7 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     COXLabel *titleLabel = [self viewWithTag:-1];
-    if (titleLabel != nil) {
+    if (titleLabel != nil && [titleLabel isKindOfClass:[COXLabel class]]) {
         [self setAttributedTitle:titleLabel.attributedText forState:UIControlStateNormal];
         NSMutableAttributedString *highlighted = [titleLabel.attributedText mutableCopy];
         UIColor *textColor = titleLabel.defaultAttributes[NSForegroundColorAttributeName];
@@ -26,8 +26,8 @@
                                  range:NSMakeRange(0, [highlighted.string length])];
             [self setAttributedTitle:highlighted forState:UIControlStateHighlighted];
         }
+        [titleLabel removeFromSuperview];
     }
-    [titleLabel removeFromSuperview];
 }
 
 @end

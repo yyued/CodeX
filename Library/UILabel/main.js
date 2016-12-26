@@ -306,12 +306,12 @@ UILabel.oc_codeWithProps = function (props) {
 UILabel.xib_code = function (id, layer) {
     var xml = $.xml('<view contentMode="scaleToFill"></view>');
     $(xml).find(':first').attr('id', id);
-    $(xml).find(':first').attr('customClass', "COXLabel");
-    UILabel.xib_codeWithProps(layer.props, xml);
+    $(xml).find(':first').attr('customClass', "COXIBLabel");
+    UILabel.xib_codeWithProps(id, layer.props, xml);
     return $(xml).html();
 }
 
-UILabel.xib_codeWithProps = function (props, xml) {
+UILabel.xib_codeWithProps = function (id, props, xml) {
     UIView.xib_codeWithProps(props, xml);
     if (props.fontFamily !== undefined) {
         $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="fontFamily" value="' + props.fontFamily + '"/>');
@@ -368,5 +368,27 @@ UILabel.xib_codeWithProps = function (props, xml) {
     }
     if (props.text !== undefined) {
         $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="text" value="' + oc_text(props.text) + '"/>');
+    }
+    if (props.range !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="rangeLocation"><integer key="value" value="' + props.range.location + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="rangeLength"><integer key="value" value="' + props.range.length + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.rangeAttrs !== undefined) {
+        if ($(xml).find(':first').find('subviews').length == 0) {
+            $(xml).find(':first').append('<subviews></subviews>');
+        }
+        for (var index = 0; index < props.rangeAttrs.length; index++) {
+            var element = props.rangeAttrs[index];
+            var elementProps = {};
+            Object.assign(elementProps, props, element, { tag: -index });
+            delete elementProps['rangeAttrs'];
+            $(xml).find(':first').find('subviews').append(
+                window["UILabel"].xib_code(id + "-SUBTEXT-" + index, {
+                    class: "UILabel",
+                    id: id + "-SUBTEXT-" + index,
+                    props: elementProps,
+                })
+            );
+        }
     }
 }
