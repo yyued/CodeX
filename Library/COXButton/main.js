@@ -63,3 +63,19 @@ COXButton.oc_codeWithProps = function (props) {
     }
     return code;
 }
+
+COXButton.xib_code = function (id, layer) {
+    var xml = $.xml('<view contentMode="scaleToFill"></view>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "COXButton");
+    COXButton.xib_codeWithProps(layer.props, xml);
+    UIView.xib_addSublayers(layer, xml);
+    return $(xml).html();
+}
+
+COXButton.xib_codeWithProps = function (props, xml) {
+    UIConditionView.xib_codeWithProps(props, xml);
+    if (props.animated === true) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="boolean" keyPath="animated" value="YES"/>');
+    }
+}

@@ -60,3 +60,21 @@ UIScrollView.oc_codeWithProps = function (props) {
     code += "view.contentSize = CGSizeMake(" + contentWidth + ", " + contentHeight + ");\n";
     return code;
 }
+
+UIScrollView.xib_code = function (id, layer) {
+    var xml = $.xml('<view contentMode="scaleToFill"></view>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "UIScrollView");
+    UIScrollView.xib_codeWithProps(layer.props, xml);
+    UIView.xib_addSublayers(layer, xml);
+    return $(xml).html();
+}
+
+UIScrollView.xib_codeWithProps = function (props, xml) {
+    UIView.xib_codeWithProps(props, xml);
+    var contentWidth = props.contentWidth != undefined ? parseFloat(props.contentWidth) : 0.0;
+    var contentHeight = props.contentHeight != undefined ? parseFloat(props.contentHeight) : 0.0;
+    if (isNaN(contentWidth)) contentWidth = 0.0;
+    if (isNaN(contentHeight)) contentHeight = 0.0;
+    $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="size" keyPath="contentSize"><size key="value" width="' + contentWidth + '" height="' + contentHeight + '"/></userDefinedRuntimeAttribute>');
+}

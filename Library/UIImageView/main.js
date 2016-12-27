@@ -88,3 +88,39 @@ UIImageView.oc_codeWithProps = function (props) {
     }
     return code;
 }
+
+UIImageView.xib_code = function (id, layer) {
+    var xml = $.xml('<view contentMode="scaleToFill"></view>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "UIImageView");
+    UIImageView.xib_codeWithProps(layer.props, xml);
+    UIView.xib_addSublayers(layer, xml);
+    return $(xml).html();
+}
+
+UIImageView.xib_codeWithProps = function (props, xml) {
+    UIView.xib_codeWithProps(props, xml);
+    if (props.sourceType === "Local") {
+        if (props.fileData !== undefined && props.sourceName !== undefined) {
+            oc_writeAssets(props.fileData, props.frame.width, props.frame.height, props.sourceName);
+            var sourceName = props.sourceName;
+            sourceName = sourceName.split('/').pop();
+            $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_imageName" value="' + sourceName + '"/>');
+        }
+    }
+    else if (props.sourceType === "Shape") {
+        if (props.sourceName !== undefined) {
+            var sourceName = props.sourceName;
+            sourceName = sourceName.split('/').pop();
+            $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_imageName" value="' + sourceName + '"/>');
+        }
+    }
+    else if (props.sourceType === "Remote") {
+        if (props.placeholderData !== undefined && props.sourceName !== undefined) {
+            oc_writeAssets(props.placeholderData, props.frame.width, props.frame.height, props.sourceName);
+            var sourceName = props.sourceName;
+            sourceName = sourceName.split('/').pop();
+            $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_imageName" value="' + sourceName + '"/>');
+        }
+    }
+}

@@ -27,7 +27,7 @@ static WebView *webView;
     webView = [WebView new];
     context = webView.mainFrame.javaScriptContext;
     context[@"spec"] = ^(NSString *uuid) {
-        return self.spec[uuid];
+      return self.spec[uuid];
     };
     context[@"oc_writeAssets"] = ^(NSString *base64String, CGFloat baseWidth, CGFloat baseHeight, NSString *fileName) {
       NSData *data = [[NSData alloc] initWithBase64EncodedString:base64String options:kNilOptions];
@@ -62,8 +62,10 @@ static WebView *webView;
                                                encoding:NSUTF8StringEncoding
                                                   error:NULL];
     NSString *unsupportedXMLString = self.xmlString;
-    unsupportedXMLString = [unsupportedXMLString stringByReplacingOccurrencesOfString:@"<pattern " withString:@"<!--<pattern "];
-    unsupportedXMLString = [unsupportedXMLString stringByReplacingOccurrencesOfString:@"</pattern>" withString:@"</pattern>-->"];
+    unsupportedXMLString =
+        [unsupportedXMLString stringByReplacingOccurrencesOfString:@"<pattern " withString:@"<!--<pattern "];
+    unsupportedXMLString =
+        [unsupportedXMLString stringByReplacingOccurrencesOfString:@"</pattern>" withString:@"</pattern>-->"];
     self.spec = [NSJSONSerialization
         JSONObjectWithData:[NSData dataWithContentsOfFile:@"/tmp/com.yy.ued.sketch.components/tmp.json"]
                    options:kNilOptions
@@ -82,10 +84,10 @@ static WebView *webView;
 
 - (COMGenLayer *)findRootLayer:(NSArray<COMGenLayer *> *)sublayers {
     for (COMGenLayer *sublayer in sublayers) {
-        if ([sublayer.props[@"outletID"] isKindOfClass:[NSString class]] && [sublayer.props[@"outletID"] isEqualToString:@"rootView"]) {
+        if ([sublayer.props[@"outletID"] isKindOfClass:[NSString class]] &&
+            [sublayer.props[@"outletID"] isEqualToString:@"rootView"]) {
             return sublayer;
-        }
-        else {
+        } else {
             COMGenLayer *deeper = [self findRootLayer:[sublayer sublayers]];
             if (deeper != nil) {
                 return deeper;
@@ -147,12 +149,13 @@ static WebView *webView;
         implementationCode:implementationCode
                   loadCode:loadCode
            viewDidLoadCode:viewDidLoadCode];
-    
+
     if (genType == COMGenTypeViewController && loadCode.length) {
         [implementationCode appendFormat:@"\n+ (void)load {\n%@}\n\n", loadCode];
     }
     if (genType == COMGenTypeViewController && viewDidLoadCode.length) {
-        [implementationCode appendFormat:@"\n- (void)viewDidLoad {\n    [super viewDidLoad];\n%@}\n\n", viewDidLoadCode];
+        [implementationCode
+            appendFormat:@"\n- (void)viewDidLoad {\n    [super viewDidLoad];\n%@}\n\n", viewDidLoadCode];
     }
     [headerCode appendString:@"\n@end\n"];
     [implementationCode appendString:@"@end\n"];
@@ -169,27 +172,28 @@ static WebView *webView;
        viewDidLoadCode:(NSMutableString *)viewDidLoadCode {
     NSString *outlet = layer.props[@"outletID"];
     {
-        NSString *_loadCode = [[context[layer.layerClass][@"oc_load"] callWithArguments:@[layer.props]] toString];
+        NSString *_loadCode = [[context[layer.layerClass][@"oc_load"] callWithArguments:@[ layer.props ]] toString];
         if (_loadCode != nil && _loadCode.length && ![_loadCode isEqualToString:@"undefined"]) {
             [[_loadCode componentsSeparatedByString:@"\n"]
-             enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-                 if (!obj.length) {
-                     return;
-                 }
-                 [loadCode appendString:[NSString stringWithFormat:@"    %@\n", obj]];
-             }];
+                enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+                  if (!obj.length) {
+                      return;
+                  }
+                  [loadCode appendString:[NSString stringWithFormat:@"    %@\n", obj]];
+                }];
         }
     }
     {
-        NSString *_viewDidLoadCode = [[context[layer.layerClass][@"oc_viewDidLoad"] callWithArguments:@[layer.props]] toString];
+        NSString *_viewDidLoadCode =
+            [[context[layer.layerClass][@"oc_viewDidLoad"] callWithArguments:@[ layer.props ]] toString];
         if (_viewDidLoadCode != nil && _viewDidLoadCode.length && ![_viewDidLoadCode isEqualToString:@"undefined"]) {
             [[_viewDidLoadCode componentsSeparatedByString:@"\n"]
-             enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
-                 if (!obj.length) {
-                     return;
-                 }
-                 [viewDidLoadCode appendString:[NSString stringWithFormat:@"    %@\n", obj]];
-             }];
+                enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
+                  if (!obj.length) {
+                      return;
+                  }
+                  [viewDidLoadCode appendString:[NSString stringWithFormat:@"    %@\n", obj]];
+                }];
         }
     }
     NSString *ocClass = [[context[layer.layerClass][@"oc_class"] callWithArguments:@[ layer.props ]] toString];
@@ -235,7 +239,7 @@ static WebView *webView;
         NSString *mmCode = [[context[layer.layerClass][@"oc_code"] callWithArguments:@[ layer.props ]] toString];
         if (mmCode != nil && mmCode.length > 0 && ![mmCode isEqualToString:@"undefined"]) {
             [mCode appendFormat:@"- (%@ *)_%@ {\n", ocClass,
-             [layer.layerID stringByReplacingOccurrencesOfString:@"-" withString:@"_"]];
+                                [layer.layerID stringByReplacingOccurrencesOfString:@"-" withString:@"_"]];
             [[mmCode componentsSeparatedByString:@"\n"]
                 enumerateObjectsUsingBlock:^(NSString *_Nonnull obj, NSUInteger idx, BOOL *_Nonnull stop) {
                   if (!obj.length) {
@@ -275,29 +279,29 @@ static WebView *webView;
     NSXMLDocument *document = [NSXMLDocument document];
     NSXMLElement *rootElement = [NSXMLElement elementWithName:@"document"];
     [rootElement setAttributesAsDictionary:@{
-                                             @"type": @"com.apple.InterfaceBuilder3.CocoaTouch.XIB",
-                                             @"version": @"3.0",
-                                             @"toolsVersion": @"11762",
-                                             @"systemVersion": @"16C67",
-                                             @"targetRuntime": @"iOS.CocoaTouch",
-                                             @"propertyAccessControl": @"none",
-                                             @"useAutolayout": @"YES",
-                                             @"useTraitCollections": @"YES",
-                                             @"colorMatched": @"YES",
-                                             }];
+        @"type" : @"com.apple.InterfaceBuilder3.CocoaTouch.XIB",
+        @"version" : @"3.0",
+        @"toolsVersion" : @"11762",
+        @"systemVersion" : @"16C67",
+        @"targetRuntime" : @"iOS.CocoaTouch",
+        @"propertyAccessControl" : @"none",
+        @"useAutolayout" : @"YES",
+        @"useTraitCollections" : @"YES",
+        @"colorMatched" : @"YES",
+    }];
     {
         NSXMLElement *deviceElement = [NSXMLElement elementWithName:@"device"];
         {
             NSXMLElement *adaptation = [NSXMLElement elementWithName:@"adaptation"];
             [adaptation setAttributesAsDictionary:@{
-                                                    @"id": @"fullscreen",
-                                                    }];
+                @"id" : @"fullscreen",
+            }];
             [deviceElement addChild:adaptation];
         }
         [deviceElement setAttributesAsDictionary:@{
-                                                   @"id": @"retina4_7",
-                                                   @"orientation": @"portrait",
-                                                   }];
+            @"id" : @"retina4_7",
+            @"orientation" : @"portrait",
+        }];
         [rootElement addChild:deviceElement];
     }
     {
@@ -305,24 +309,24 @@ static WebView *webView;
         {
             NSXMLElement *deployment = [NSXMLElement elementWithName:@"deployment"];
             [deployment setAttributesAsDictionary:@{
-                                                    @"identifier": @"iOS",
-                                                    }];
+                @"identifier" : @"iOS",
+            }];
             [dependenciesElement addChild:deployment];
         }
         {
             NSXMLElement *plugIn = [NSXMLElement elementWithName:@"plugIn"];
             [plugIn setAttributesAsDictionary:@{
-                                                    @"identifier": @"com.apple.InterfaceBuilder.IBCocoaTouchPlugin",
-                                                    @"version": @"11757",
-                                                    }];
+                @"identifier" : @"com.apple.InterfaceBuilder.IBCocoaTouchPlugin",
+                @"version" : @"11757",
+            }];
             [dependenciesElement addChild:plugIn];
         }
         {
             NSXMLElement *capability = [NSXMLElement elementWithName:@"capability"];
             [capability setAttributesAsDictionary:@{
-                                                    @"name": @"documents saved in the Xcode 8 format",
-                                                    @"minToolsVersion": @"8.0",
-                                                    }];
+                @"name" : @"documents saved in the Xcode 8 format",
+                @"minToolsVersion" : @"8.0",
+            }];
             [dependenciesElement addChild:capability];
         }
         [rootElement addChild:dependenciesElement];
@@ -332,39 +336,63 @@ static WebView *webView;
         {
             NSXMLElement *placeholder = [NSXMLElement elementWithName:@"placeholder"];
             [placeholder setAttributesAsDictionary:@{
-                                                     @"placeholderIdentifier": @"IBFilesOwner",
-                                                     @"id": @"-1",
-                                                     @"userLabel": @"File's Owner",
-                                                     @"customClass": self.className, // todo
-                                                     }];
+                @"placeholderIdentifier" : @"IBFilesOwner",
+                @"id" : @"-1",
+                @"userLabel" : @"File's Owner",
+                @"customClass" : self.className,
+            }];
             {
                 NSXMLElement *connections = [NSXMLElement elementWithName:@"connections"];
                 {
                     NSXMLElement *outlet = [NSXMLElement elementWithName:@"outlet"];
                     [outlet setAttributesAsDictionary:@{
-                                                        @"property": @"view",
-                                                        @"destination": layer.layerID,
-                                                        @"id": [[NSUUID UUID] UUIDString],
-                                                        }];
+                        @"property" : @"view",
+                        @"destination" : layer.layerID,
+                        @"id" : [[NSUUID UUID] UUIDString],
+                    }];
                     [connections addChild:outlet];
                 }
                 [placeholder addChild:connections];
+            }
+            {
+                NSNumber *adjustInsets = [self xib_automaticallyAdjustsScrollViewInsets:layer];
+                if (adjustInsets != nil && [adjustInsets boolValue]) {
+                    NSXMLElement *element = [NSXMLElement elementWithName:@"userDefinedRuntimeAttributes"];
+                    NSXMLElement *sElement = [NSXMLElement elementWithName:@"userDefinedRuntimeAttribute"];
+                    [sElement setAttributesAsDictionary:@{
+                        @"type" : @"boolean",
+                        @"keyPath" : @"automaticallyAdjustsScrollViewInsets",
+                        @"value" : @"YES",
+                    }];
+                    [element addChild:sElement];
+                    [placeholder addChild:element];
+                } else {
+                    NSXMLElement *element = [NSXMLElement elementWithName:@"userDefinedRuntimeAttributes"];
+                    NSXMLElement *sElement = [NSXMLElement elementWithName:@"userDefinedRuntimeAttribute"];
+                    [sElement setAttributesAsDictionary:@{
+                        @"type" : @"boolean",
+                        @"keyPath" : @"automaticallyAdjustsScrollViewInsets",
+                        @"value" : @"NO",
+                    }];
+                    [element addChild:sElement];
+                    [placeholder addChild:element];
+                }
             }
             [objects addChild:placeholder];
         }
         {
             NSXMLElement *placeholder = [NSXMLElement elementWithName:@"placeholder"];
             [placeholder setAttributesAsDictionary:@{
-                                                     @"placeholderIdentifier": @"IBFirstResponder",
-                                                     @"id": @"-2",
-                                                     @"customClass": @"UIResponder",
-                                                     }];
+                @"placeholderIdentifier" : @"IBFirstResponder",
+                @"id" : @"-2",
+                @"customClass" : @"UIResponder",
+            }];
             [objects addChild:placeholder];
         }
         {
             NSDictionary *hierarchy = [self xib_buildHierarchy:layer];
-            NSString *code = [[context[layer.layerClass][@"xib_code"]
-                               callWithArguments:@[layer.layerID, hierarchy]] toString];
+            NSString *code =
+                [[context[layer.layerClass][@"xib_code"] callWithArguments:@[ layer.layerID, hierarchy ]] toString];
             if (code != nil) {
                 NSXMLElement *element = [[NSXMLElement alloc] initWithXMLString:code error:nil];
                 if (element != nil) {
@@ -374,8 +402,33 @@ static WebView *webView;
         }
         [rootElement addChild:objects];
     }
+    {
+        if (context[layer.layerClass][@"xib_global"] != nil) {
+            NSDictionary *hierarchy = [self xib_buildHierarchy:layer];
+            NSString *modifiedXMLString = [[context[layer.layerClass][@"xib_global"]
+                callWithArguments:@[ layer.layerID, hierarchy, rootElement.XMLString ]] toString];
+            NSXMLElement *_rootElement = [[NSXMLElement alloc] initWithXMLString:modifiedXMLString error:nil];
+            if (_rootElement != nil) {
+                rootElement = _rootElement;
+            }
+        }
+    }
     [document addChild:rootElement];
     return document;
+}
+
+- (NSNumber *)xib_automaticallyAdjustsScrollViewInsets:(COMGenLayer *)layer {
+    if ([layer.props[@"adjustInset"] isKindOfClass:[NSNumber class]] && [layer.props[@"adjustInset"] boolValue]) {
+        return layer.props[@"adjustInset"];
+    } else {
+        for (COMGenLayer *sublayer in layer.sublayers) {
+            NSNumber *sublayerResult = [self xib_automaticallyAdjustsScrollViewInsets:sublayer];
+            if (sublayerResult != nil) {
+                return sublayerResult;
+            }
+        }
+    }
+    return nil;
 }
 
 - (NSDictionary *)xib_buildHierarchy:(COMGenLayer *)layer {
@@ -384,11 +437,11 @@ static WebView *webView;
         [sublayers addObject:[self xib_buildHierarchy:sublayer]];
     }
     return @{
-             @"class": layer.layerClass,
-             @"id": layer.layerID,
-             @"props": layer.props,
-             @"sublayers": sublayers,
-             };
+        @"class" : layer.layerClass,
+        @"id" : layer.layerID,
+        @"props" : layer.props,
+        @"sublayers" : sublayers,
+    };
 }
 
 @end

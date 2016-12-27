@@ -41,3 +41,16 @@ UISlider.oc_codeWithProps = function (props) {
     }
     return code;
 }
+
+UISlider.xib_code = function (id, layer) {
+    var xml = $.xml('<view contentMode="scaleToFill"></view>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "UISlider");
+    UISlider.xib_codeWithProps(layer.props, xml);
+    UIView.xib_addSublayers(layer, xml);
+    return $(xml).html();
+}
+
+UISlider.xib_codeWithProps = function (props, xml) {
+    UIView.xib_codeWithProps(props, xml);
+}

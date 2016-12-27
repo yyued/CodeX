@@ -308,70 +308,72 @@ UILabel.xib_code = function (id, layer) {
     $(xml).find(':first').attr('id', id);
     $(xml).find(':first').attr('customClass', "COXIBLabel");
     UILabel.xib_codeWithProps(id, layer.props, xml);
+    UIView.xib_addSublayers(layer, xml);
     return $(xml).html();
 }
 
 UILabel.xib_codeWithProps = function (id, props, xml) {
     UIView.xib_codeWithProps(props, xml);
     if (props.fontFamily !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="fontFamily" value="' + props.fontFamily + '"/>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="string" keyPath="fontFamily" value="' + props.fontFamily + '"/>');
     }
     if (props.fontSize !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="fontSize"><real key="value" value="' + props.fontSize + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="fontSize"><real key="value" value="' + props.fontSize + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.textColor !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="color" keyPath="textColor">' + xib_color('value', props.textColor) + '</userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="color" keyPath="textColor">' + xib_color('value', props.textColor) + '</userDefinedRuntimeAttribute>');
     }
     if (props.strokeColor !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="color" keyPath="strokeColor">' + xib_color('value', props.strokeColor) + '</userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="color" keyPath="strokeColor">' + xib_color('value', props.strokeColor) + '</userDefinedRuntimeAttribute>');
     }
     if (props.strokeWidth !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="strokeWidth"><real key="value" value="' + props.strokeWidth + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="strokeWidth"><real key="value" value="' + props.strokeWidth + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.deleteline !== undefined && props.deleteline == true) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="deletelineStyle"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="deletelineStyle"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
     }
     if (props.underline !== undefined && props.underline == true) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="underlineStyle"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="underlineStyle"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
     }
     if (props.letterSpacing !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="letterSpacing"><real key="value" value="' + props.letterSpacing + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="letterSpacing"><real key="value" value="' + props.letterSpacing + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.lineSpacing !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="cox_lineSpacing"><real key="value" value="' + props.lineSpacing + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="cox_lineSpacing"><real key="value" value="' + props.lineSpacing + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.numberOfLines !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="numberOfLines"><integer key="value" value="' + props.numberOfLines + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="numberOfLines"><integer key="value" value="' + props.numberOfLines + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.shadowColor !== undefined) {
         code += "view.layer.shadowColor = " + oc_color(props.shadowColor) + ".CGColor;\nview.layer.shadowOpacity = 1.0;\n";
     }
     if (props.shadowOffset !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="size" keyPath="layer.shadowOffset"><size key="value" width="' + props.shadowOffset.x + '" height="' + props.shadowOffset.y + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="size" keyPath="layer.shadowOffset"><size key="value" width="' + props.shadowOffset.x + '" height="' + props.shadowOffset.y + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.shadowRadius !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="layer.shadowRadius"><real key="value" value="' + props.shadowRadius + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="layer.shadowRadius"><real key="value" value="' + props.shadowRadius + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.maxWidth !== undefined && props.maxWidth > 0) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="maxWidth"><real key="value" value="' + props.maxWidth + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="maxWidth"><real key="value" value="' + props.maxWidth + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.alignment !== undefined) {
         if (props.alignment == 0) {
-            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="textAlignment"><integer key="value" value="0"/></userDefinedRuntimeAttribute>');
+            $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="textAlignment"><integer key="value" value="0"/></userDefinedRuntimeAttribute>');
         }
         else if (props.alignment == 2) {
-            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="textAlignment"><integer key="value" value="2"/></userDefinedRuntimeAttribute>');
+            $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="textAlignment"><integer key="value" value="2"/></userDefinedRuntimeAttribute>');
         }
         else if (props.alignment == 1) {
-            $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="textAlignment"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
+            $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="textAlignment"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
         }
     }
     if (props.text !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="string" keyPath="text" value="' + oc_text(props.text) + '"/>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute id="tmp" type="string" keyPath="text" value=""/>');
+        $(xml).find('#tmp').attr("value", props.text).removeAttr("id");
     }
     if (props.range !== undefined) {
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="rangeLocation"><integer key="value" value="' + props.range.location + '"/></userDefinedRuntimeAttribute>');
-        $(xml).find(':first').find('userDefinedRuntimeAttributes').append('<userDefinedRuntimeAttribute type="number" keyPath="rangeLength"><integer key="value" value="' + props.range.length + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="rangeLocation"><integer key="value" value="' + props.range.location + '"/></userDefinedRuntimeAttribute>');
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="rangeLength"><integer key="value" value="' + props.range.length + '"/></userDefinedRuntimeAttribute>');
     }
     if (props.rangeAttrs !== undefined) {
         if ($(xml).find(':first').find('subviews').length == 0) {
@@ -382,7 +384,7 @@ UILabel.xib_codeWithProps = function (id, props, xml) {
             var elementProps = {};
             Object.assign(elementProps, props, element, { tag: -index });
             delete elementProps['rangeAttrs'];
-            $(xml).find(':first').find('subviews').append(
+            $(xml).find(':first').find('subviews:eq(0)').append(
                 window["UILabel"].xib_code(id + "-SUBTEXT-" + index, {
                     class: "UILabel",
                     id: id + "-SUBTEXT-" + index,

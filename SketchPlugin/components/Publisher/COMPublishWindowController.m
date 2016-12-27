@@ -19,10 +19,10 @@
 @property(weak) IBOutlet NSButton *outtypeView;
 @property(weak) IBOutlet NSTextField *classNameTextField;
 @property(weak) IBOutlet NSTextField *pathTextField;
-@property (weak) IBOutlet NSTextField *assetsTextField;
-@property (weak) IBOutlet NSTextField *libPathTextField;
-@property (weak) IBOutlet NSButton *platformOCButton;
-@property (weak) IBOutlet NSButton *platformOCXIBButton;
+@property(weak) IBOutlet NSTextField *assetsTextField;
+@property(weak) IBOutlet NSTextField *libPathTextField;
+@property(weak) IBOutlet NSButton *platformOCButton;
+@property(weak) IBOutlet NSButton *platformOCXIBButton;
 
 @end
 
@@ -40,24 +40,37 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outtypeView"] isKindOfClass:[NSNumber class]]) {
-            [self.outtypeView setState:[[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outtypeView"] integerValue]];
-        }
-        if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outtypeViewController"] isKindOfClass:[NSNumber class]]) {
-            [self.outtypeViewController setState:[[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outtypeViewController"] integerValue]];
-        }
-        if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.className"] isKindOfClass:[NSString class]]) {
-            [self.classNameTextField setStringValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.className"]];
-        }
-        if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outPath"] isKindOfClass:[NSString class]]) {
-            [self.pathTextField setStringValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outPath"]];
-        }
-        if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.libPath"] isKindOfClass:[NSString class]]) {
-            [self.libPathTextField setStringValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.libPath"]];
-        }
-        if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.assetsPath"] isKindOfClass:[NSString class]]) {
-            [self.assetsTextField setStringValue:[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.assetsPath"]];
-        }
+      if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outtypeView"]
+              isKindOfClass:[NSNumber class]]) {
+          [self.outtypeView setState:[[[NSUserDefaults standardUserDefaults]
+                                         valueForKey:@"com.yy.ued.sketch.components.outtypeView"] integerValue]];
+      }
+      if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outtypeViewController"]
+              isKindOfClass:[NSNumber class]]) {
+          [self.outtypeViewController
+              setState:[[[NSUserDefaults standardUserDefaults]
+                           valueForKey:@"com.yy.ued.sketch.components.outtypeViewController"] integerValue]];
+      }
+      if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.className"]
+              isKindOfClass:[NSString class]]) {
+          [self.classNameTextField setStringValue:[[NSUserDefaults standardUserDefaults]
+                                                      valueForKey:@"com.yy.ued.sketch.components.className"]];
+      }
+      if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.outPath"]
+              isKindOfClass:[NSString class]]) {
+          [self.pathTextField setStringValue:[[NSUserDefaults standardUserDefaults]
+                                                 valueForKey:@"com.yy.ued.sketch.components.outPath"]];
+      }
+      if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.libPath"]
+              isKindOfClass:[NSString class]]) {
+          [self.libPathTextField setStringValue:[[NSUserDefaults standardUserDefaults]
+                                                    valueForKey:@"com.yy.ued.sketch.components.libPath"]];
+      }
+      if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"com.yy.ued.sketch.components.assetsPath"]
+              isKindOfClass:[NSString class]]) {
+          [self.assetsTextField setStringValue:[[NSUserDefaults standardUserDefaults]
+                                                   valueForKey:@"com.yy.ued.sketch.components.assetsPath"]];
+      }
     });
 }
 
@@ -74,7 +87,8 @@
     NSInteger result = [openPanel runModal];
     if (result == NSFileHandlingPanelOKButton) {
         [self.pathTextField setStringValue:[openPanel.URL path]];
-        [[NSUserDefaults standardUserDefaults] setValue:[openPanel.URL path] forKey:@"com.yy.ued.sketch.components.outPath"];
+        [[NSUserDefaults standardUserDefaults] setValue:[openPanel.URL path]
+                                                 forKey:@"com.yy.ued.sketch.components.outPath"];
     }
 }
 
@@ -86,7 +100,8 @@
     NSInteger result = [openPanel runModal];
     if (result == NSFileHandlingPanelOKButton) {
         [self.assetsTextField setStringValue:[openPanel.URL path]];
-        [[NSUserDefaults standardUserDefaults] setValue:[openPanel.URL path] forKey:@"com.yy.ued.sketch.components.assetsPath"];
+        [[NSUserDefaults standardUserDefaults] setValue:[openPanel.URL path]
+                                                 forKey:@"com.yy.ued.sketch.components.assetsPath"];
     }
 }
 
@@ -98,7 +113,8 @@
     NSInteger result = [openPanel runModal];
     if (result == NSFileHandlingPanelOKButton) {
         [self.libPathTextField setStringValue:[openPanel.URL path]];
-        [[NSUserDefaults standardUserDefaults] setValue:[openPanel.URL path] forKey:@"com.yy.ued.sketch.components.libPath"];
+        [[NSUserDefaults standardUserDefaults] setValue:[openPanel.URL path]
+                                                 forKey:@"com.yy.ued.sketch.components.libPath"];
     }
 }
 
@@ -116,8 +132,7 @@
         [newLayer.frame setOrigin:CGPointMake(1000000, 1000000)];
         [newLayer.frame setWidth:100000];
         [newLayer.frame setHeight:100000];
-    }
-    else {
+    } else {
         [self.currentLayer performSelector:@selector(setIsVisible:) withObject:@(NO)];
     }
     NSMutableDictionary *props = [NSMutableDictionary dictionary];
@@ -126,45 +141,50 @@
     [self fetchProps:newLayer props:props layers:layers];
     [self saveShapesAsAssets:layers props:props];
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        MSExportRequest *request = [MSExportRequest_Class exportRequestsFromExportableLayer:newLayer].firstObject;
-        [[MSDocument_Class currentDocument] saveArtboardOrSlice:request toFile:@"/tmp/com.yy.ued.sketch.components/tmp.svg"];
-        [[NSJSONSerialization dataWithJSONObject:[props copy] options:kNilOptions error:NULL]
-         writeToFile:@"/tmp/com.yy.ued.sketch.components/tmp.json"
-         atomically:YES];
-        COMGenerator *generator = [COMGenerator new];
-        generator.assetsPath = self.assetsTextField.stringValue;
-        generator.libraryPath = self.libPathTextField.stringValue;
-        generator.className = self.classNameTextField.stringValue;
-        COMGenLayer *layer = [generator parse];
-        if (self.platformOCButton.state == 1) {
-            [[generator oc_code:layer genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView]
-             enumerateKeysAndObjectsUsingBlock:^(NSString *  _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
-                 [obj writeToFile:[NSString stringWithFormat:@"%@/%@", self.pathTextField.stringValue, key]
-                       atomically:YES
-                         encoding:NSUTF8StringEncoding
-                            error:NULL];
-             }];
-        }
-        else if (self.platformOCXIBButton.state == 1) {
-            NSXMLDocument *doc = [generator xib_code:layer genType:
-                                  self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView];
-            [[doc XMLString] writeToFile:[NSString stringWithFormat:@"%@/%@.xib",
-                                          self.pathTextField.stringValue,
-                                          generator.className]
-                              atomically:YES
-                                encoding:NSUTF8StringEncoding
-                                   error:nil];
-        }
-        [newLayer removeFromParent];
-        [[NSApplication sharedApplication] endModalSession:self.modalSession];
-        [self close];
-        if (![self.currentLayer isKindOfClass:MSArtboardGroup_Class]) {
-            [self.currentLayer performSelector:@selector(setIsVisible:) withObject:@(YES)];
-        }
+      MSExportRequest *request = [MSExportRequest_Class exportRequestsFromExportableLayer:newLayer].firstObject;
+      [[MSDocument_Class currentDocument] saveArtboardOrSlice:request
+                                                       toFile:@"/tmp/com.yy.ued.sketch.components/tmp.svg"];
+      [[NSJSONSerialization dataWithJSONObject:[props copy] options:kNilOptions error:NULL]
+          writeToFile:@"/tmp/com.yy.ued.sketch.components/tmp.json"
+           atomically:YES];
+      COMGenerator *generator = [COMGenerator new];
+      generator.assetsPath = self.assetsTextField.stringValue;
+      generator.libraryPath = self.libPathTextField.stringValue;
+      generator.className = self.classNameTextField.stringValue;
+      COMGenLayer *layer = [generator parse];
+      if (self.platformOCButton.state == 1) {
+          [[generator oc_code:layer genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView]
+              enumerateKeysAndObjectsUsingBlock:^(NSString *_Nonnull key, NSString *_Nonnull obj, BOOL *_Nonnull stop) {
+                [obj writeToFile:[NSString stringWithFormat:@"%@/%@", self.pathTextField.stringValue, key]
+                      atomically:YES
+                        encoding:NSUTF8StringEncoding
+                           error:NULL];
+              }];
+      } else if (self.platformOCXIBButton.state == 1) {
+          NSXMLDocument *doc =
+              [generator xib_code:layer
+                          genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView];
+          NSString *docString = [doc XMLStringWithOptions:NSXMLNodePrettyPrint];
+          docString = [@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" stringByAppendingString:docString];
+          [docString
+              writeToFile:[NSString stringWithFormat:@"%@/%@.xib", self.pathTextField.stringValue, generator.className]
+               atomically:YES
+                 encoding:NSUTF8StringEncoding
+                    error:nil];
+      }
+      [newLayer removeFromParent];
+      [[NSApplication sharedApplication] endModalSession:self.modalSession];
+      [self close];
+      if (![self.currentLayer isKindOfClass:MSArtboardGroup_Class]) {
+          [self.currentLayer performSelector:@selector(setIsVisible:) withObject:@(YES)];
+      }
     });
-    [[NSUserDefaults standardUserDefaults] setValue:self.classNameTextField.stringValue forKey:@"com.yy.ued.sketch.components.className"];
-    [[NSUserDefaults standardUserDefaults] setValue:@(self.outtypeView.state) forKey:@"com.yy.ued.sketch.components.outtypeView"];
-    [[NSUserDefaults standardUserDefaults] setValue:@(self.outtypeViewController.state) forKey:@"com.yy.ued.sketch.components.outtypeViewController"];
+    [[NSUserDefaults standardUserDefaults] setValue:self.classNameTextField.stringValue
+                                             forKey:@"com.yy.ued.sketch.components.className"];
+    [[NSUserDefaults standardUserDefaults] setValue:@(self.outtypeView.state)
+                                             forKey:@"com.yy.ued.sketch.components.outtypeView"];
+    [[NSUserDefaults standardUserDefaults] setValue:@(self.outtypeViewController.state)
+                                             forKey:@"com.yy.ued.sketch.components.outtypeViewController"];
 }
 
 - (void)fetchProps:(MSLayer *)layer props:(NSMutableDictionary *)props layers:(NSMutableDictionary *)layers {
@@ -172,12 +192,14 @@
     static JSContext *context;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        command = [MSPluginCommand_Class new];
-        context = [JSContext new];
-        [context evaluateScript:@"function a(b){eval('var e = '+b);return e}"];
+      command = [MSPluginCommand_Class new];
+      context = [JSContext new];
+      [context evaluateScript:@"function a(b){eval('var e = '+b);return e}"];
     });
-    NSString *className = [command valueForKey:@"class" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
-    NSDictionary *layerProps = [command valueForKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
+    NSString *className =
+        [command valueForKey:@"class" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
+    NSDictionary *layerProps =
+        [command valueForKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
     if (className != nil && className.length) {
         if (![layerProps isKindOfClass:[NSDictionary class]]) {
             layerProps = @{};
@@ -199,19 +221,19 @@
         }
         {
             NSMutableDictionary *mDict = [layerProps mutableCopy];
-            [[mDict copy] enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-                if (mDict[[NSString stringWithFormat:@"_%@", key]] != nil &&
-                    [mDict[[NSString stringWithFormat:@"_%@", key]] isEqualToString:@"Enum"] &&
-                    [obj isKindOfClass:[NSArray class]] &&
-                    [obj firstObject] != nil) {
-                    [mDict setObject:[obj firstObject] forKey:key];
-                }
+            [[mDict copy] enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL *_Nonnull stop) {
+              if (mDict[[NSString stringWithFormat:@"_%@", key]] != nil &&
+                  [mDict[[NSString stringWithFormat:@"_%@", key]] isEqualToString:@"Enum"] &&
+                  [obj isKindOfClass:[NSArray class]] && [obj firstObject] != nil) {
+                  [mDict setObject:[obj firstObject] forKey:key];
+              }
             }];
             layerProps = [mDict copy];
         }
         {
-            NSString *cDict =
-            [command valueForKey:@"constraints" onLayer:layer forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+            NSString *cDict = [command valueForKey:@"constraints"
+                                           onLayer:layer
+                               forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
             if ([cDict isKindOfClass:[NSDictionary class]]) {
                 NSMutableDictionary *mDict = [layerProps mutableCopy];
                 mDict[@"constraints"] = cDict;
@@ -241,99 +263,102 @@
     static JSContext *context;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        command = [MSPluginCommand_Class new];
-        context = [JSContext new];
-        [context evaluateScript:@"function a(b){eval('var e = '+b);return e}"];
+      command = [MSPluginCommand_Class new];
+      context = [JSContext new];
+      [context evaluateScript:@"function a(b){eval('var e = '+b);return e}"];
     });
-    NSString *className = [command valueForKey:@"class" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
-    NSDictionary *layerProps = [command valueForKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
-    NSDictionary *constraints = [command valueForKey:@"constraints" onLayer:layer forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+    NSString *className =
+        [command valueForKey:@"class" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
+    NSDictionary *layerProps =
+        [command valueForKey:@"props" onLayer:layer forPluginIdentifier:@"com.yy.ued.sketch.components"];
+    NSDictionary *constraints =
+        [command valueForKey:@"constraints" onLayer:layer forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
     if ([className isEqualToString:@"UIConditionView"] || [className isEqualToString:@"COXButton"]) {
         MSLayerGroup *newGroup = [MSLayerGroup_Class new];
         newGroup.frame = layer.frame;
         [command setValue:className
-                   forKey:@"class"
-                  onLayer:newGroup
-      forPluginIdentifier:@"com.yy.ued.sketch.components"];
+                         forKey:@"class"
+                        onLayer:newGroup
+            forPluginIdentifier:@"com.yy.ued.sketch.components"];
         if (layerProps != nil) {
             [command setValue:layerProps
-                       forKey:@"props"
-                      onLayer:newGroup
-          forPluginIdentifier:@"com.yy.ued.sketch.components"];
+                             forKey:@"props"
+                            onLayer:newGroup
+                forPluginIdentifier:@"com.yy.ued.sketch.components"];
         }
         if (constraints != nil) {
             [command setValue:constraints
-                       forKey:@"constraints"
-                      onLayer:newGroup
-          forPluginIdentifier:@"com.yy.ued.sketch.components"];
+                             forKey:@"constraints"
+                            onLayer:newGroup
+                forPluginIdentifier:@"com.yy.ued.sketch.components"];
             [command setValue:constraints
-                       forKey:@"constraints"
-                      onLayer:newGroup
-          forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+                             forKey:@"constraints"
+                            onLayer:newGroup
+                forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
         }
-        [[layer parentGroup] insertLayers:@[newGroup] afterLayer:layer];
+        [[layer parentGroup] insertLayers:@[ newGroup ] afterLayer:layer];
         [layer removeFromParent];
-        [layerProps enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            if ([key hasPrefix:@"where"]) {
-                MSLayer *targetLayer = [self findLayerWithName:obj];
-                if (targetLayer != nil) {
-                    targetLayer = [targetLayer duplicate];
-                    [targetLayer removeFromParent];
-                    MSLayerGroup *subGroup = [MSLayerGroup_Class new];
-                    subGroup.name = key;
-                    subGroup.frame.x = 0;
-                    subGroup.frame.y = 0;
-                    subGroup.frame.width = newGroup.frame.width;
-                    subGroup.frame.height = newGroup.frame.height;
-                    targetLayer.frame.x = 0;
-                    targetLayer.frame.y = 0;
-                    targetLayer.frame.width = subGroup.frame.width;
-                    targetLayer.frame.height = subGroup.frame.height;
-                    NSNumber *tag = [[NSNumberFormatter new]
-                                     numberFromString:[[key componentsSeparatedByString:@"="] lastObject]];
-                    if (tag == nil) {
-                        tag = @(0);
-                    }
-                    [command setValue:@"UIView"
-                               forKey:@"class"
-                              onLayer:targetLayer
-                  forPluginIdentifier:@"com.yy.ued.sketch.components"];
-                    [command setValue:@{
-                                        @"tag": tag
-                                        }
-                               forKey:@"props"
-                              onLayer:targetLayer
-                  forPluginIdentifier:@"com.yy.ued.sketch.components"];
-                    [command setValue:@{
-                                        @"centerHorizontally" : @(1),
-                                        @"centerVertically" : @(1),
-                                        @"centerRelativeTo" : @(1),
-                                        @"useFixedWidth": @(1),
-                                        @"useFixedHeight": @(1),
-                                        @"fixedWidth" : @"100%",
-                                        @"fixedHeight" : @"100%",
-                                        @"sizeRelativeTo" : @(1),
-                                        }
-                               forKey:@"constraints"
-                              onLayer:targetLayer
-                  forPluginIdentifier:@"com.yy.ued.sketch.components"];
-                    [command setValue:@{
-                                        @"centerHorizontally" : @(1),
-                                        @"centerVertically" : @(1),
-                                        @"centerRelativeTo" : @(1),
-                                        @"useFixedWidth": @(1),
-                                        @"useFixedHeight": @(1),
-                                        @"fixedWidth" : @"100%",
-                                        @"fixedHeight" : @"100%",
-                                        @"sizeRelativeTo" : @(1),
-                                        }
-                               forKey:@"constraints"
-                              onLayer:targetLayer
-                  forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
-                    [subGroup addLayers:@[targetLayer]];
-                    [newGroup addLayers:@[subGroup]];
-                }
-            }
+        [layerProps enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL *_Nonnull stop) {
+          if ([key hasPrefix:@"where"]) {
+              MSLayer *targetLayer = [self findLayerWithName:obj];
+              if (targetLayer != nil) {
+                  targetLayer = [targetLayer duplicate];
+                  [targetLayer removeFromParent];
+                  MSLayerGroup *subGroup = [MSLayerGroup_Class new];
+                  subGroup.name = key;
+                  subGroup.frame.x = 0;
+                  subGroup.frame.y = 0;
+                  subGroup.frame.width = newGroup.frame.width;
+                  subGroup.frame.height = newGroup.frame.height;
+                  targetLayer.frame.x = 0;
+                  targetLayer.frame.y = 0;
+                  targetLayer.frame.width = subGroup.frame.width;
+                  targetLayer.frame.height = subGroup.frame.height;
+                  NSNumber *tag =
+                      [[NSNumberFormatter new] numberFromString:[[key componentsSeparatedByString:@"="] lastObject]];
+                  if (tag == nil) {
+                      tag = @(0);
+                  }
+                  [command setValue:@"UIView"
+                                   forKey:@"class"
+                                  onLayer:targetLayer
+                      forPluginIdentifier:@"com.yy.ued.sketch.components"];
+                  [command setValue:@{
+                      @"tag" : tag
+                  }
+                                   forKey:@"props"
+                                  onLayer:targetLayer
+                      forPluginIdentifier:@"com.yy.ued.sketch.components"];
+                  [command setValue:@{
+                      @"centerHorizontally" : @(1),
+                      @"centerVertically" : @(1),
+                      @"centerRelativeTo" : @(1),
+                      @"useFixedWidth" : @(1),
+                      @"useFixedHeight" : @(1),
+                      @"fixedWidth" : @"100%",
+                      @"fixedHeight" : @"100%",
+                      @"sizeRelativeTo" : @(1),
+                  }
+                                   forKey:@"constraints"
+                                  onLayer:targetLayer
+                      forPluginIdentifier:@"com.yy.ued.sketch.components"];
+                  [command setValue:@{
+                      @"centerHorizontally" : @(1),
+                      @"centerVertically" : @(1),
+                      @"centerRelativeTo" : @(1),
+                      @"useFixedWidth" : @(1),
+                      @"useFixedHeight" : @(1),
+                      @"fixedWidth" : @"100%",
+                      @"fixedHeight" : @"100%",
+                      @"sizeRelativeTo" : @(1),
+                  }
+                                   forKey:@"constraints"
+                                  onLayer:targetLayer
+                      forPluginIdentifier:@"com.matt-curtis.sketch.constraints"];
+                  [subGroup addLayers:@[ targetLayer ]];
+                  [newGroup addLayers:@[ subGroup ]];
+              }
+          }
         }];
     }
     if ([layer isKindOfClass:MSLayerGroup_Class]) {
@@ -345,33 +370,32 @@
 
 - (void)saveShapesAsAssets:(NSMutableDictionary *)layers props:(NSMutableDictionary *)props {
     NSString *assetsPath = self.assetsTextField.stringValue;
-    [props enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-        if (![obj[@"class"] isKindOfClass:[NSString class]] ||
-            ![obj[@"sourceType"] isKindOfClass:[NSString class]] ||
-            ![obj[@"sourceName"] isKindOfClass:[NSString class]]) {
-            return;
-        }
-        if ([obj[@"class"] isEqualToString:@"UIImageView"] && [obj[@"sourceType"] isEqualToString:@"Shape"]) {
-            MSLayer *layer = layers[key];
-            if (layer == nil) {
-                return;
-            }
-            MSExportRequest *request = [(id)[MSExportRequest_Class exportRequestsFromExportableLayer:layer] firstObject];
-            [request setValue:@(3.0) forKey:@"scale"];
-            [[MSDocument_Class currentDocument] saveArtboardOrSlice:request toFile:@"/tmp/com.yy.ued.sketch.components/tmp.png"];
-            NSImage *image = [[NSImage alloc] initWithContentsOfFile:@"/tmp/com.yy.ued.sketch.components/tmp.png"];
-            NSString *filenameWithSize = [NSString stringWithFormat:@"%@_%dx%d",
-                                          obj[@"sourceName"],
-                                          (int)(image.size.width / 3.0),
-                                          (int)(image.size.height / 3.0)];
-            [COMAssetsWritter writeIOSImage:image
-                                   baseSize:CGSizeMake(image.size.width / 3.0, image.size.height / 3.0)
-                               toAssetsPath:assetsPath
-                                   fileName:filenameWithSize];
-            NSMutableDictionary *newObj = [obj mutableCopy];
-            [newObj setObject:filenameWithSize forKey:@"sourceName"];
-            [props setObject:newObj forKey:key];
-        }
+    [props enumerateKeysAndObjectsUsingBlock:^(id _Nonnull key, id _Nonnull obj, BOOL *_Nonnull stop) {
+      if (![obj[@"class"] isKindOfClass:[NSString class]] || ![obj[@"sourceType"] isKindOfClass:[NSString class]] ||
+          ![obj[@"sourceName"] isKindOfClass:[NSString class]]) {
+          return;
+      }
+      if ([obj[@"class"] isEqualToString:@"UIImageView"] && [obj[@"sourceType"] isEqualToString:@"Shape"]) {
+          MSLayer *layer = layers[key];
+          if (layer == nil) {
+              return;
+          }
+          MSExportRequest *request = [(id)[MSExportRequest_Class exportRequestsFromExportableLayer:layer] firstObject];
+          [request setValue:@(3.0) forKey:@"scale"];
+          [[MSDocument_Class currentDocument] saveArtboardOrSlice:request
+                                                           toFile:@"/tmp/com.yy.ued.sketch.components/tmp.png"];
+          NSImage *image = [[NSImage alloc] initWithContentsOfFile:@"/tmp/com.yy.ued.sketch.components/tmp.png"];
+          NSString *filenameWithSize =
+              [NSString stringWithFormat:@"%@_%dx%d", obj[@"sourceName"], (int)(image.size.width / 3.0),
+                                         (int)(image.size.height / 3.0)];
+          [COMAssetsWritter writeIOSImage:image
+                                 baseSize:CGSizeMake(image.size.width / 3.0, image.size.height / 3.0)
+                             toAssetsPath:assetsPath
+                                 fileName:filenameWithSize];
+          NSMutableDictionary *newObj = [obj mutableCopy];
+          [newObj setObject:filenameWithSize forKey:@"sourceName"];
+          [props setObject:newObj forKey:key];
+      }
     }];
 }
 
@@ -390,8 +414,7 @@
     self.platformOCXIBButton.state = 0;
     if (sender == self.platformOCButton) {
         self.platformOCButton.state = 1;
-    }
-    else if (sender == self.platformOCXIBButton) {
+    } else if (sender == self.platformOCXIBButton) {
         self.platformOCXIBButton.state = 1;
     }
 }

@@ -31,3 +31,16 @@ UIStatusBar.oc_load = function (props) {
     }
     return code;
 }
+
+UIStatusBar.xib_global = function (id, layer, xmlString) {
+    var xml = $.xml(xmlString);
+    var props = layer.props;
+    if (props.barStyle === "Light") {
+        $(xml).find('objects').find('placeholder:eq(0)').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="cox_statusBarStyle"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
+    }
+    else if (props.barStyle === "Hidden") {
+        $(xml).find('objects').find('placeholder:eq(0)').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="boolean" keyPath="cox_statusBarHidden" value="YES"/>');
+    }
+    xmlString = $(xml).html();
+    return xmlString;
+}

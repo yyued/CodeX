@@ -37,3 +37,16 @@ UIConditionView.oc_code = function (props) {
 UIConditionView.oc_codeWithProps = function (props) {
     return UIView.oc_codeWithProps(props);
 }
+
+UIConditionView.xib_code = function (id, layer) {
+    var xml = $.xml('<view contentMode="scaleToFill"></view>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "COXConditionView");
+    UIConditionView.xib_codeWithProps(layer.props, xml);
+    UIView.xib_addSublayers(layer, xml);
+    return $(xml).html();
+}
+
+UIConditionView.xib_codeWithProps = function (props, xml) {
+    UIView.xib_codeWithProps(props, xml);
+}

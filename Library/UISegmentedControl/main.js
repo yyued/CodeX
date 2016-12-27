@@ -61,3 +61,25 @@ UISegmentedControl.oc_codeWithProps = function (props) {
     }
     return code;
 }
+
+UISegmentedControl.xib_code = function (id, layer) {
+    var xml = $.xml('<view contentMode="scaleToFill"></view>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "UISegmentedControl");
+    UISegmentedControl.xib_codeWithProps(layer.props, xml);
+    UIView.xib_addSublayers(layer, xml);
+    return $(xml).html();
+}
+
+UISegmentedControl.xib_codeWithProps = function (props, xml) {
+    UIView.xib_codeWithProps(props, xml);
+    if (props.titles != undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_titles" value="' + props.titles.join(",") + '"/>');
+        if (props.titles.length > 0) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="selectedSegmentIndex"><integer key="value" value="0"/></userDefinedRuntimeAttribute>');
+        }
+    }
+    if (props.selectedColor != undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="color" keyPath="cox_selectedColor">' + xib_color('value', props.selectedColor) + '</userDefinedRuntimeAttribute>');
+    }
+}

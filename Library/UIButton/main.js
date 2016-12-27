@@ -54,6 +54,7 @@ UIButton.xib_code = function (id, layer) {
     $(xml).find(':first').attr('id', id);
     $(xml).find(':first').attr('customClass', "COXUIButton");
     UIButton.xib_codeWithProps(id, layer.props, xml);
+    UIView.xib_addSublayers(layer, xml);
     return $(xml).html();
 }
 
@@ -63,7 +64,7 @@ UIButton.xib_codeWithProps = function (id, props, xml) {
         if ($(xml).find(':first').find('subviews').length == 0) {
             $(xml).find(':first').append('<subviews></subviews>');
         }
-        $(xml).find(':first').find('subviews').append(
+        $(xml).find(':first').find('subviews:eq(0)').append(
             window["UILabel"].xib_code(id + "-TEXT", {
                 class: "UILabel",
                 id: id + "-TEXT",

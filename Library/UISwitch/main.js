@@ -48,6 +48,7 @@ UISwitch.xib_code = function (id, layer) {
     $(xml).find(':first').attr('id', id);
     $(xml).find(':first').attr('customClass', "UISwitch");
     UISwitch.xib_codeWithProps(layer.props, xml);
+    UIView.xib_addSublayers(layer, xml);
     return $(xml).html();
 }
 

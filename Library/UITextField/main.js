@@ -67,3 +67,47 @@ UITextField.oc_codeWithProps = function (props) {
     }
     return code;
 }
+
+UITextField.xib_code = function (id, layer) {
+    var xml = $.xml('<view contentMode="scaleToFill"></view>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "COXUITextField");
+    UITextField.xib_codeWithProps(id, layer.props, xml);
+    UIView.xib_addSublayers(layer, xml);
+    return $(xml).html();
+}
+
+UITextField.xib_codeWithProps = function (id, props, xml) {
+    UIView.xib_codeWithProps(props, xml);
+    $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="boolean" keyPath="clipsToBounds" value="YES"/>');
+    if (props.secureField === true) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="boolean" keyPath="secureTextEntry" value="YES"/>');
+    }
+    if (props.leftPadding !== undefined) {
+        $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="cox_leftPadding"><real key="value" value="' + props.leftPadding + '"/></userDefinedRuntimeAttribute>');
+    }
+    if (props.text !== undefined) {
+        if ($(xml).find(':first').find('subviews').length == 0) {
+            $(xml).find(':first').append('<subviews></subviews>');
+        }
+        $(xml).find(':first').find('subviews:eq(0)').append(
+            window["UILabel"].xib_code(id + "-TEXT", {
+                class: "UILabel",
+                id: id + "-TEXT",
+                props: Object.assign(props.text, {tag: -1}),
+            })
+        )
+    }
+    if (props.placeholder !== undefined) {
+        if ($(xml).find(':first').find('subviews').length == 0) {
+            $(xml).find(':first').append('<subviews></subviews>');
+        }
+        $(xml).find(':first').find('subviews:eq(0)').append(
+            window["UILabel"].xib_code(id + "-PLACEHOLDER", {
+                class: "UILabel",
+                id: id + "-PLACEHOLDER",
+                props: Object.assign(props.placeholder, {tag: -2}),
+            })
+        )
+    }
+}

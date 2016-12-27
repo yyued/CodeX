@@ -71,3 +71,31 @@ UINavigationBar.oc_viewDidLoad = function (props) {
     }
     return code;
 }
+
+UINavigationBar.xib_global = function (id, layer, xmlString) {
+    var xml = $.xml(xmlString);
+    var props = layer.props;
+    if (props.titleView === "Title" && props.titleText !== undefined) {
+        $(xml).find('objects').find('placeholder:eq(0)').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute id="tmp" type="string" keyPath="title"></userDefinedRuntimeAttribute>');
+        $(xml).find('#tmp').attr("value", props.titleText).removeAttr("id");
+    }
+    else if (props.titleView === "Custom") {
+        // todo
+    }
+    if (props.rightText !== undefined && props.rightText.length > 0) {
+        $(xml).find('objects').find('placeholder:eq(0)').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute id="tmp" type="string" keyPath="cox_rightButtonItemText"></userDefinedRuntimeAttribute>');
+        $(xml).find('#tmp').attr("value", props.rightText).removeAttr("id");
+    }
+    if (props.rightImage !== undefined && props.rightImage.length > 0) {
+        $(xml).find('objects').find('placeholder:eq(0)').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_rightButtonItemImageName" value="' + props.rightImage + '"></userDefinedRuntimeAttribute>');
+    }
+    if (props.leftText !== undefined && props.leftText.length > 0) {
+        $(xml).find('objects').find('placeholder:eq(0)').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute id="tmp" type="string" keyPath="cox_leftButtonItemText"></userDefinedRuntimeAttribute>');
+        $(xml).find('#tmp').attr("value", props.leftText).removeAttr("id");
+    }
+    if (props.leftImage !== undefined && props.leftImage.length > 0) {
+        $(xml).find('objects').find('placeholder:eq(0)').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_leftButtonItemImageName" value="' + props.leftImage + '"></userDefinedRuntimeAttribute>');
+    }
+    xmlString = $(xml).html();
+    return xmlString;
+}
