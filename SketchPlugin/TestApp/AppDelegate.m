@@ -34,31 +34,22 @@
     //    }];
     //    [[NSApplication sharedApplication] mainWindow]
 
-    //    COMGenerator *generator = [COMGenerator new];
-    //    generator.className = @"ViewController";
-    //    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
-    //    generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
-    //    COMGenLayer *layer = [generator parse];
-    //    [[generator oc_code:layer genType:COMGenTypeViewController] enumerateKeysAndObjectsUsingBlock:^(NSString *
-    //    _Nonnull key, NSString *  _Nonnull obj, BOOL * _Nonnull stop) {
-    //        [obj writeToFile:[NSString stringWithFormat:@"/Users/cuiminghui/Desktop/test/test/%@", key]
-    //              atomically:YES
-    //                encoding:NSUTF8StringEncoding
-    //                   error:NULL];
-    //    }];
-
     COMGenerator *generator = [COMGenerator new];
     generator.className = @"ViewController";
-    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
-    generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
+    generator.assetsPath = @"/Users/PonyCui_Home/Desktop/ttt/ttt/Assets.xcassets";
+    generator.libraryPath = @"/Users/PonyCui_Home/Documents/CodeX/Library";
     COMGenLayer *layer = [generator parse];
-    NSDictionary *result = [generator xib_code:layer genType:COMGenTypeViewController];
-    [COMCodeWriter saveWithDictionary:result basePath:@"/Users/cuiminghui/Desktop/test/test"];
-//    [[doc XMLStringWithOptions:NSXMLNodePrettyPrint]
-//        writeToFile:@"/Users/cuiminghui/Desktop/test/test/ViewController.xib"
-//         atomically:YES
-//           encoding:NSUTF8StringEncoding
-//              error:nil];
+    NSDictionary *result = [generator oc_code:layer genType:COMGenTypeViewController];
+    [COMCodeWriter saveWithDictionary:result basePath:@"/Users/PonyCui_Home/Desktop/ttt/ttt"];
+
+//    COMGenerator *generator = [COMGenerator new];
+//    generator.className = @"ViewController";
+//    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
+//    generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
+//    COMGenLayer *layer = [generator parse];
+//    NSDictionary *result = [generator xib_code:layer genType:COMGenTypeViewController];
+//    [COMCodeWriter saveWithDictionary:result basePath:@"/Users/cuiminghui/Desktop/test/test"];
+
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

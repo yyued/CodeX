@@ -49,7 +49,36 @@
 }
 
 + (void)saveOCImplementationWithFilePath:(NSString *)filePath contents:(NSString *)contents {
-    [contents writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    if ([[NSFileManager defaultManager] fileExistsAtPath:filePath]) {
+        NSString *localCode = [NSString stringWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
+        if (![localCode containsString:@"#pragma mark - COXManaged Interface"]) {
+            [contents writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+            return;
+        }
+        NSArray *localComponents = [localCode componentsSeparatedByString:@"\n#pragma mark - "];
+        NSArray *contentsComponents = [contents componentsSeparatedByString:@"\n#pragma mark - "];
+        NSMutableString *newCode = [NSMutableString string];
+        [localComponents enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj hasPrefix:@"COXManaged Interface"]) {
+                [newCode appendString:@"\n#pragma mark - "];
+                [newCode appendString:contentsComponents[1]];
+            }
+            else if ([obj hasPrefix:@"COXManaged implementation"]) {
+                [newCode appendString:@"\n#pragma mark - "];
+                [newCode appendString:contentsComponents[3]];
+            }
+            else {
+                if (idx > 0) {
+                    [newCode appendString:@"\n#pragma mark - "];
+                }
+                [newCode appendString:obj];
+            }
+        }];
+        [newCode writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
+    else {
+        [contents writeToFile:filePath atomically:YES encoding:NSUTF8StringEncoding error:nil];
+    }
 }
 
 + (void)saveXIBWithFilePath:(NSString *)filePath contents:(NSString *)contents {

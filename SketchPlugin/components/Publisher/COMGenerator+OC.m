@@ -14,12 +14,12 @@
     NSString *superClass = genType == COMGenTypeViewController ? @"UIViewController" : @"UIView";
     NSMutableString *headerCode = [[NSMutableString alloc]
                                    initWithFormat:@"//\n//  %@.h\n//  %@\n//\n//  Created by CodeX on %@.\n\n#import <UIKit/UIKit.h>\n#import "
-                                   @"\"COXRuntime.h\"\n\n@interface %@ : %@\n\n",
+                                   @"\"COXRuntime.h\"\n\n@interface %@ : %@\n\n#pragma mark - CodeX Outlets\n",
                                    self.className, self.className, [NSDate date], self.className, superClass];
     NSMutableString *implementationCode = [[NSMutableString alloc]
                                            initWithFormat:
-                                           @"//\n//  %@.h\n//  %@\n//\n//  Created by CodeX on %@.\n\n#import \"%@.h\"\n\n@implementation %@\n\n",
-                                           self.className, self.className, [NSDate date], self.className, self.className];
+                                           @"//\n//  %@.h\n//  %@\n//\n//  Created by CodeX on %@.\n\n#import \"%@.h\"\n\n#pragma mark - COXManaged Interface\n@interface %@ (COXManaged)\n\n- (void)cox_viewDidLoad;\n\n@end\n\n#pragma mark - Custom code\n@implementation %@\n\n- (void)viewDidLoad {\n    [super viewDidLoad];\n    [self cox_viewDidLoad];\n}\n\n@end\n\n#pragma mark - COXManaged implementation\n@implementation %@ (COXManaged)\n\n",
+                                           self.className, self.className, [NSDate date], self.className, self.className, self.className, self.className];
     NSMutableString *loadCode = [[NSMutableString alloc] initWithString:@""];
     NSMutableString *viewDidLoadCode = [[NSMutableString alloc] initWithString:@""];
     if (genType == COMGenTypeViewController) {
@@ -48,7 +48,7 @@ implementationCode:implementationCode
     }
     if (genType == COMGenTypeViewController && viewDidLoadCode.length) {
         [implementationCode
-         appendFormat:@"\n- (void)viewDidLoad {\n    [super viewDidLoad];\n%@}\n\n", viewDidLoadCode];
+         appendFormat:@"\n- (void)cox_viewDidLoad {\n%@}\n\n", viewDidLoadCode];
     }
     [headerCode appendString:@"\n@end\n"];
     [implementationCode appendString:@"@end\n"];
@@ -94,7 +94,7 @@ viewDidLoadCode:(NSMutableString *)viewDidLoadCode {
         return;
     }
     if (outlet != nil && outlet.length) {
-        [headerCode appendFormat:@"@property (nonatomic, strong) %@ *%@;\n", ocClass, outlet];
+        [headerCode appendFormat:@"@property (nonatomic, strong) %@ *%@; // CodeX managed.\n", ocClass, outlet];
         NSMutableString *mCode = [NSMutableString new];
         NSString *mmCode = [[[COMGenerator context][layer.layerClass][@"oc_code"] callWithArguments:@[ layer.props ]] toString];
         if (mmCode != nil && mmCode.length > 0 && ![mmCode isEqualToString:@"undefined"]) {

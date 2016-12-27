@@ -19,7 +19,8 @@
 @implementation COMAssetsWriter
 
 + (NSImage *)resizeImage:(NSImage *)image newSize:(NSSize)newSize {
-    newSize = CGSizeMake(newSize.width / 2.0, newSize.height / 2.0);
+    newSize = CGSizeMake(newSize.width / [[NSScreen mainScreen] backingScaleFactor],
+                         newSize.height / [[NSScreen mainScreen] backingScaleFactor]);
     NSImage *newImage = [[NSImage alloc] initWithSize:newSize];
     [newImage lockFocus];
     [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
