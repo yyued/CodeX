@@ -10,6 +10,9 @@
 #import <JavaScriptCore/JavaScriptCore.h>
 #import <WebKit/WebKit.h>
 #import "COMGenerator.h"
+#import "COMGenerator+OC.h"
+#import "COMGenerator+XIB.h"
+#import "COMCodeWriter.h"
 #import "COMPropsViewController.h"
 
 @interface AppDelegate ()
@@ -49,12 +52,13 @@
     generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
     generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
     COMGenLayer *layer = [generator parse];
-    NSXMLDocument *doc = [generator xib_code:layer genType:COMGenTypeViewController];
-    [[doc XMLStringWithOptions:NSXMLNodePrettyPrint]
-        writeToFile:@"/Users/cuiminghui/Desktop/test/test/ViewController.xib"
-         atomically:YES
-           encoding:NSUTF8StringEncoding
-              error:nil];
+    NSDictionary *result = [generator xib_code:layer genType:COMGenTypeViewController];
+    [COMCodeWriter saveWithDictionary:result basePath:@"/Users/cuiminghui/Desktop/test/test"];
+//    [[doc XMLStringWithOptions:NSXMLNodePrettyPrint]
+//        writeToFile:@"/Users/cuiminghui/Desktop/test/test/ViewController.xib"
+//         atomically:YES
+//           encoding:NSUTF8StringEncoding
+//              error:nil];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {

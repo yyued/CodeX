@@ -8,7 +8,10 @@
 
 #import "COMPublishWindowController.h"
 #import "COMGenerator.h"
-#import "COMAssetsWritter.h"
+#import "COMGenerator+OC.h"
+#import "COMGenerator+XIB.h"
+#import "COMAssetsWriter.h"
+#import "COMCodeWriter.h"
 
 @interface COMPublishWindowController ()
 
@@ -153,24 +156,13 @@
       generator.className = self.classNameTextField.stringValue;
       COMGenLayer *layer = [generator parse];
       if (self.platformOCButton.state == 1) {
-          [[generator oc_code:layer genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView]
-              enumerateKeysAndObjectsUsingBlock:^(NSString *_Nonnull key, NSString *_Nonnull obj, BOOL *_Nonnull stop) {
-                [obj writeToFile:[NSString stringWithFormat:@"%@/%@", self.pathTextField.stringValue, key]
-                      atomically:YES
-                        encoding:NSUTF8StringEncoding
-                           error:NULL];
-              }];
+          [COMCodeWriter saveWithDictionary:[generator oc_code:layer
+                                                       genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView]
+                                   basePath:self.pathTextField.stringValue];
       } else if (self.platformOCXIBButton.state == 1) {
-          NSXMLDocument *doc =
-              [generator xib_code:layer
-                          genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView];
-          NSString *docString = [doc XMLStringWithOptions:NSXMLNodePrettyPrint];
-          docString = [@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>" stringByAppendingString:docString];
-          [docString
-              writeToFile:[NSString stringWithFormat:@"%@/%@.xib", self.pathTextField.stringValue, generator.className]
-               atomically:YES
-                 encoding:NSUTF8StringEncoding
-                    error:nil];
+          [COMCodeWriter saveWithDictionary:[generator xib_code:layer
+                                                        genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView]
+                                   basePath:self.pathTextField.stringValue];
       }
       [newLayer removeFromParent];
       [[NSApplication sharedApplication] endModalSession:self.modalSession];
@@ -207,7 +199,7 @@
         NSString *uuid = [[NSUUID UUID] UUIDString];
         if ([className isEqualToString:@"UIImageView"]) {
             NSMutableDictionary *mDict = [layerProps mutableCopy];
-            mDict[@"sourceName"] = [COMAssetsWritter stripFilename:layer.name];
+            mDict[@"sourceName"] = [COMAssetsWriter stripFilename:layer.name];
             if ([layer isKindOfClass:MSShapeGroup_Class]) {
                 mDict[@"sourceType"] = @"Shape";
             }
@@ -388,7 +380,7 @@
           NSString *filenameWithSize =
               [NSString stringWithFormat:@"%@_%dx%d", obj[@"sourceName"], (int)(image.size.width / 3.0),
                                          (int)(image.size.height / 3.0)];
-          [COMAssetsWritter writeIOSImage:image
+          [COMAssetsWriter writeIOSImage:image
                                  baseSize:CGSizeMake(image.size.width / 3.0, image.size.height / 3.0)
                              toAssetsPath:assetsPath
                                  fileName:filenameWithSize];

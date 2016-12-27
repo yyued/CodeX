@@ -10,7 +10,7 @@
 		2D5201E82E34462067CB1DE7 /* libPods-components.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F3C66B9533FA3FEC092E6341 /* libPods-components.a */; };
 		6C063A5D6755CD853E8228F2 /* libPods-TestApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7C4A62693EC8B0A164E96D18 /* libPods-TestApp.a */; };
 		900C02121E0CB79700246CC1 /* COMPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C01FA1E0CB79700246CC1 /* COMPluginController.m */; };
-		900C021A1E0CB79700246CC1 /* COMAssetsWritter.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020A1E0CB79700246CC1 /* COMAssetsWritter.m */; };
+		900C021A1E0CB79700246CC1 /* COMAssetsWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020A1E0CB79700246CC1 /* COMAssetsWriter.m */; };
 		900C021B1E0CB79700246CC1 /* COMGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020C1E0CB79700246CC1 /* COMGenerator.m */; };
 		900C021C1E0CB79700246CC1 /* COMGenLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020E1E0CB79700246CC1 /* COMGenLayer.m */; };
 		900C021D1E0CB79700246CC1 /* COMPublishWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C02101E0CB79700246CC1 /* COMPublishWindowController.m */; };
@@ -32,13 +32,19 @@
 		904ACA7F1E0CD60A00BFE892 /* COMPropsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF05A1E0CBD31001A73DC /* COMPropsViewController.m */; };
 		904ACA801E0CD60A00BFE892 /* COMPropsValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0641E0CBED3001A73DC /* COMPropsValueObject.m */; };
 		904ACA811E0CD60A00BFE892 /* COMPropsLayoutObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0671E0CC132001A73DC /* COMPropsLayoutObject.m */; };
-		904ACA821E0CD60A00BFE892 /* COMAssetsWritter.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020A1E0CB79700246CC1 /* COMAssetsWritter.m */; };
+		904ACA821E0CD60A00BFE892 /* COMAssetsWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020A1E0CB79700246CC1 /* COMAssetsWriter.m */; };
 		904ACA831E0CD60A00BFE892 /* COMGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020C1E0CB79700246CC1 /* COMGenerator.m */; };
 		904ACA841E0CD60A00BFE892 /* COMGenLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C020E1E0CB79700246CC1 /* COMGenLayer.m */; };
 		904ACA851E0CD60A00BFE892 /* COMPublishWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C02101E0CB79700246CC1 /* COMPublishWindowController.m */; };
 		904ACA861E0CD61000BFE892 /* COMComponentWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900FF0551E0CBD31001A73DC /* COMComponentWindowController.xib */; };
 		904ACA871E0CD61000BFE892 /* COMPropsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900FF05B1E0CBD31001A73DC /* COMPropsViewController.xib */; };
 		904ACA881E0CD61000BFE892 /* COMPublishWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900C02111E0CB79700246CC1 /* COMPublishWindowController.xib */; };
+		90AB284E1E126D9400345D65 /* COMGenerator+OC.m in Sources */ = {isa = PBXBuildFile; fileRef = 90AB284D1E126D9400345D65 /* COMGenerator+OC.m */; };
+		90AB28511E126D9C00345D65 /* COMGenerator+XIB.m in Sources */ = {isa = PBXBuildFile; fileRef = 90AB28501E126D9C00345D65 /* COMGenerator+XIB.m */; };
+		90AB28541E126DC300345D65 /* COMCodeWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 90AB28531E126DC300345D65 /* COMCodeWriter.m */; };
+		90AB28551E12704E00345D65 /* COMCodeWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 90AB28531E126DC300345D65 /* COMCodeWriter.m */; };
+		90AB28561E12704E00345D65 /* COMGenerator+OC.m in Sources */ = {isa = PBXBuildFile; fileRef = 90AB284D1E126D9400345D65 /* COMGenerator+OC.m */; };
+		90AB28571E12704E00345D65 /* COMGenerator+XIB.m in Sources */ = {isa = PBXBuildFile; fileRef = 90AB28501E126D9C00345D65 /* COMGenerator+XIB.m */; };
 		90F870A11DF7DC5F00B1F64D /* MCSketchPluginFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F870A01DF7DC5F00B1F64D /* MCSketchPluginFramework.framework */; };
 		90F870B71DF802D000B1F64D /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F870B61DF802D000B1F64D /* AppDelegate.m */; };
 		90F870BA1DF802D000B1F64D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 90F870B91DF802D000B1F64D /* main.m */; };
@@ -69,8 +75,8 @@
 		892C99BE1E52F9626A59B615 /* Pods-components.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-components.release.xcconfig"; path = "Pods/Target Support Files/Pods-components/Pods-components.release.xcconfig"; sourceTree = "<group>"; };
 		900C01F91E0CB79700246CC1 /* COMPluginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMPluginController.h; sourceTree = "<group>"; };
 		900C01FA1E0CB79700246CC1 /* COMPluginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMPluginController.m; sourceTree = "<group>"; };
-		900C02091E0CB79700246CC1 /* COMAssetsWritter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMAssetsWritter.h; sourceTree = "<group>"; };
-		900C020A1E0CB79700246CC1 /* COMAssetsWritter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMAssetsWritter.m; sourceTree = "<group>"; };
+		900C02091E0CB79700246CC1 /* COMAssetsWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMAssetsWriter.h; sourceTree = "<group>"; };
+		900C020A1E0CB79700246CC1 /* COMAssetsWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMAssetsWriter.m; sourceTree = "<group>"; };
 		900C020B1E0CB79700246CC1 /* COMGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMGenerator.h; sourceTree = "<group>"; };
 		900C020C1E0CB79700246CC1 /* COMGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMGenerator.m; sourceTree = "<group>"; };
 		900C020D1E0CB79700246CC1 /* COMGenLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMGenLayer.h; sourceTree = "<group>"; };
@@ -94,6 +100,12 @@
 		900FF0641E0CBED3001A73DC /* COMPropsValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMPropsValueObject.m; sourceTree = "<group>"; };
 		900FF0661E0CC132001A73DC /* COMPropsLayoutObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMPropsLayoutObject.h; sourceTree = "<group>"; };
 		900FF0671E0CC132001A73DC /* COMPropsLayoutObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMPropsLayoutObject.m; sourceTree = "<group>"; };
+		90AB284C1E126D9400345D65 /* COMGenerator+OC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "COMGenerator+OC.h"; sourceTree = "<group>"; };
+		90AB284D1E126D9400345D65 /* COMGenerator+OC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "COMGenerator+OC.m"; sourceTree = "<group>"; };
+		90AB284F1E126D9C00345D65 /* COMGenerator+XIB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "COMGenerator+XIB.h"; sourceTree = "<group>"; };
+		90AB28501E126D9C00345D65 /* COMGenerator+XIB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "COMGenerator+XIB.m"; sourceTree = "<group>"; };
+		90AB28521E126DC300345D65 /* COMCodeWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMCodeWriter.h; sourceTree = "<group>"; };
+		90AB28531E126DC300345D65 /* COMCodeWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMCodeWriter.m; sourceTree = "<group>"; };
 		90F870911DF7CFD500B1F64D /* components.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = components.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		90F870941DF7CFD500B1F64D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		90F870A01DF7DC5F00B1F64D /* MCSketchPluginFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MCSketchPluginFramework.framework; sourceTree = "<group>"; };
@@ -163,10 +175,16 @@
 		900C02081E0CB79700246CC1 /* Publisher */ = {
 			isa = PBXGroup;
 			children = (
-				900C02091E0CB79700246CC1 /* COMAssetsWritter.h */,
-				900C020A1E0CB79700246CC1 /* COMAssetsWritter.m */,
+				900C02091E0CB79700246CC1 /* COMAssetsWriter.h */,
+				900C020A1E0CB79700246CC1 /* COMAssetsWriter.m */,
+				90AB28521E126DC300345D65 /* COMCodeWriter.h */,
+				90AB28531E126DC300345D65 /* COMCodeWriter.m */,
 				900C020B1E0CB79700246CC1 /* COMGenerator.h */,
 				900C020C1E0CB79700246CC1 /* COMGenerator.m */,
+				90AB284C1E126D9400345D65 /* COMGenerator+OC.h */,
+				90AB284D1E126D9400345D65 /* COMGenerator+OC.m */,
+				90AB284F1E126D9C00345D65 /* COMGenerator+XIB.h */,
+				90AB28501E126D9C00345D65 /* COMGenerator+XIB.m */,
 				900C020D1E0CB79700246CC1 /* COMGenLayer.h */,
 				900C020E1E0CB79700246CC1 /* COMGenLayer.m */,
 				900C020F1E0CB79700246CC1 /* COMPublishWindowController.h */,
@@ -482,11 +500,14 @@
 				900FF0601E0CBD31001A73DC /* COMComponentSourceEntity.m in Sources */,
 				900FF05D1E0CBD31001A73DC /* COMComponentEntity.m in Sources */,
 				900C021C1E0CB79700246CC1 /* COMGenLayer.m in Sources */,
-				900C021A1E0CB79700246CC1 /* COMAssetsWritter.m in Sources */,
+				900C021A1E0CB79700246CC1 /* COMAssetsWriter.m in Sources */,
 				900C021D1E0CB79700246CC1 /* COMPublishWindowController.m in Sources */,
 				900FF05E1E0CBD31001A73DC /* COMComponentWindowController.m in Sources */,
 				900FF0611E0CBD31001A73DC /* COMPropsViewController.m in Sources */,
+				90AB284E1E126D9400345D65 /* COMGenerator+OC.m in Sources */,
+				90AB28541E126DC300345D65 /* COMCodeWriter.m in Sources */,
 				900C02121E0CB79700246CC1 /* COMPluginController.m in Sources */,
+				90AB28511E126D9C00345D65 /* COMGenerator+XIB.m in Sources */,
 				900FF0651E0CBED3001A73DC /* COMPropsValueObject.m in Sources */,
 				900C021B1E0CB79700246CC1 /* COMGenerator.m in Sources */,
 			);
@@ -496,6 +517,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90AB28551E12704E00345D65 /* COMCodeWriter.m in Sources */,
+				90AB28561E12704E00345D65 /* COMGenerator+OC.m in Sources */,
+				90AB28571E12704E00345D65 /* COMGenerator+XIB.m in Sources */,
 				904ACA7A1E0CD60A00BFE892 /* COMPluginController.m in Sources */,
 				904ACA7B1E0CD60A00BFE892 /* COMComponentWindowController.m in Sources */,
 				904ACA7C1E0CD60A00BFE892 /* COMComponentSourceEntity.m in Sources */,
@@ -504,7 +528,7 @@
 				904ACA7F1E0CD60A00BFE892 /* COMPropsViewController.m in Sources */,
 				904ACA801E0CD60A00BFE892 /* COMPropsValueObject.m in Sources */,
 				904ACA811E0CD60A00BFE892 /* COMPropsLayoutObject.m in Sources */,
-				904ACA821E0CD60A00BFE892 /* COMAssetsWritter.m in Sources */,
+				904ACA821E0CD60A00BFE892 /* COMAssetsWriter.m in Sources */,
 				904ACA831E0CD60A00BFE892 /* COMGenerator.m in Sources */,
 				904ACA841E0CD60A00BFE892 /* COMGenLayer.m in Sources */,
 				904ACA851E0CD60A00BFE892 /* COMPublishWindowController.m in Sources */,

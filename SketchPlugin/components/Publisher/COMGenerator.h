@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <SVGKit/SVGKit.h>
+#import <JavaScriptCore/JavaScriptCore.h>
 #import "COMGenLayer.h"
 
 typedef enum : NSUInteger {
@@ -21,10 +22,8 @@ typedef enum : NSUInteger {
 @property (nonatomic, strong) NSString *libraryPath;
 @property (nonatomic, strong) NSString *className;
 
++ (JSContext *)context;
+
 - (COMGenLayer *)parse;
-
-- (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType;
-
-- (NSXMLDocument *)xib_code:(COMGenLayer *)layer genType:(COMGenType)genType;
 
 @end

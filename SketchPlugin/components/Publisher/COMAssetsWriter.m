@@ -6,7 +6,7 @@
 //  Copyright © 2016年 UED Center. All rights reserved.
 //
 
-#import "COMAssetsWritter.h"
+#import "COMAssetsWriter.h"
 
 @implementation NSImage (COM)
 
@@ -16,7 +16,7 @@
 
 @end
 
-@implementation COMAssetsWritter
+@implementation COMAssetsWriter
 
 + (NSImage *)resizeImage:(NSImage *)image newSize:(NSSize)newSize {
     newSize = CGSizeMake(newSize.width / 2.0, newSize.height / 2.0);
