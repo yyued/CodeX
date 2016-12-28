@@ -20,10 +20,8 @@ typedef enum : NSUInteger {
 
 @property (nonatomic, strong) NSString *assetsPath;
 @property (nonatomic, strong) NSString *libraryPath;
-@property (nonatomic, strong) NSString *className;
 
 + (JSContext *)context;
-
 - (COMGenLayer *)parse;
 
 @end

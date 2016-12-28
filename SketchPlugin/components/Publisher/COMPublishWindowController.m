@@ -153,11 +153,12 @@
       COMGenerator *generator = [COMGenerator new];
       generator.assetsPath = self.assetsTextField.stringValue;
       generator.libraryPath = self.libPathTextField.stringValue;
-      generator.className = self.classNameTextField.stringValue;
       COMGenLayer *layer = [generator parse];
       if (self.platformOCButton.state == 1) {
           [COMCodeWriter saveWithDictionary:[generator oc_code:layer
-                                                       genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView]
+                                                       genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView
+                                                     className:self.classNameTextField.stringValue
+                                             ]
                                    basePath:self.pathTextField.stringValue];
       } else if (self.platformOCXIBButton.state == 1) {
           [COMCodeWriter saveWithDictionary:[generator xib_code:layer

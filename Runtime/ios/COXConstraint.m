@@ -190,7 +190,7 @@ static JSContext *context;
                                                     ]] toDouble];
             t = previousView.frame.origin.x + previousView.frame.size.width - t;
         }
-        if (self.centerVertically) {
+        if (self.centerHorizontally) {
             cx -= t;
         }
         else if (self.pinRelate == COXLayoutRelateToPrevious) {

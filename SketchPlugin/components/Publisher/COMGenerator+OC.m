@@ -10,24 +10,54 @@
 
 @implementation COMGenerator (OC)
 
-- (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType {
+static NSDictionary *oc_reusable;
+
++ (void)load {
+    oc_reusable = @{
+                    @"UITableViewCell": @"UITableViewCell",
+                    };
+}
+
+- (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType className:(NSString *)className {
+    return [self oc_code:layer genType:genType className:className reusing:NO];
+}
+
+- (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType className:(NSString *)className reusing:(BOOL)reusing {
+    NSDictionary *reuseCodes = @{};
+    if (!reusing) {
+        reuseCodes = [self oc_reusesCode:layer genType:genType];
+    }
     NSString *superClass = genType == COMGenTypeViewController ? @"UIViewController" : @"UIView";
+    if (reusing && oc_reusable[layer.layerClass] != nil) {
+        superClass = oc_reusable[layer.layerClass];
+    }
+    else {
+        layer = [self oc_layerByTrimmingReuseLayers:layer];
+    }
     NSMutableString *headerCode = [[NSMutableString alloc]
                                    initWithFormat:@"//\n//  %@.h\n//  %@\n//\n//  Created by CodeX on %@.\n\n#import <UIKit/UIKit.h>\n#import "
                                    @"\"COXRuntime.h\"\n\n@interface %@ : %@\n\n#pragma mark - CodeX Outlets\n",
-                                   self.className, self.className, [NSDate date], self.className, superClass];
-    NSMutableString *implementationCode = [[NSMutableString alloc]
-                                           initWithFormat:
-                                           @"//\n//  %@.h\n//  %@\n//\n//  Created by CodeX on %@.\n\n#import \"%@.h\"\n\n#pragma mark - COXManaged Interface\n@interface %@ (COXManaged)\n\n- (void)cox_viewDidLoad;\n\n@end\n\n#pragma mark - Custom code\n@implementation %@\n\n- (void)viewDidLoad {\n    [super viewDidLoad];\n    [self cox_viewDidLoad];\n}\n\n@end\n\n#pragma mark - COXManaged implementation\n@implementation %@ (COXManaged)\n\n",
-                                           self.className, self.className, [NSDate date], self.className, self.className, self.className, self.className];
+                                   className, className, [NSDate date], className, superClass];
+    NSMutableString *implementationCode = [NSMutableString string];
     NSMutableString *loadCode = [[NSMutableString alloc] initWithString:@""];
     NSMutableString *viewDidLoadCode = [[NSMutableString alloc] initWithString:@""];
     if (genType == COMGenTypeViewController) {
+        implementationCode = [[NSMutableString alloc]
+                              initWithFormat:
+                              @"//\n//  %@.h\n//  %@\n//\n//  Created by CodeX on %@.\n\n#import \"%@.h\"\n\n#pragma mark - COXManaged Interface\n@interface %@ (COXManaged)\n\n- (void)cox_viewDidLoad;\n\n@end\n\n#pragma mark - Custom code\n@implementation %@\n\n- (void)viewDidLoad {\n    [super viewDidLoad];\n    [self cox_viewDidLoad];\n}\n\n@end\n\n#pragma mark - COXManaged implementation\n@implementation %@ (COXManaged)\n\n",
+                              className, className, [NSDate date], className, className, className, className];
         [implementationCode appendString:@"- (void)loadView {\n"];
         [implementationCode appendString:@"    self.view = [self rootView];\n"];
         [implementationCode appendString:@"    self.view.backgroundColor = [UIColor whiteColor];\n"];
         [implementationCode appendString:@"}\n\n"];
     } else if (genType == COMGenTypeView) {
+        NSMutableDictionary *props = [layer.props mutableCopy];
+        props[@"outletID"] = @"rootView";
+        layer.props = props;
+        implementationCode = [[NSMutableString alloc]
+                              initWithFormat:
+                              @"//\n//  %@.h\n//  %@\n//\n//  Created by CodeX on %@.\n\n#import \"%@.h\"\n\n#pragma mark - COXManaged Interface\n@interface %@ (COXManaged)\n\n- (UIView *)rootView;\n\n@end\n\n#pragma mark - Custom code\n@implementation %@\n\n@end\n\n#pragma mark - COXManaged implementation\n@implementation %@ (COXManaged)\n\n",
+                              className, className, [NSDate date], className, className, className, className];
         [implementationCode appendString:@"- (void)willMoveToSuperview:(UIView *)newSuperview {\n"];
         [implementationCode appendString:@"    [super willMoveToSuperview:newSuperview];\n"];
         [implementationCode appendString:@"    UIView *rootView = self.rootView;\n"];
@@ -42,7 +72,6 @@
 implementationCode:implementationCode
          loadCode:loadCode
   viewDidLoadCode:viewDidLoadCode];
-    
     if (genType == COMGenTypeViewController && loadCode.length) {
         [implementationCode appendFormat:@"\n+ (void)load {\n%@}\n\n", loadCode];
     }
@@ -52,10 +81,39 @@ implementationCode:implementationCode
     }
     [headerCode appendString:@"\n@end\n"];
     [implementationCode appendString:@"@end\n"];
-    return @{
-             [NSString stringWithFormat:@"%@.h", self.className] : [headerCode copy],
-             [NSString stringWithFormat:@"%@.m", self.className] : [implementationCode copy],
-             };
+    NSMutableDictionary *codes = [NSMutableDictionary dictionary];
+    [codes addEntriesFromDictionary:@{
+                                      [NSString stringWithFormat:@"%@.h", className] : [headerCode copy],
+                                      [NSString stringWithFormat:@"%@.m", className] : [implementationCode copy],
+                                      }];
+    [codes addEntriesFromDictionary:reuseCodes];
+    return [codes copy];
+}
+
+- (NSDictionary *)oc_reusesCode:(COMGenLayer *)layer genType:(COMGenType)genType {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    if ([layer.layerClass isEqualToString:@"UITableViewCell"]) {
+        [dict addEntriesFromDictionary:[self oc_code:layer genType:COMGenTypeView className:layer.props[@"reuseIdentifier"] reusing:yearMask]];
+    }
+    for (COMGenLayer *sublayer in layer.sublayers) {
+        [dict addEntriesFromDictionary:[self oc_reusesCode:sublayer genType:genType]];
+    }
+    return [dict copy];
+}
+
+- (COMGenLayer *)oc_layerByTrimmingReuseLayers:(COMGenLayer *)layer {
+    COMGenLayer *newLayer = [COMGenLayer new];
+    newLayer.layerID = layer.layerID;
+    newLayer.layerClass = layer.layerClass;
+    newLayer.props = layer.props;
+    NSMutableArray *sublayers = [NSMutableArray array];
+    for (COMGenLayer *sublayer in layer.sublayers) {
+        if (oc_reusable[[sublayer layerClass]] == nil) {
+            [sublayers addObject:[self oc_layerByTrimmingReuseLayers:sublayer]];
+        }
+    }
+    newLayer.sublayers = [sublayers copy];
+    return newLayer;
 }
 
 - (void)oc_code:(COMGenLayer *)layer

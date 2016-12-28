@@ -10,6 +10,6 @@
 
 @interface COMGenerator (OC)
 
-- (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType;
+- (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType className:(NSString *)className;
 
 @end
