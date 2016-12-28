@@ -188,9 +188,9 @@ static JSContext *context;
                                                     @(previousView.frame.size.width),
                                                     fomula
                                                     ]] toDouble];
-            t = previousView.frame.origin.x - t;
+            t = previousView.frame.origin.x + previousView.frame.size.width - t;
         }
-        if (self.centerHorizontally) {
+        if (self.centerVertically) {
             cx -= t;
         }
         else if (self.pinRelate == COXLayoutRelateToPrevious) {
