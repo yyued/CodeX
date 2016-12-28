@@ -10,6 +10,6 @@
 
 @interface COMGenerator (XIB)
 
-- (NSDictionary *)xib_code:(COMGenLayer *)layer genType:(COMGenType)genType;
+- (NSDictionary *)xib_code:(COMGenLayer *)layer genType:(COMGenType)genType className:(NSString *)className;
 
 @end

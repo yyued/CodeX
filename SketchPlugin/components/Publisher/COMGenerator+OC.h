@@ -11,5 +11,7 @@
 @interface COMGenerator (OC)
 
 - (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType className:(NSString *)className;
+- (NSDictionary *)oc_reusesCode:(COMGenLayer *)layer genType:(COMGenType)genType;
+- (COMGenLayer *)oc_layerByTrimmingReuseLayers:(COMGenLayer *)layer;
 
 @end

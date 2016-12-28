@@ -162,7 +162,8 @@
                                    basePath:self.pathTextField.stringValue];
       } else if (self.platformOCXIBButton.state == 1) {
           [COMCodeWriter saveWithDictionary:[generator xib_code:layer
-                                                        genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView]
+                                                        genType:self.outtypeView.state == 0 ? COMGenTypeViewController : COMGenTypeView
+                                                      className:self.classNameTextField.stringValue]
                                    basePath:self.pathTextField.stringValue];
       }
       [newLayer removeFromParent];

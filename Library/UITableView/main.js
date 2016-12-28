@@ -58,27 +58,20 @@ UITableView.oc_codeWithProps = function (props) {
     return code;
 }
 
-// UITableView.xib_code = function (id, layer) {
-//     var xml = $.xml('<view contentMode="scaleToFill"></view>');
-//     $(xml).find(':first').attr('id', id);
-//     $(xml).find(':first').attr('customClass', "COXUITableView");
-//     UITableView.xib_codeWithProps(id, layer.props, xml);
-//     UIView.xib_addSublayers(layer, xml);
-//     return $(xml).html();
-// }
+UITableView.xib_code = function (id, layer) {
+    var xml = $.xml('<tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44"></tableView>');
+    $(xml).find(':first').attr('id', id);
+    $(xml).find(':first').attr('customClass', "UITableView");
+    UITableView.xib_codeWithProps(layer.props, xml);
+    return $(xml).html();
+}
 
-// UITableView.xib_codeWithProps = function (id, props, xml) {
-//     UIView.xib_codeWithProps(props, xml);
-//     if (props.text !== undefined) {
-//         if ($(xml).find(':first').find('subviews').length == 0) {
-//             $(xml).find(':first').append('<subviews></subviews>');
-//         }
-//         $(xml).find(':first').find('subviews:eq(0)').append(
-//             window["UILabel"].xib_code(id + "-TEXT", {
-//                 class: "UILabel",
-//                 id: id + "-TEXT",
-//                 props: Object.assign(props.text, {tag: -1}),
-//             })
-//         )
-//     }
-// }
+UITableView.xib_codeWithProps = function (props, xml) {
+    UIView.xib_codeWithProps(props, xml);
+    if (props.reuseIdentifiers !== undefined) {
+        for (var index = 0; index < props.reuseIdentifiers.length; index++) {
+            var element = props.reuseIdentifiers[index];
+            $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="string" keyPath="cox_reuseIdentifier" value="' + element + '"/>');
+        }
+    }
+}

@@ -7,17 +7,20 @@
 //
 
 #import "COMGenerator+XIB.h"
+#import "COMGenerator+OC.h"
 
 @implementation COMGenerator (XIB)
 
-- (NSDictionary *)xib_code:(COMGenLayer *)layer genType:(COMGenType)genType {
+- (NSDictionary *)xib_code:(COMGenLayer *)layer genType:(COMGenType)genType className:(NSString *)className {
+    NSDictionary *reuseCodes = [self oc_reusesCode:layer genType:genType];
+    layer = [self oc_layerByTrimmingReuseLayers:layer];
     // create header code
     NSDictionary *outlets = [self xib_outlets:layer];
     NSString *superClass = genType == COMGenTypeViewController ? @"UIViewController" : @"UIView";
     NSMutableString *headerCode = [[NSMutableString alloc]
                                    initWithFormat:@"//\n//  %@.h\n//  %@\n//\n//  Created by CodeX on %@.\n\n#import <UIKit/UIKit.h>\n#import "
                                    @"\"COXRuntime.h\"\n\n@interface %@ : %@\n\n#pragma mark - CodeX Outlets\n",
-                                   self.className, self.className, [NSDate date], self.className, superClass];
+                                   className, className, [NSDate date], className, superClass];
     [outlets enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         [headerCode appendFormat:@"@property (nonatomic, %@) IBOutlet %@ *%@; // CodeX managed.\n",
          [obj[@"outletID"] isEqualToString:@"rootView"] ? @"strong" : @"weak",
@@ -90,7 +93,7 @@
                                                      @"placeholderIdentifier" : @"IBFilesOwner",
                                                      @"id" : @"-1",
                                                      @"userLabel" : @"File's Owner",
-                                                     @"customClass" : self.className,
+                                                     @"customClass" : className,
                                                      }];
             {
                 NSXMLElement *connections = [NSXMLElement elementWithName:@"connections"];
@@ -176,10 +179,13 @@
     }
     [document addChild:rootElement];
     // return codes.
-    return @{
-             [NSString stringWithFormat:@"%@.xib", self.className]: [document XMLStringWithOptions:NSXMLNodePrettyPrint],
-             [NSString stringWithFormat:@"%@.h", self.className]: [headerCode copy],
-             };
+    NSMutableDictionary *codes = [NSMutableDictionary dictionary];
+    [codes addEntriesFromDictionary:@{
+                                      [NSString stringWithFormat:@"%@.xib", className]: [document XMLStringWithOptions:NSXMLNodePrettyPrint],
+                                      [NSString stringWithFormat:@"%@.h", className]: [headerCode copy],
+                                      }];
+    [codes addEntriesFromDictionary:reuseCodes];
+    return [codes copy];
 }
 
 - (NSDictionary *)xib_outlets:(COMGenLayer *)layer {

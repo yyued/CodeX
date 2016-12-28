@@ -35,11 +35,11 @@
     //    [[NSApplication sharedApplication] mainWindow]
 
     COMGenerator *generator = [COMGenerator new];
-    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
-    generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
+    generator.assetsPath = @"/Users/PonyCui_Home/Desktop/ttt/ttt/Assets.xcassets";
+    generator.libraryPath = @"/Users/PonyCui_Home/Documents/CodeX/Library";
     COMGenLayer *layer = [generator parse];
-    NSDictionary *result = [generator oc_code:layer genType:COMGenTypeViewController className:@"ViewController"];
-    [COMCodeWriter saveWithDictionary:result basePath:@"/Users/cuiminghui/Desktop/test/test"];
+    NSDictionary *result = [generator xib_code:layer genType:COMGenTypeViewController className:@"ViewController"];
+    [COMCodeWriter saveWithDictionary:result basePath:@"/Users/PonyCui_Home/Desktop/ttt/ttt"];
 
 //    COMGenerator *generator = [COMGenerator new];
 //    generator.className = @"ViewController";
