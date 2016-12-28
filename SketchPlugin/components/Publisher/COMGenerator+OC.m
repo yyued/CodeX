@@ -53,6 +53,7 @@ static NSDictionary *oc_reusable;
     } else if (genType == COMGenTypeView) {
         NSMutableDictionary *props = [layer.props mutableCopy];
         props[@"outletID"] = @"rootView";
+        [props removeObjectForKey:@"constraints"];
         layer.props = props;
         implementationCode = [[NSMutableString alloc]
                               initWithFormat:
