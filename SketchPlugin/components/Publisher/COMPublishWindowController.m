@@ -406,8 +406,12 @@
     self.platformOCXIBButton.state = 0;
     if (sender == self.platformOCButton) {
         self.platformOCButton.state = 1;
+        self.outtypeView.enabled = YES;
     } else if (sender == self.platformOCXIBButton) {
         self.platformOCXIBButton.state = 1;
+        self.outtypeViewController.state = 1;
+        self.outtypeView.state = 0;
+        self.outtypeView.enabled = NO;
     }
 }
 

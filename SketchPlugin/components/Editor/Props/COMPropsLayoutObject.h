@@ -14,6 +14,19 @@
 @property (nonatomic, weak) COMPropsViewController *viewController;
 
 - (void)loadLayout;
+
+- (void)autofillWidth;
+
+- (void)autofillHeight;
+
+- (void)autofillTop;
+
+- (void)autofillLeft;
+
+- (void)autofillBottom;
+
+- (void)autofillRight;
+
 - (void)saveLayout;
 
 @end

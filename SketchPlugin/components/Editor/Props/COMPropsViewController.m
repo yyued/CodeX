@@ -112,6 +112,30 @@
     [self.valueObject onPropsAddButtonClicked:sender];
 }
 
+- (IBAction)onLayoutWidthAutofillButtonClicked:(id)sender {
+    [self.layoutObject autofillWidth];
+}
+
+- (IBAction)onLayoutHeightAutofillButtonClicked:(id)sender {
+    [self.layoutObject autofillHeight];
+}
+
+- (IBAction)onLayoutTopAutofillButtonClicked:(id)sender {
+    [self.layoutObject autofillTop];
+}
+
+- (IBAction)onLayoutLeftAutofillButtonClicked:(id)sender {
+    [self.layoutObject autofillLeft];
+}
+
+- (IBAction)onLayoutBottomAutofillButtonClicked:(id)sender {
+    [self.layoutObject autofillBottom];
+}
+
+- (IBAction)onLayoutRightAutofillButtonClicked:(id)sender {
+    [self.layoutObject autofillRight];
+}
+
 #pragma mark - Layouts
 
 - (void)viewWillDisappear {
