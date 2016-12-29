@@ -8,18 +8,18 @@
 
 var UITableViewCell = {
     parse: function (nodeID, nodeXML, nodeProps) {
-        var output = UIView.parse(nodeID, nodeXML, nodeProps);
+        var output = UIReusableView.parse(nodeID, nodeXML, nodeProps);
         var xml = $.create(nodeXML);
         return output;
     },
 }
 
 UITableViewCell.defaultProps = function () {
-    return Object.assign(UIView.defaultProps(), {
-        reuseIdentifier: {
-            value: undefined,
+    return Object.assign(UIReusableView.defaultProps(), {
+        reuseClass: {
+            value: "COXTableViewCell",
             type: "String",
-        },
+        }
     })
 };
 
@@ -35,6 +35,6 @@ UITableViewCell.oc_code = function (props) {
 }
 
 UITableViewCell.oc_codeWithProps = function (props) {
-    var code = UIView.oc_codeWithProps(props);
+    var code = UIReusableView.oc_codeWithProps(props);
     return code;
 }

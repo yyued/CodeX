@@ -10,26 +10,24 @@
 
 @implementation COMGenerator (OC)
 
-static NSDictionary *oc_reusable;
-
-+ (void)load {
-    oc_reusable = @{
-                    @"UITableViewCell": @"COXTableViewCell",
-                    };
+- (NSDictionary *)oc_code:(COMGenLayer *)layer
+                  genType:(COMGenType)genType
+                className:(NSString *)className {
+    return [self oc_code:layer genType:genType className:className reuseClass:nil];
 }
 
-- (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType className:(NSString *)className {
-    return [self oc_code:layer genType:genType className:className reusing:NO];
-}
-
-- (NSDictionary *)oc_code:(COMGenLayer *)layer genType:(COMGenType)genType className:(NSString *)className reusing:(BOOL)reusing {
+- (NSDictionary *)oc_code:(COMGenLayer *)layer
+                  genType:(COMGenType)genType
+                className:(NSString *)className
+               reuseClass:(NSString *)reuseClass {
+    layer = [layer copy];
     NSDictionary *reuseCodes = @{};
-    if (!reusing) {
+    if (reuseClass == nil) {
         reuseCodes = [self oc_reusesCode:layer genType:genType];
     }
     NSString *superClass = genType == COMGenTypeViewController ? @"UIViewController" : @"UIView";
-    if (reusing && oc_reusable[layer.layerClass] != nil) {
-        superClass = oc_reusable[layer.layerClass];
+    if (reuseClass != nil) {
+        superClass = reuseClass;
     }
     else {
         layer = [self oc_layerByTrimmingReuseLayers:layer];
@@ -96,9 +94,13 @@ implementationCode:implementationCode
 }
 
 - (NSDictionary *)oc_reusesCode:(COMGenLayer *)layer genType:(COMGenType)genType {
+    layer = [layer copy];
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    if ([layer.layerClass isEqualToString:@"UITableViewCell"]) {
-        [dict addEntriesFromDictionary:[self oc_code:layer genType:COMGenTypeView className:layer.props[@"reuseIdentifier"] reusing:yearMask]];
+    if (layer.props[@"reuseIdentifier"] != nil) {
+        [dict addEntriesFromDictionary:[self oc_code:layer
+                                             genType:COMGenTypeView
+                                           className:layer.props[@"reuseIdentifier"]
+                                          reuseClass:layer.props[@"reuseClass"]]];
     }
     for (COMGenLayer *sublayer in layer.sublayers) {
         [dict addEntriesFromDictionary:[self oc_reusesCode:sublayer genType:genType]];
@@ -113,7 +115,7 @@ implementationCode:implementationCode
     newLayer.props = layer.props;
     NSMutableArray *sublayers = [NSMutableArray array];
     for (COMGenLayer *sublayer in layer.sublayers) {
-        if (oc_reusable[[sublayer layerClass]] == nil) {
+        if (layer.props[@"reuseIdentifier"] == nil) {
             [sublayers addObject:[self oc_layerByTrimmingReuseLayers:sublayer]];
         }
     }

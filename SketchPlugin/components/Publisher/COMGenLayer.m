@@ -10,6 +10,19 @@
 
 @implementation COMGenLayer
 
+- (id)copy {
+    COMGenLayer *newLayer = [COMGenLayer new];
+    newLayer.layerID = self.layerID;
+    newLayer.layerClass = self.layerClass;
+    newLayer.props = [self.props copy];
+    NSMutableArray *sublayers = [NSMutableArray array];
+    [newLayer.sublayers enumerateObjectsUsingBlock:^(COMGenLayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [sublayers addObject:[obj copy]];
+    }];
+    newLayer.sublayers = [sublayers copy];
+    return newLayer;
+}
+
 - (NSDictionary *)props {
     if (_props == nil) {
         return @{};
