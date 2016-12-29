@@ -82,11 +82,13 @@
     } else {
         [super setText:nil];
     }
+    [self.cox_constraint setNeedsLayout];
     [self.superview layoutSubviews];
 }
 
 - (void)setAttributedText:(NSAttributedString *)attributedText {
     [super setAttributedText:attributedText];
+    [self.cox_constraint setNeedsLayout];
     [self.superview layoutSubviews];
 }
 

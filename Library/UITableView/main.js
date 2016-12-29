@@ -59,7 +59,7 @@ UITableView.oc_codeWithProps = function (props) {
 }
 
 UITableView.xib_code = function (id, layer) {
-    var xml = $.xml('<tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44"></tableView>');
+    var xml = $.xml('<tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44"></tableView>');
     $(xml).find(':first').attr('id', id);
     $(xml).find(':first').attr('customClass', "UITableView");
     UITableView.xib_codeWithProps(layer.props, xml);

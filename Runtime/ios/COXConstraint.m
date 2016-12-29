@@ -10,6 +10,14 @@
 #import "UIView+COXRuntime.h"
 #import <JavaScriptCore/JavaScriptCore.h>
 
+@interface COXConstraint ()
+
+@property (nonatomic, assign) BOOL needsLayout;
+@property (nonatomic, assign) CGRect lastSuperViewFrame;
+@property (nonatomic, assign) CGRect lastPreviousViewFrame;
+
+@end
+
 @implementation COXConstraint
 
 static JSContext *context;
@@ -22,10 +30,24 @@ static JSContext *context;
     });
 }
 
-- (CGRect)requestFrameWithMyView:(UIView *)myView superview:(UIView *)superView previousView:(UIView *)previousView {
+- (void)setNeedsLayout {
+    self.needsLayout = YES;
+}
+
+- (CGRect)requestFrameWithMyView:(UIView *)myView
+                       superview:(UIView *)superView
+                    previousView:(UIView *)previousView {
     if (self.disabled) {
         return myView.frame;
     }
+    if (CGRectEqualToRect(self.lastSuperViewFrame, superView.frame) &&
+        CGRectEqualToRect(self.lastPreviousViewFrame, previousView.frame) &&
+        !self.needsLayout) {
+        return myView.frame;
+    }
+    self.needsLayout = NO;
+    self.lastSuperViewFrame = superView.frame;
+    self.lastPreviousViewFrame = previousView.frame;
     CGFloat x = NAN, y = NAN, mx = NAN, my = NAN, cx = NAN, cy = NAN;
     CGFloat w = NAN, h = NAN;
     BOOL xorw = NO, yorh = NO;
@@ -255,6 +277,12 @@ static JSContext *context;
     newFrame.size.width = isnan(newFrame.size.width) ? 0.0 : newFrame.size.width;
     newFrame.size.height = isnan(newFrame.size.height) ? 0.0 : newFrame.size.height;
     return newFrame;
+}
+
+- (BOOL)sizeCanFit {
+    return !self.centerVertically && !self.centerHorizontally &&
+            self.width == nil && self.height == nil &&
+            self.top != nil && self.left != nil && self.bottom != nil && self.right != nil;
 }
 
 @end

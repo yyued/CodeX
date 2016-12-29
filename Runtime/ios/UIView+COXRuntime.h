@@ -14,6 +14,7 @@
 @property (nonatomic, assign) BOOL cox_automaticallyAdjustsSpace;
 @property (nonatomic, strong) COXConstraint *cox_constraint;
 
+- (CGSize)cox_sizeThatFits:(CGSize)size;
 - (CGSize)cox_intrinsicContentSize;
 
 @end

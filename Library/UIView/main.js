@@ -132,6 +132,9 @@ UIView.oc_codeWithProps = function (props) {
     }
     if (props.constraints !== undefined) {
         code += "view.cox_constraint = [COXConstraint new];\n";
+        if (props.constraints.disabled == 1) {
+            code += "view.cox_constraint.disabled = YES;\n";
+        }
         if (props.constraints.centerRelativeTo == 2) {
             code += "view.cox_constraint.aligmentRelate = COXLayoutRelateToPrevious;\n";
         }
@@ -234,6 +237,9 @@ UIView.xib_codeWithProps = function (props, xml) {
     }
     if (props.constraints !== undefined) {
         $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="boolean" keyPath="cox_constraintEnabled" value="YES"/>');
+        if (props.constraints.disabled == 1) {
+            $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="boolean" keyPath="cox_constraint.disabled" value="YES"/>');
+        }
         if (props.constraints.centerRelativeTo == 2) {
             $(xml).find(':first').find('userDefinedRuntimeAttributes:eq(0)').append('<userDefinedRuntimeAttribute type="number" keyPath="cox_constraint.aligmentRelate"><integer key="value" value="1"/></userDefinedRuntimeAttribute>');
         }

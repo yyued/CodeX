@@ -31,6 +31,12 @@ typedef enum COXLayoutRelate : NSUInteger {
 @property(nonatomic, copy) NSString *right;
 @property(nonatomic, copy) NSString *bottom;
 
-- (CGRect)requestFrameWithMyView:(UIView *)myView superview:(UIView *)superView previousView:(UIView *)previousView;
+- (void)setNeedsLayout;
+
+- (CGRect)requestFrameWithMyView:(UIView *)myView
+                       superview:(UIView *)superView
+                    previousView:(UIView *)previousView;
+
+- (BOOL)sizeCanFit;
 
 @end

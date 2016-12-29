@@ -14,7 +14,7 @@ static NSDictionary *oc_reusable;
 
 + (void)load {
     oc_reusable = @{
-                    @"UITableViewCell": @"UITableViewCell",
+                    @"UITableViewCell": @"COXTableViewCell",
                     };
 }
 
@@ -53,7 +53,11 @@ static NSDictionary *oc_reusable;
     } else if (genType == COMGenTypeView) {
         NSMutableDictionary *props = [layer.props mutableCopy];
         props[@"outletID"] = @"rootView";
-        [props removeObjectForKey:@"constraints"];
+        NSMutableDictionary *constraints = [props[@"constraints"] mutableCopy];
+        if (constraints != nil && [constraints isKindOfClass:[NSDictionary class]]) {
+            constraints[@"disabled"] = @(1);
+            props[@"constraints"] = constraints;
+        }
         layer.props = props;
         implementationCode = [[NSMutableString alloc]
                               initWithFormat:

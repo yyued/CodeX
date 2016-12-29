@@ -45,6 +45,35 @@
     }
 }
 
+- (CGSize)cox_sizeThatFits:(CGSize)size {
+    self.frame = CGRectMake(0, 0, size.width, 0);
+    [self layoutSubviews];
+    return [self cox_sizeThatFits:size offset:0.0];
+}
+
+- (CGSize)cox_sizeThatFits:(CGSize)size offset:(CGFloat)offset {
+    CGSize currentSize = CGSizeMake(size.width, 0);
+    for (UIView *subview in self.subviews) {
+        currentSize.height = MAX(currentSize.height,
+                                 [subview cox_sizeThatFits:CGSizeMake(subview.frame.size.width,
+                                                                      CGFLOAT_MAX)
+                                                    offset:self.frame.origin.y].height
+                                 );
+    }
+    if (self.cox_constraint != nil && !self.cox_constraint.disabled && [self.cox_constraint sizeCanFit]) {
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wundeclared-selector"
+        if ([self respondsToSelector:@selector(setMaxWidth:)]) {
+            [self setValue:@(size.width) forKey:@"maxWidth"];
+        }
+#pragma GCC diagnostic
+        CGFloat top = (CGFloat)[self.cox_constraint.top doubleValue];
+        CGFloat bottom = (CGFloat)[self.cox_constraint.bottom doubleValue];
+        currentSize.height = offset + top + [self cox_intrinsicContentSize].height + bottom;
+    }
+    return currentSize;
+}
+
 - (CGSize)cox_intrinsicContentSize {
     return [self intrinsicContentSize];
 }

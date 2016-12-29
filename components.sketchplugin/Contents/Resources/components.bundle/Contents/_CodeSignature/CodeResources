@@ -6,23 +6,15 @@
 	<dict>
 		<key>Resources/COMComponentWindowController.nib</key>
 		<data>
-		8kfi/QMis5MBtIJs72VYLt3XQuc=
-		</data>
-		<key>Resources/COMModalWindowController.nib</key>
-		<data>
-		KNE1iJPYo5yPS/Iba0GNfx9bwuU=
+		fgauZQFBtBbxuhDQQQdNm1ZYXeU=
 		</data>
 		<key>Resources/COMPropsViewController.nib</key>
 		<data>
-		fYorOx20WND7zFwGx9DDVu72uTM=
+		o+9JYJ02O0sM04KxS4ELrLlJ00k=
 		</data>
 		<key>Resources/COMPublishWindowController.nib</key>
 		<data>
-		D8P11S/Sh3XZ4CRIYmBgiGFED78=
-		</data>
-		<key>Resources/COMSidebarViewController.nib</key>
-		<data>
-		9pLJQ3dYl5ZJXY2UxD4EcTMuM4g=
+		eQu2yqUpD45doLUPz9adlqDJk0s=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -31,35 +23,21 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xemCU8eg7gAZh2KqnD306ZMQu4td1w2Ur52HUYLyCXg=
-			</data>
-		</dict>
-		<key>Resources/COMModalWindowController.nib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			RRt6tiW6AUdBBoILS3stUX8liNfnWHhkNqJPvfpMUE8=
+			zf4jvbJK3KoS1fRi7GXVX/AGHinwVJcWoGdJnPCqhVU=
 			</data>
 		</dict>
 		<key>Resources/COMPropsViewController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			XNOrBi49RmTw8bwuIvC0D065rVVmd8ibTXt52rotosk=
+			DuCdv3+LOY3sJnIhG4K88Qp7pQiu1ptz1W+htmPZ8t4=
 			</data>
 		</dict>
 		<key>Resources/COMPublishWindowController.nib</key>
 		<dict>
 			<key>hash2</key>
 			<data>
-			x2jUV45m6HCeb6jtFNJaFZkBNUy9nA4cuCnnc8v4Eoo=
-			</data>
-		</dict>
-		<key>Resources/COMSidebarViewController.nib</key>
-		<dict>
-			<key>hash2</key>
-			<data>
-			7SUe1HqtMwMRSL3mL+FVYJaSgEA+s8DmUDNsNCDBxiM=
+			W9s1/5LJf635BkvtbsBWZCe0qrT235+YqJQmig1IRVc=
 			</data>
 		</dict>
 	</dict>
