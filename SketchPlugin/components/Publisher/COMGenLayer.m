@@ -16,7 +16,7 @@
     newLayer.layerClass = self.layerClass;
     newLayer.props = [self.props copy];
     NSMutableArray *sublayers = [NSMutableArray array];
-    [newLayer.sublayers enumerateObjectsUsingBlock:^(COMGenLayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.sublayers enumerateObjectsUsingBlock:^(COMGenLayer * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [sublayers addObject:[obj copy]];
     }];
     newLayer.sublayers = [sublayers copy];

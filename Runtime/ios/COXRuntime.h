@@ -16,5 +16,6 @@
 #import "UIViewController+COXRuntime.h"
 #import "COXPixelLine.h"
 #import "COXTableViewCell.h"
+#import "COXCollectionViewCell.h"
 
 #endif /* COXRuntime_h */

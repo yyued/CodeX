@@ -115,7 +115,7 @@ implementationCode:implementationCode
     newLayer.props = layer.props;
     NSMutableArray *sublayers = [NSMutableArray array];
     for (COMGenLayer *sublayer in layer.sublayers) {
-        if (layer.props[@"reuseIdentifier"] == nil) {
+        if (sublayer.props[@"reuseIdentifier"] == nil) {
             [sublayers addObject:[self oc_layerByTrimmingReuseLayers:sublayer]];
         }
     }
