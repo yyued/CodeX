@@ -78,7 +78,7 @@ implementationCode:implementationCode
     if (genType == COMGenTypeViewController && loadCode.length) {
         [implementationCode appendFormat:@"\n+ (void)load {\n%@}\n\n", loadCode];
     }
-    if (genType == COMGenTypeViewController && viewDidLoadCode.length) {
+    if (genType == COMGenTypeViewController) {
         [implementationCode
          appendFormat:@"\n- (void)cox_viewDidLoad {\n%@}\n\n", viewDidLoadCode];
     }
