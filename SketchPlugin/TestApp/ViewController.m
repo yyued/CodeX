@@ -9,8 +9,10 @@
 #import "ViewController.h"
 #import "COMComponentWindowController.h"
 #import "COMPublishWindowController.h"
+#import "COMCloudWindowController.h"
 #import "COMPropsViewController.h"
 
+static COMCloudWindowController *cloudWindowController;
 static COMComponentWindowController *modalWindowController;
 static COMPublishWindowController *publishWindowController;
 
@@ -35,6 +37,10 @@ static COMPublishWindowController *publishWindowController;
 //    });
 //    viewController.view.frame = NSMakeRect(0, 0, 100, 100);
 //    [self.view addSubview:viewController.view];
+    
+    cloudWindowController = [COMCloudWindowController new];
+    [[[NSApplication sharedApplication] keyWindow] beginSheet:cloudWindowController.window completionHandler:nil];
+    
 }
 
 @end

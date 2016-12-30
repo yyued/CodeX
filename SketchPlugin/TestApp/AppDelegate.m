@@ -22,6 +22,7 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+    
     //    COMGenerator *generator = [COMGenerator new];
     //    generator.className = @"MyView";
     //    COMGenLayer *layer = [generator parse];
@@ -34,12 +35,12 @@
     //    }];
     //    [[NSApplication sharedApplication] mainWindow]
 
-    COMGenerator *generator = [COMGenerator new];
-    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
-    generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
-    COMGenLayer *layer = [generator parse];
-    NSDictionary *result = [generator oc_code:layer genType:COMGenTypeViewController className:@"ViewController"];
-    [COMCodeWriter saveWithDictionary:result basePath:@"/Users/cuiminghui/Desktop/test/test"];
+//    COMGenerator *generator = [COMGenerator new];
+//    generator.assetsPath = @"/Users/cuiminghui/Desktop/test/test/Assets.xcassets";
+//    generator.libraryPath = @"/Users/cuiminghui/Documents/Works/OpenSource/CodeX/Library";
+//    COMGenLayer *layer = [generator parse];
+//    NSDictionary *result = [generator oc_code:layer genType:COMGenTypeViewController className:@"ViewController"];
+//    [COMCodeWriter saveWithDictionary:result basePath:@"/Users/cuiminghui/Desktop/test/test"];
 
 //    COMGenerator *generator = [COMGenerator new];
 //    generator.className = @"ViewController";

@@ -10,8 +10,10 @@
 #import "COMComponentWindowController.h"
 #import "COMPublishWindowController.h"
 #import "COMPropsViewController.h"
+#import "COMCloudWindowController.h"
 #import <objc/runtime.h>
 
+static COMCloudWindowController *cloudWindowController;
 static COMComponentWindowController *modalWindowController;
 static COMPublishWindowController *publishWindowController;
 
@@ -32,16 +34,12 @@ static COMPublishWindowController *publishWindowController;
     return [COMPluginController new];
 }
 
-- (void)showLibraryChooser {
-    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-    [openPanel setCanChooseFiles:NO];
-    [openPanel setCanChooseDirectories:YES];
-    [openPanel setAllowsMultipleSelection:NO];
-    NSInteger result = [openPanel runModal];
-    if (result == NSFileHandlingPanelOKButton) {
-        [[NSUserDefaults standardUserDefaults] setValue:[openPanel.URL path]
-                                                 forKey:@"com.yy.ued.sketch.components.libPath"];
+- (void)showCloudPanel {
+    if (cloudWindowController == nil) {
+        cloudWindowController = [COMCloudWindowController new];
     }
+    cloudWindowController.modalSession =
+    [[NSApplication sharedApplication] beginModalSessionForWindow:cloudWindowController.window];
 }
 
 - (void)showSidebar {

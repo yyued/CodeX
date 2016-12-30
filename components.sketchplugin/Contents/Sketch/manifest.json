@@ -26,10 +26,10 @@
 			"handler": "command_replace"
 		},
 		{
-			"name": "Choose Library",
-			"identifier": "command_library",
+			"name": "Component Cloud",
+			"identifier": "command_cloud",
 			"script": "dynamicCommands.js",
-			"handler": "command_library"
+			"handler": "command_cloud"
 		},
 		{
 			"name": "Show Sidebar",
@@ -64,7 +64,7 @@
 			"command_sidebar",
 			"command_updatelayout",
 			"-",
-			"command_library"
+			"command_cloud"
 		]
 	}
 }

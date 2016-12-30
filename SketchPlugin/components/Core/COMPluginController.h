@@ -11,7 +11,7 @@
 
 @interface COMPluginController : MCSPluginController
 
-- (void)showLibraryChooser;
+- (void)showCloudPanel;
 
 - (void)showSidebar;
 

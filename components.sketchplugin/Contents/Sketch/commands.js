@@ -24,6 +24,11 @@ $.commands.createCommand("library", function(ctx){
 	pluginController.showLibraryChooser();
 });
 
+$.commands.createCommand("cloud", function(ctx){
+	var pluginController = getPluginController(ctx);
+	pluginController.showCloudPanel();
+});
+
 $.commands.createCommand("updatelayout", function(ctx){
 	var pluginController = [MCFluidPluginController pluginController:ctx.plugin pluginCommand:ctx.command];
 	pluginController.updateLayout();

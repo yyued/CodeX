@@ -4,13 +4,17 @@
 <dict>
 	<key>files</key>
 	<dict>
+		<key>Resources/COMCloudWindowController.nib</key>
+		<data>
+		yRg18ZSPaLqJ/qeAKrFtLYrtyh0=
+		</data>
 		<key>Resources/COMComponentWindowController.nib</key>
 		<data>
 		fgauZQFBtBbxuhDQQQdNm1ZYXeU=
 		</data>
 		<key>Resources/COMPropsViewController.nib</key>
 		<data>
-		o+9JYJ02O0sM04KxS4ELrLlJ00k=
+		On61AlUq8Tb4YRRp40s4VjvDsG0=
 		</data>
 		<key>Resources/COMPublishWindowController.nib</key>
 		<data>
@@ -19,6 +23,13 @@
 	</dict>
 	<key>files2</key>
 	<dict>
+		<key>Resources/COMCloudWindowController.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			rgSDlV7eRS1fn3rRCmU9VemxgPDwrbc3Inqv8Sjj7S0=
+			</data>
+		</dict>
 		<key>Resources/COMComponentWindowController.nib</key>
 		<dict>
 			<key>hash2</key>
@@ -30,7 +41,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			DuCdv3+LOY3sJnIhG4K88Qp7pQiu1ptz1W+htmPZ8t4=
+			xpTmUBy6aZhpGXBnvPE8K/1jHRGAhskl1YYloC0WUds=
 			</data>
 		</dict>
 		<key>Resources/COMPublishWindowController.nib</key>
