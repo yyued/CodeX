@@ -22,7 +22,6 @@
 @implementation AppDelegate
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-    
     //    COMGenerator *generator = [COMGenerator new];
     //    generator.className = @"MyView";
     //    COMGenLayer *layer = [generator parse];

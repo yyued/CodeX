@@ -11,11 +11,13 @@
 #import "COMPublishWindowController.h"
 #import "COMPropsViewController.h"
 #import "COMCloudWindowController.h"
+#import "COMSVGImporterWindowController.h"
 #import <objc/runtime.h>
 
 static COMCloudWindowController *cloudWindowController;
 static COMComponentWindowController *modalWindowController;
 static COMPublishWindowController *publishWindowController;
+static COMSVGImporterWindowController *svgImporterWindowController;
 
 @interface COMPluginController ()
 
@@ -167,6 +169,14 @@ static COMPublishWindowController *publishWindowController;
           }
       }
     }];
+}
+
+- (void)importSVG {
+    if (svgImporterWindowController == nil) {
+        svgImporterWindowController = [COMSVGImporterWindowController new];
+    }
+    svgImporterWindowController.modalSession =
+    [[NSApplication sharedApplication] beginModalSessionForWindow:svgImporterWindowController.window];
 }
 
 @end

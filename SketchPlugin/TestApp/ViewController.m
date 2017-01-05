@@ -11,10 +11,12 @@
 #import "COMPublishWindowController.h"
 #import "COMCloudWindowController.h"
 #import "COMPropsViewController.h"
+#import "COMSVGImporterWindowController.h"
 
 static COMCloudWindowController *cloudWindowController;
 static COMComponentWindowController *modalWindowController;
 static COMPublishWindowController *publishWindowController;
+static COMSVGImporterWindowController *importerWindowController;
 
 @interface ViewController ()
 
@@ -38,8 +40,11 @@ static COMPublishWindowController *publishWindowController;
 //    viewController.view.frame = NSMakeRect(0, 0, 100, 100);
 //    [self.view addSubview:viewController.view];
     
-    cloudWindowController = [COMCloudWindowController new];
-    [[[NSApplication sharedApplication] keyWindow] beginSheet:cloudWindowController.window completionHandler:nil];
+//    cloudWindowController = [COMCloudWindowController new];
+//    [[[NSApplication sharedApplication] keyWindow] beginSheet:cloudWindowController.window completionHandler:nil];
+    
+    importerWindowController = [COMSVGImporterWindowController new];
+    [[[NSApplication sharedApplication] keyWindow] beginSheet:importerWindowController.window completionHandler:nil];
     
 }
 

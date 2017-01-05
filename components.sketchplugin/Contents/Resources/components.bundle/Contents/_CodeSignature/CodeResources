@@ -14,11 +14,27 @@
 		</data>
 		<key>Resources/COMPropsViewController.nib</key>
 		<data>
-		On61AlUq8Tb4YRRp40s4VjvDsG0=
+		o+9JYJ02O0sM04KxS4ELrLlJ00k=
 		</data>
 		<key>Resources/COMPublishWindowController.nib</key>
 		<data>
 		eQu2yqUpD45doLUPz9adlqDJk0s=
+		</data>
+		<key>Resources/COMSVGImporterWindowController.nib</key>
+		<data>
+		nMD2hWbBizI+xj5W2uE2xBR2X2U=
+		</data>
+		<key>Resources/fabric.helper.js</key>
+		<data>
+		svT+vyRokKRbRAoBUI1xJCqWhgM=
+		</data>
+		<key>Resources/fabric.min.js</key>
+		<data>
+		Dh100JQoFdSmbPpK4XsBp7tvwX8=
+		</data>
+		<key>Resources/fabric.require.js</key>
+		<data>
+		An6qV2aw0QNPPr9LewG1jf+xSug=
 		</data>
 	</dict>
 	<key>files2</key>
@@ -41,7 +57,7 @@
 		<dict>
 			<key>hash2</key>
 			<data>
-			xpTmUBy6aZhpGXBnvPE8K/1jHRGAhskl1YYloC0WUds=
+			DuCdv3+LOY3sJnIhG4K88Qp7pQiu1ptz1W+htmPZ8t4=
 			</data>
 		</dict>
 		<key>Resources/COMPublishWindowController.nib</key>
@@ -49,6 +65,34 @@
 			<key>hash2</key>
 			<data>
 			W9s1/5LJf635BkvtbsBWZCe0qrT235+YqJQmig1IRVc=
+			</data>
+		</dict>
+		<key>Resources/COMSVGImporterWindowController.nib</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			xHi3YwkpQHt9v7UjNMmUwbD5uyNBxVHl6T4o6zO0BXM=
+			</data>
+		</dict>
+		<key>Resources/fabric.helper.js</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			7KRbRNZfH27oQq9EEmDBHqbDI0N9kEP3nohHqb4AgjA=
+			</data>
+		</dict>
+		<key>Resources/fabric.min.js</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			ZoIcsJVfAnLPf/ZgnJtJWarvXjiy4qBpTME0V1QLWD8=
+			</data>
+		</dict>
+		<key>Resources/fabric.require.js</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			vNYuVAOSnRM2dkOOv8W3qVlOmu+iUzQrymzwmms8jaE=
 			</data>
 		</dict>
 	</dict>

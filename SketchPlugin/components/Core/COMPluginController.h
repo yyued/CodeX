@@ -21,4 +21,6 @@
 
 - (void)addBounds;
 
+- (void)importSVG;
+
 @end

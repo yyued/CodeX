@@ -39,6 +39,8 @@
 		904ACA861E0CD61000BFE892 /* COMComponentWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900FF0551E0CBD31001A73DC /* COMComponentWindowController.xib */; };
 		904ACA871E0CD61000BFE892 /* COMPropsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900FF05B1E0CBD31001A73DC /* COMPropsViewController.xib */; };
 		904ACA881E0CD61000BFE892 /* COMPublishWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900C02111E0CB79700246CC1 /* COMPublishWindowController.xib */; };
+		907FD50C1E1E1B0800ED170B /* COMSVGImporterWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907FD50A1E1E1B0800ED170B /* COMSVGImporterWindowController.m */; };
+		907FD50D1E1E1B0800ED170B /* COMSVGImporterWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 907FD50B1E1E1B0800ED170B /* COMSVGImporterWindowController.xib */; };
 		9095B8FC1E16070B00A7CCCF /* COMCloudComponentEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9095B8FB1E16070B00A7CCCF /* COMCloudComponentEntity.m */; };
 		9095B8FD1E16094200A7CCCF /* COMCloudWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 90AB286C1E15FBE200345D65 /* COMCloudWindowController.m */; };
 		9095B8FE1E16094200A7CCCF /* COMCloudComponentEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9095B8FB1E16070B00A7CCCF /* COMCloudComponentEntity.m */; };
@@ -61,6 +63,16 @@
 		90F870C21DF802D000B1F64D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 90F870C01DF802D000B1F64D /* Main.storyboard */; };
 		90F870C71DF802FF00B1F64D /* MCSketchPluginFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 90F870A01DF7DC5F00B1F64D /* MCSketchPluginFramework.framework */; };
 		90F870C81DF802FF00B1F64D /* MCSketchPluginFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 90F870A01DF7DC5F00B1F64D /* MCSketchPluginFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		90FA21301E1E1DC600F1668C /* COMSVGImporterWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907FD50A1E1E1B0800ED170B /* COMSVGImporterWindowController.m */; };
+		90FA21311E1E1DCD00F1668C /* COMSVGImporterWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 907FD50B1E1E1B0800ED170B /* COMSVGImporterWindowController.xib */; };
+		90FA21341E1E256000F1668C /* fabric.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 90FA21321E1E256000F1668C /* fabric.min.js */; };
+		90FA21351E1E256000F1668C /* fabric.require.js in Resources */ = {isa = PBXBuildFile; fileRef = 90FA21331E1E256000F1668C /* fabric.require.js */; };
+		90FA21361E1E256C00F1668C /* fabric.min.js in Resources */ = {isa = PBXBuildFile; fileRef = 90FA21321E1E256000F1668C /* fabric.min.js */; };
+		90FA21371E1E256C00F1668C /* fabric.require.js in Resources */ = {isa = PBXBuildFile; fileRef = 90FA21331E1E256000F1668C /* fabric.require.js */; };
+		90FA21391E1E273D00F1668C /* fabric.helper.js in Resources */ = {isa = PBXBuildFile; fileRef = 90FA21381E1E273D00F1668C /* fabric.helper.js */; };
+		90FA213A1E1E274E00F1668C /* fabric.helper.js in Resources */ = {isa = PBXBuildFile; fileRef = 90FA21381E1E273D00F1668C /* fabric.helper.js */; };
+		90FA213E1E1E30AB00F1668C /* COMSVGImporterEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FA213C1E1E30AB00F1668C /* COMSVGImporterEntities.m */; };
+		90FA21401E1E327600F1668C /* COMSVGImporterEntities.m in Sources */ = {isa = PBXBuildFile; fileRef = 90FA213C1E1E30AB00F1668C /* COMSVGImporterEntities.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -108,6 +120,9 @@
 		900FF0641E0CBED3001A73DC /* COMPropsValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMPropsValueObject.m; sourceTree = "<group>"; };
 		900FF0661E0CC132001A73DC /* COMPropsLayoutObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMPropsLayoutObject.h; sourceTree = "<group>"; };
 		900FF0671E0CC132001A73DC /* COMPropsLayoutObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMPropsLayoutObject.m; sourceTree = "<group>"; };
+		907FD5091E1E1B0800ED170B /* COMSVGImporterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMSVGImporterWindowController.h; sourceTree = "<group>"; };
+		907FD50A1E1E1B0800ED170B /* COMSVGImporterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMSVGImporterWindowController.m; sourceTree = "<group>"; };
+		907FD50B1E1E1B0800ED170B /* COMSVGImporterWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = COMSVGImporterWindowController.xib; sourceTree = "<group>"; };
 		9095B8FA1E16070B00A7CCCF /* COMCloudComponentEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMCloudComponentEntity.h; sourceTree = "<group>"; };
 		9095B8FB1E16070B00A7CCCF /* COMCloudComponentEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMCloudComponentEntity.m; sourceTree = "<group>"; };
 		9095B9001E162D6A00A7CCCF /* COMCloudOperator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMCloudOperator.h; sourceTree = "<group>"; };
@@ -133,6 +148,11 @@
 		90F870BE1DF802D000B1F64D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		90F870C11DF802D000B1F64D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		90F870C31DF802D000B1F64D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		90FA21321E1E256000F1668C /* fabric.min.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fabric.min.js; sourceTree = "<group>"; };
+		90FA21331E1E256000F1668C /* fabric.require.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fabric.require.js; sourceTree = "<group>"; };
+		90FA21381E1E273D00F1668C /* fabric.helper.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = fabric.helper.js; sourceTree = "<group>"; };
+		90FA213B1E1E30AB00F1668C /* COMSVGImporterEntities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMSVGImporterEntities.h; sourceTree = "<group>"; };
+		90FA213C1E1E30AB00F1668C /* COMSVGImporterEntities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMSVGImporterEntities.m; sourceTree = "<group>"; };
 		9380388FD754F06907DF144F /* Pods-components.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-components.debug.xcconfig"; path = "Pods/Target Support Files/Pods-components/Pods-components.debug.xcconfig"; sourceTree = "<group>"; };
 		E9496C74439090652D2446E4 /* Pods-TestApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestApp/Pods-TestApp.release.xcconfig"; sourceTree = "<group>"; };
 		F3C66B9533FA3FEC092E6341 /* libPods-components.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-components.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -239,6 +259,21 @@
 			path = Props;
 			sourceTree = "<group>";
 		};
+		907FD5081E1E1B0800ED170B /* Importer */ = {
+			isa = PBXGroup;
+			children = (
+				907FD5091E1E1B0800ED170B /* COMSVGImporterWindowController.h */,
+				907FD50A1E1E1B0800ED170B /* COMSVGImporterWindowController.m */,
+				907FD50B1E1E1B0800ED170B /* COMSVGImporterWindowController.xib */,
+				90FA213B1E1E30AB00F1668C /* COMSVGImporterEntities.h */,
+				90FA213C1E1E30AB00F1668C /* COMSVGImporterEntities.m */,
+				90FA21321E1E256000F1668C /* fabric.min.js */,
+				90FA21331E1E256000F1668C /* fabric.require.js */,
+				90FA21381E1E273D00F1668C /* fabric.helper.js */,
+			);
+			path = Importer;
+			sourceTree = "<group>";
+		};
 		90AB286A1E15FB3200345D65 /* Cloud */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,6 +312,7 @@
 		90F870931DF7CFD500B1F64D /* components */ = {
 			isa = PBXGroup;
 			children = (
+				907FD5081E1E1B0800ED170B /* Importer */,
 				90AB286A1E15FB3200345D65 /* Cloud */,
 				900C01F81E0CB79700246CC1 /* Core */,
 				900C01FB1E0CB79700246CC1 /* Editor */,
@@ -409,8 +445,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90FA21391E1E273D00F1668C /* fabric.helper.js in Resources */,
+				90FA21351E1E256000F1668C /* fabric.require.js in Resources */,
 				900C021E1E0CB79700246CC1 /* COMPublishWindowController.xib in Resources */,
 				900FF05F1E0CBD31001A73DC /* COMComponentWindowController.xib in Resources */,
+				907FD50D1E1E1B0800ED170B /* COMSVGImporterWindowController.xib in Resources */,
+				90FA21341E1E256000F1668C /* fabric.min.js in Resources */,
 				900FF0621E0CBD31001A73DC /* COMPropsViewController.xib in Resources */,
 				90AB286F1E15FBE200345D65 /* COMCloudWindowController.xib in Resources */,
 			);
@@ -420,6 +460,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90FA213A1E1E274E00F1668C /* fabric.helper.js in Resources */,
+				90FA21361E1E256C00F1668C /* fabric.min.js in Resources */,
+				90FA21371E1E256C00F1668C /* fabric.require.js in Resources */,
+				90FA21311E1E1DCD00F1668C /* COMSVGImporterWindowController.xib in Resources */,
 				9095B8FF1E16094500A7CCCF /* COMCloudWindowController.xib in Resources */,
 				904ACA861E0CD61000BFE892 /* COMComponentWindowController.xib in Resources */,
 				904ACA871E0CD61000BFE892 /* COMPropsViewController.xib in Resources */,
@@ -542,7 +586,9 @@
 				9095B8FC1E16070B00A7CCCF /* COMCloudComponentEntity.m in Sources */,
 				900C02121E0CB79700246CC1 /* COMPluginController.m in Sources */,
 				9095B9021E162D6A00A7CCCF /* COMCloudOperator.m in Sources */,
+				907FD50C1E1E1B0800ED170B /* COMSVGImporterWindowController.m in Sources */,
 				90AB28511E126D9C00345D65 /* COMGenerator+XIB.m in Sources */,
+				90FA213E1E1E30AB00F1668C /* COMSVGImporterEntities.m in Sources */,
 				900FF0651E0CBED3001A73DC /* COMPropsValueObject.m in Sources */,
 				900C021B1E0CB79700246CC1 /* COMGenerator.m in Sources */,
 			);
@@ -552,6 +598,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90FA21401E1E327600F1668C /* COMSVGImporterEntities.m in Sources */,
+				90FA21301E1E1DC600F1668C /* COMSVGImporterWindowController.m in Sources */,
 				9095B9031E162F2D00A7CCCF /* COMCloudOperator.m in Sources */,
 				9095B8FD1E16094200A7CCCF /* COMCloudWindowController.m in Sources */,
 				9095B8FE1E16094200A7CCCF /* COMCloudComponentEntity.m in Sources */,

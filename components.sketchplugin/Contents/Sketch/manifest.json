@@ -51,6 +51,12 @@
 			"shortcut": "shift command b",
 			"script": "dynamicCommands.js",
 			"handler": "command_addBounds"
+		},
+		{
+			"name": "Import SVG",
+			"identifier": "command_importSVG",
+			"script": "dynamicCommands.js",
+			"handler": "command_importSVG"
 		}
 	],
 
@@ -64,7 +70,8 @@
 			"command_sidebar",
 			"command_updatelayout",
 			"-",
-			"command_cloud"
+			"command_cloud",
+			"command_importSVG"
 		]
 	}
 }

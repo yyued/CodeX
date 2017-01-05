@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="11762"/>
+        <plugIn identifier="com.apple.WebKitIBPlugin" version="11762"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="COMSVGImporterWindowController">
+            <connections>
+                <outlet property="filePathTextField" destination="EdH-LJ-bDL" id="aiB-6A-QC0"/>
+                <outlet property="webView" destination="aWh-f8-ryo" id="O8i-Ec-soc"/>
+                <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" releasedWhenClosed="NO" animationBehavior="default" id="F0z-JX-Cv5">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
+            <rect key="contentRect" x="196" y="240" width="750" height="1136"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1417"/>
+            <view key="contentView" wantsLayer="YES" id="se5-gp-TjO">
+                <rect key="frame" x="0.0" y="0.0" width="750" height="1136"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <webView translatesAutoresizingMaskIntoConstraints="NO" id="aWh-f8-ryo">
+                        <rect key="frame" x="0.0" y="0.0" width="750" height="1092"/>
+                        <webPreferences key="preferences" defaultFontSize="16" defaultFixedFontSize="13" minimumFontSize="0">
+                            <nil key="identifier"/>
+                        </webPreferences>
+                    </webView>
+                    <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EdH-LJ-bDL">
+                        <rect key="frame" x="8" y="1102" width="620" height="22"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Enter SVG Source URL" bezelStyle="round" id="ZbD-Oz-Atg">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <outlet property="delegate" destination="F0z-JX-Cv5" id="Bz9-Si-XVs"/>
+                        </connections>
+                    </textField>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bBr-q3-h4t">
+                        <rect key="frame" x="630" y="1096" width="115" height="32"/>
+                        <buttonCell key="cell" type="push" title="Import Now!" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TBo-dQ-hfA">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="onImportButtonClicked:" target="-2" id="4k1-bw-HtY"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="trailing" secondItem="EdH-LJ-bDL" secondAttribute="trailing" constant="122" id="BQt-vE-rQw"/>
+                    <constraint firstAttribute="bottom" secondItem="aWh-f8-ryo" secondAttribute="bottom" id="RY5-q9-D0D"/>
+                    <constraint firstItem="aWh-f8-ryo" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="TRE-0p-aTf"/>
+                    <constraint firstItem="bBr-q3-h4t" firstAttribute="leading" secondItem="EdH-LJ-bDL" secondAttribute="trailing" constant="8" id="WPF-w2-eOY"/>
+                    <constraint firstAttribute="trailing" secondItem="aWh-f8-ryo" secondAttribute="trailing" id="dYe-KP-pwp"/>
+                    <constraint firstItem="EdH-LJ-bDL" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="8" id="df9-kr-tey"/>
+                    <constraint firstItem="bBr-q3-h4t" firstAttribute="centerY" secondItem="EdH-LJ-bDL" secondAttribute="centerY" id="oU2-XE-1yL"/>
+                    <constraint firstItem="EdH-LJ-bDL" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="12" id="wWO-PR-Dvm"/>
+                    <constraint firstItem="aWh-f8-ryo" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="44" id="wfp-Bf-67u"/>
+                </constraints>
+            </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="yNB-ni-SJO"/>
+            </connections>
+            <point key="canvasLocation" x="218" y="321.5"/>
+        </window>
+    </objects>
+</document>

@@ -38,3 +38,8 @@ $.commands.createCommand("addBounds", function(ctx){
 	var pluginController = getPluginController(ctx);
 	pluginController.addBounds();
 });
+
+$.commands.createCommand("importSVG", function(ctx){
+	var pluginController = getPluginController(ctx);
+	pluginController.importSVG();
+});
