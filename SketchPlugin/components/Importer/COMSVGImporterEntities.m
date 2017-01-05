@@ -7,6 +7,7 @@
 //
 
 #import "COMSVGImporterEntities.h"
+#import "HexColors.h"
 #import <MCSketchPluginFramework/MCSketchPluginFramework.h>
 
 @implementation COMSVGBaseEntity
@@ -103,6 +104,9 @@
 }
 
 - (void)parse:(NSDictionary *)element {
+    NSMutableDictionary *fixedElement = [element mutableCopy];
+    fixedElement[@"originY"] = @"center";
+    element = fixedElement;
     [super parse:element];
     self.text = element[@"text"];
     self.textColor = self.fill;
@@ -153,6 +157,19 @@
         font = [NSFont systemFontOfSize:self.fontSize weight:weight];
     }
     [layer setValue:font forKey:@"font"];
+    if ([self.textAlignment isEqualToString:@"center"]) {
+        [layer setValue:@(NSTextAlignmentCenter) forKey:@"textAlignment"];
+    }
+    else if ([self.textAlignment isEqualToString:@"right"]) {
+        [layer setValue:@(NSTextAlignmentRight) forKey:@"textAlignment"];
+    }
+    id msColor = [NSClassFromString(@"MSColor") new];
+    NSColor *color = [NSColor hx_colorWithHexRGBAString:self.textColor];
+    [msColor setValue:@(color.redComponent) forKey:@"red"];
+    [msColor setValue:@(color.greenComponent) forKey:@"green"];
+    [msColor setValue:@(color.blueComponent) forKey:@"blue"];
+    [msColor setValue:@(color.alphaComponent) forKey:@"alpha"];
+    [layer setValue:msColor forKey:@"textColor"];
 }
 
 @end

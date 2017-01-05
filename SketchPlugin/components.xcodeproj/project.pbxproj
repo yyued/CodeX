@@ -24,6 +24,8 @@
 		900FF0621E0CBD31001A73DC /* COMPropsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900FF05B1E0CBD31001A73DC /* COMPropsViewController.xib */; };
 		900FF0651E0CBED3001A73DC /* COMPropsValueObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0641E0CBED3001A73DC /* COMPropsValueObject.m */; };
 		900FF0681E0CC132001A73DC /* COMPropsLayoutObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0671E0CC132001A73DC /* COMPropsLayoutObject.m */; };
+		903D95AB1E1E551800C35F5C /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 903D95AA1E1E551800C35F5C /* HexColors.m */; };
+		903D95AC1E1E551F00C35F5C /* HexColors.m in Sources */ = {isa = PBXBuildFile; fileRef = 903D95AA1E1E551800C35F5C /* HexColors.m */; };
 		904ACA7A1E0CD60A00BFE892 /* COMPluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900C01FA1E0CB79700246CC1 /* COMPluginController.m */; };
 		904ACA7B1E0CD60A00BFE892 /* COMComponentWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0541E0CBD31001A73DC /* COMComponentWindowController.m */; };
 		904ACA7C1E0CD60A00BFE892 /* COMComponentSourceEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 900FF0571E0CBD31001A73DC /* COMComponentSourceEntity.m */; };
@@ -120,6 +122,8 @@
 		900FF0641E0CBED3001A73DC /* COMPropsValueObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMPropsValueObject.m; sourceTree = "<group>"; };
 		900FF0661E0CC132001A73DC /* COMPropsLayoutObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMPropsLayoutObject.h; sourceTree = "<group>"; };
 		900FF0671E0CC132001A73DC /* COMPropsLayoutObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMPropsLayoutObject.m; sourceTree = "<group>"; };
+		903D95A91E1E551800C35F5C /* HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexColors.h; sourceTree = "<group>"; };
+		903D95AA1E1E551800C35F5C /* HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexColors.m; sourceTree = "<group>"; };
 		907FD5091E1E1B0800ED170B /* COMSVGImporterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMSVGImporterWindowController.h; sourceTree = "<group>"; };
 		907FD50A1E1E1B0800ED170B /* COMSVGImporterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMSVGImporterWindowController.m; sourceTree = "<group>"; };
 		907FD50B1E1E1B0800ED170B /* COMSVGImporterWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = COMSVGImporterWindowController.xib; sourceTree = "<group>"; };
@@ -259,6 +263,15 @@
 			path = Props;
 			sourceTree = "<group>";
 		};
+		903D95A81E1E551800C35F5C /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				903D95A91E1E551800C35F5C /* HexColors.h */,
+				903D95AA1E1E551800C35F5C /* HexColors.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		907FD5081E1E1B0800ED170B /* Importer */ = {
 			isa = PBXGroup;
 			children = (
@@ -312,6 +325,7 @@
 		90F870931DF7CFD500B1F64D /* components */ = {
 			isa = PBXGroup;
 			children = (
+				903D95A81E1E551800C35F5C /* Helpers */,
 				907FD5081E1E1B0800ED170B /* Importer */,
 				90AB286A1E15FB3200345D65 /* Cloud */,
 				900C01F81E0CB79700246CC1 /* Core */,
@@ -586,6 +600,7 @@
 				9095B8FC1E16070B00A7CCCF /* COMCloudComponentEntity.m in Sources */,
 				900C02121E0CB79700246CC1 /* COMPluginController.m in Sources */,
 				9095B9021E162D6A00A7CCCF /* COMCloudOperator.m in Sources */,
+				903D95AB1E1E551800C35F5C /* HexColors.m in Sources */,
 				907FD50C1E1E1B0800ED170B /* COMSVGImporterWindowController.m in Sources */,
 				90AB28511E126D9C00345D65 /* COMGenerator+XIB.m in Sources */,
 				90FA213E1E1E30AB00F1668C /* COMSVGImporterEntities.m in Sources */,
@@ -598,6 +613,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				903D95AC1E1E551F00C35F5C /* HexColors.m in Sources */,
 				90FA21401E1E327600F1668C /* COMSVGImporterEntities.m in Sources */,
 				90FA21301E1E1DC600F1668C /* COMSVGImporterWindowController.m in Sources */,
 				9095B9031E162F2D00A7CCCF /* COMCloudOperator.m in Sources */,
