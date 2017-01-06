@@ -12,10 +12,18 @@
 
 @interface COMSVGBaseEntity : NSObject
 
+@property (nonatomic, strong) id styleGeneric;
 @property (nonatomic, assign) CGRect frame;
 @property (nonatomic, assign) CGFloat opacity;
 @property (nonatomic, strong) NSString *fill;
 @property (nonatomic, strong) NSString *fillRule;
+@property (nonatomic, strong) NSString *stroke;
+@property (nonatomic, strong) NSArray *strokeDashArray;
+@property (nonatomic, strong) NSString *strokeLineCap;
+@property (nonatomic, strong) NSString *strokeLineJoin;
+@property (nonatomic, assign) CGFloat strokeMiterLimit;
+@property (nonatomic, assign) CGFloat strokeWidth;
+
 
 @end
 
@@ -44,5 +52,11 @@
 @interface COMSVGImageEntity : COMSVGBaseEntity
 
 @property (nonatomic, strong) NSImage *image;
+
+@end
+
+@interface COMSVGPathEntity : COMSVGBaseEntity
+
+@property (nonatomic, strong) NSBezierPath *bezierPath;
 
 @end
