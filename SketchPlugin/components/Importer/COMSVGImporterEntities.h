@@ -12,8 +12,11 @@
 
 @interface COMSVGBaseEntity : NSObject
 
+@property (nonatomic, assign) CGFloat scale;
 @property (nonatomic, strong) id styleGeneric;
 @property (nonatomic, assign) CGRect frame;
+@property (nonatomic, assign) NSString *originX;
+@property (nonatomic, assign) NSString *originY;
 @property (nonatomic, assign) CGFloat opacity;
 @property (nonatomic, strong) NSString *fill;
 @property (nonatomic, strong) NSString *fillRule;
@@ -33,7 +36,7 @@
 @property (nonatomic, strong) NSArray *layers;
 
 - (void)parseWithElements:(NSArray *)elements options:(NSDictionary *)options;
-- (void)exportToSketch;
+- (void)exportToSketch:(CGFloat)toWidth;
 
 @end
 
@@ -58,5 +61,9 @@
 @interface COMSVGPathEntity : COMSVGBaseEntity
 
 @property (nonatomic, strong) NSBezierPath *bezierPath;
+
+@end
+
+@interface COMSVGCircleEntity : COMSVGPathEntity
 
 @end

@@ -41,6 +41,8 @@
 		904ACA861E0CD61000BFE892 /* COMComponentWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900FF0551E0CBD31001A73DC /* COMComponentWindowController.xib */; };
 		904ACA871E0CD61000BFE892 /* COMPropsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900FF05B1E0CBD31001A73DC /* COMPropsViewController.xib */; };
 		904ACA881E0CD61000BFE892 /* COMPublishWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 900C02111E0CB79700246CC1 /* COMPublishWindowController.xib */; };
+		904DBB951E1F6F3F00C72409 /* SKUBezierPath+SVG.m in Sources */ = {isa = PBXBuildFile; fileRef = 904DBB941E1F6F3F00C72409 /* SKUBezierPath+SVG.m */; };
+		904DBB961E1F6F4500C72409 /* SKUBezierPath+SVG.m in Sources */ = {isa = PBXBuildFile; fileRef = 904DBB941E1F6F3F00C72409 /* SKUBezierPath+SVG.m */; };
 		907FD50C1E1E1B0800ED170B /* COMSVGImporterWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 907FD50A1E1E1B0800ED170B /* COMSVGImporterWindowController.m */; };
 		907FD50D1E1E1B0800ED170B /* COMSVGImporterWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 907FD50B1E1E1B0800ED170B /* COMSVGImporterWindowController.xib */; };
 		9095B8FC1E16070B00A7CCCF /* COMCloudComponentEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 9095B8FB1E16070B00A7CCCF /* COMCloudComponentEntity.m */; };
@@ -124,6 +126,8 @@
 		900FF0671E0CC132001A73DC /* COMPropsLayoutObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMPropsLayoutObject.m; sourceTree = "<group>"; };
 		903D95A91E1E551800C35F5C /* HexColors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HexColors.h; sourceTree = "<group>"; };
 		903D95AA1E1E551800C35F5C /* HexColors.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HexColors.m; sourceTree = "<group>"; };
+		904DBB931E1F6F3E00C72409 /* SKUBezierPath+SVG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKUBezierPath+SVG.h"; sourceTree = "<group>"; };
+		904DBB941E1F6F3F00C72409 /* SKUBezierPath+SVG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKUBezierPath+SVG.m"; sourceTree = "<group>"; };
 		907FD5091E1E1B0800ED170B /* COMSVGImporterWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = COMSVGImporterWindowController.h; sourceTree = "<group>"; };
 		907FD50A1E1E1B0800ED170B /* COMSVGImporterWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = COMSVGImporterWindowController.m; sourceTree = "<group>"; };
 		907FD50B1E1E1B0800ED170B /* COMSVGImporterWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = COMSVGImporterWindowController.xib; sourceTree = "<group>"; };
@@ -268,6 +272,8 @@
 			children = (
 				903D95A91E1E551800C35F5C /* HexColors.h */,
 				903D95AA1E1E551800C35F5C /* HexColors.m */,
+				904DBB931E1F6F3E00C72409 /* SKUBezierPath+SVG.h */,
+				904DBB941E1F6F3F00C72409 /* SKUBezierPath+SVG.m */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -605,6 +611,7 @@
 				90AB28511E126D9C00345D65 /* COMGenerator+XIB.m in Sources */,
 				90FA213E1E1E30AB00F1668C /* COMSVGImporterEntities.m in Sources */,
 				900FF0651E0CBED3001A73DC /* COMPropsValueObject.m in Sources */,
+				904DBB951E1F6F3F00C72409 /* SKUBezierPath+SVG.m in Sources */,
 				900C021B1E0CB79700246CC1 /* COMGenerator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -613,6 +620,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				904DBB961E1F6F4500C72409 /* SKUBezierPath+SVG.m in Sources */,
 				903D95AC1E1E551F00C35F5C /* HexColors.m in Sources */,
 				90FA21401E1E327600F1668C /* COMSVGImporterEntities.m in Sources */,
 				90FA21301E1E1DC600F1668C /* COMSVGImporterWindowController.m in Sources */,

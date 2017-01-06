@@ -13,6 +13,8 @@
 
 @property (assign) NSModalSession modalSession;
 @property (weak) IBOutlet NSTextField *filePathTextField;
+@property (weak) IBOutlet NSPopUpButton *widthButton;
+@property (weak) IBOutlet NSButton *importButton;
 @property (weak) IBOutlet WebView *webView;
 
 @end

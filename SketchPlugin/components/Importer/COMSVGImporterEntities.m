@@ -10,6 +10,7 @@
 #import "HexColors.h"
 #import <MCSketchPluginFramework/MCSketchPluginFramework.h>
 #import <SVGKit/SVGKit.h>
+#import "SKUBezierPath+SVG.h"
 
 @implementation NSBezierPath (X)
 
@@ -18,12 +19,10 @@
     CGPoint QP0 = [self currentPoint];
     CGPoint CP3 = QP2;
     CGPoint CP1 = CGPointMake(
-                              //  QP0   +   2   / 3    * (QP1   - QP0  )
                               QP0.x + ((2.0 / 3.0) * (QP1.x - QP0.x)),
                               QP0.y + ((2.0 / 3.0) * (QP1.y - QP0.y))
                               );
     CGPoint CP2 = CGPointMake(
-                              //  QP2   +  2   / 3    * (QP1   - QP2)
                               QP2.x + (2.0 / 3.0) * (QP1.x - QP2.x),
                               QP2.y + (2.0 / 3.0) * (QP1.y - QP2.y)
                               );
@@ -79,7 +78,7 @@ static void sPathApplier(void *info, const CGPathElement *element)
 @implementation COMSVGBaseEntity
 
 + (COMSVGBaseEntity *)parse:(NSDictionary *)element {
-    NSMutableDictionary *mutableElement = element;
+    NSMutableDictionary *mutableElement = [element mutableCopy];
     [element enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
         if ([obj isKindOfClass:[NSNull class]]) {
             [mutableElement removeObjectForKey:key];
@@ -95,6 +94,9 @@ static void sPathApplier(void *info, const CGPathElement *element)
     else if ([element[@"type"] isEqualToString:@"path"]) {
         return [COMSVGPathEntity parse:element];
     }
+    else if ([element[@"type"] isEqualToString:@"circle"]) {
+        return [COMSVGCircleEntity parse:element];
+    }
     return nil;
 }
 
@@ -105,18 +107,8 @@ static void sPathApplier(void *info, const CGPathElement *element)
         frame.origin.y = [element[@"top"] floatValue];
         frame.size.width = [element[@"width"] floatValue];
         frame.size.height = [element[@"height"] floatValue];
-        if ([element[@"originX"] isEqualToString:@"center"]) {
-            frame.origin.x -= frame.size.width / 2.0;
-        }
-        else if ([element[@"originX"] isEqualToString:@"right"]) {
-            frame.origin.x -= frame.size.width;
-        }
-        if ([element[@"originY"] isEqualToString:@"center"]) {
-            frame.origin.y -= frame.size.height / 2.0;
-        }
-        else if ([element[@"originY"] isEqualToString:@"bottom"]) {
-            frame.origin.y -= frame.size.height;
-        }
+        self.originX = element[@"originX"];
+        self.originY = element[@"originY"];
         if (element[@"transformMatrix"] != nil && [element[@"transformMatrix"] isKindOfClass:[NSArray class]] && [element[@"transformMatrix"] count] == 6) {
             CGFloat translateX = [element[@"transformMatrix"][4] floatValue];
             CGFloat translateY = [element[@"transformMatrix"][5] floatValue];
@@ -141,10 +133,22 @@ static void sPathApplier(void *info, const CGPathElement *element)
 }
 
 - (void)resetSketchProps:(MSLayer *)layer {
-    layer.frame.x = self.frame.origin.x;
-    layer.frame.y = self.frame.origin.y;
-    layer.frame.width = self.frame.size.width;
-    layer.frame.height = self.frame.size.height;
+    layer.frame.x = self.frame.origin.x * self.scale;
+    layer.frame.y = self.frame.origin.y * self.scale;
+    layer.frame.width = self.frame.size.width * self.scale;
+    layer.frame.height = self.frame.size.height * self.scale;
+    if ([self.originX isEqualToString:@"center"]) {
+        layer.frame.x -= layer.frame.width / 2.0;
+    }
+    else if ([self.originX isEqualToString:@"right"]) {
+        layer.frame.x -= layer.frame.width;
+    }
+    if ([self.originY isEqualToString:@"center"]) {
+        layer.frame.y -= layer.frame.height / 2.0;
+    }
+    else if ([self.originY isEqualToString:@"bottom"]) {
+        layer.frame.y -= layer.frame.height;
+    }
     if (self.styleGeneric != nil) {
         if (self.fill != nil) {
             [self.styleGeneric performSelector:@selector(enabledFills)];
@@ -156,6 +160,12 @@ static void sPathApplier(void *info, const CGPathElement *element)
             [msColor setValue:@(color.alphaComponent) forKey:@"alpha"];
             id fillStyle = [NSClassFromString(@"MSStyleFill") new];
             [fillStyle setValue:msColor forKey:@"color"];
+            if ([self.fill isEqualToString:@"evenodd"]) {
+                [layer setValue:@(1) forKey:@"windingRule"];
+            }
+            else {
+                [layer setValue:@(0) forKey:@"windingRule"];
+            }
             [self.styleGeneric setValue:fillStyle forKey:@"fill"];
         }
         if (self.stroke != nil) {
@@ -168,8 +178,19 @@ static void sPathApplier(void *info, const CGPathElement *element)
             [msColor setValue:@(color.alphaComponent) forKey:@"alpha"];
             id borderStyle = [NSClassFromString(@"MSStyleBorder") new];
             [borderStyle setValue:msColor forKey:@"color"];
-            [borderStyle setValue:@(self.strokeWidth) forKey:@"thickness"];
+            [borderStyle setValue:@(self.strokeWidth * self.scale) forKey:@"thickness"];
+            id msBorderOptions = [NSClassFromString(@"MSStyleBorderOptions") new];
+            if (self.strokeDashArray != nil) {
+                [msBorderOptions setValue:self.strokeDashArray forKey:@"dashPattern"];
+            }
+            if ([self.strokeLineCap isEqualToString:@"round"]) {
+                [msBorderOptions setValue:@(1) forKey:@"lineCapStyle"];
+            }
+            else if ([self.strokeLineCap isEqualToString:@"square"]) {
+                [msBorderOptions setValue:@(2) forKey:@"lineCapStyle"];
+            }
             [self.styleGeneric setValue:borderStyle forKey:@"border"];
+            [self.styleGeneric setValue:msBorderOptions forKey:@"borderOptions"];
         }
     }
 }
@@ -190,17 +211,24 @@ static void sPathApplier(void *info, const CGPathElement *element)
     self.layers = [items copy];
 }
 
-- (void)exportToSketch {
+- (void)exportToSketch:(CGFloat)toWidth {
+    if (self.viewBox.width > 0) {
+        self.scale = toWidth / self.viewBox.width;
+    }
+    if (self.scale == 0) {
+        self.scale = 1.0;
+    }
     MSDocument *document = Sketch_GetCurrentDocument();
     MSPage *currentPage = [document currentPage];
     MSArtboardGroup *artboard = [MSArtboardGroup_Class new];
     [currentPage addLayers:@[artboard]];
-    artboard.name = @"SVG~~~";
+    artboard.name = @"SVG";
     artboard.frame.x = currentPage.scrollOrigin.x + 100.0;
     artboard.frame.y = currentPage.scrollOrigin.y + 100.0;
-    artboard.frame.width = self.viewBox.width;
-    artboard.frame.height = self.viewBox.height;
-    [self.layers enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    artboard.frame.width = self.viewBox.width * self.scale;
+    artboard.frame.height = self.viewBox.height * self.scale;
+    [self.layers enumerateObjectsUsingBlock:^(COMSVGBaseEntity * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj setScale:self.scale];
         MSLayer *sketchLayer = [obj requestSketchLayer];
         if (sketchLayer != nil) {
             [artboard addLayers:@[sketchLayer]];
@@ -235,6 +263,7 @@ static void sPathApplier(void *info, const CGPathElement *element)
 
 - (MSLayer *)requestSketchLayer {
     MSTextLayer *textLayer = [MSTextLayer_Class new];
+    self.styleGeneric = [textLayer valueForKey:@"styleGeneric"];
     [self resetSketchProps:textLayer];
     return textLayer;
 }
@@ -242,8 +271,8 @@ static void sPathApplier(void *info, const CGPathElement *element)
 - (void)resetSketchProps:(MSLayer *)layer {
     [super resetSketchProps:layer];
     [layer setValue:self.text forKey:@"stringValue"];
-    [layer setValue:@(self.fontSize) forKey:@"fontSize"];
-    NSFont *font = [NSFont fontWithName:self.fontFamily size:self.fontSize];
+    [layer setValue:@(self.fontSize * self.scale) forKey:@"fontSize"];
+    NSFont *font = [NSFont fontWithName:self.fontFamily size:self.fontSize * self.scale];
     if (font == nil) {
         CGFloat weight = NSFontWeightRegular;
         if (self.fontWeight >= 100 && self.fontWeight < 300) {
@@ -270,7 +299,7 @@ static void sPathApplier(void *info, const CGPathElement *element)
         else if (self.fontWeight >= 900 && self.fontWeight < 1000) {
             weight = NSFontWeightBlack;
         }
-        font = [NSFont systemFontOfSize:self.fontSize weight:weight];
+        font = [NSFont systemFontOfSize:self.fontSize * self.scale weight:weight];
     }
     [layer setValue:font forKey:@"font"];
     if ([self.textAlignment isEqualToString:@"center"]) {
@@ -286,6 +315,14 @@ static void sPathApplier(void *info, const CGPathElement *element)
     [msColor setValue:@(color.blueComponent) forKey:@"blue"];
     [msColor setValue:@(color.alphaComponent) forKey:@"alpha"];
     [layer setValue:msColor forKey:@"textColor"];
+    if (self.scale < 1.0) {
+        CGFloat _scale = self.scale;
+        self.scale = 1.0;
+        MSLayer *originLayer = [self requestSketchLayer];
+        CGFloat heightOffset = originLayer.frame.height * _scale - layer.frame.height;
+        layer.frame.y += heightOffset;
+        self.scale = _scale;
+    }
 }
 
 @end
@@ -343,19 +380,28 @@ static void sPathApplier(void *info, const CGPathElement *element)
                 [d appendString:[obj componentsJoinedByString:@" "]];
             }
         }];
-        NSString *tmpXML = [NSString stringWithFormat:@"<svg xmlns=\"http://www.w3.org/2000/svg\"><path d=\"%@\" /></svg>", [d copy]];
-        SVGKImage *tmpImage = [[SVGKImage alloc] initWithData:[tmpXML dataUsingEncoding:NSUTF8StringEncoding]];
-        if ([[tmpImage.CALayerTree.sublayers firstObject] isKindOfClass:[CAShapeLayerWithHitTest class]]) {
-            CAShapeLayerWithHitTest *layer = (id)[tmpImage.CALayerTree.sublayers firstObject];
-            NSBezierPath *path = [NSBezierPath bezierPath];
-            CGPathApply(layer.path, (__bridge void *)path, sPathApplier);
-            self.bezierPath = path;
+        if ([d containsString:@"a"] || [d containsString:@"A"]) {
+            NSString *tmpXML = [NSString stringWithFormat:@"<svg xmlns=\"http://www.w3.org/2000/svg\"><path d=\"%@\" /></svg>", [d copy]];
+            SVGKImage *tmpImage = [[SVGKImage alloc] initWithData:[tmpXML dataUsingEncoding:NSUTF8StringEncoding]];
+            if ([[tmpImage.CALayerTree.sublayers firstObject] isKindOfClass:[CAShapeLayerWithHitTest class]]) {
+                CAShapeLayerWithHitTest *layer = (id)[tmpImage.CALayerTree.sublayers firstObject];
+                NSBezierPath *path = [NSBezierPath bezierPath];
+                CGPathApply(layer.path, (__bridge void *)path, sPathApplier);
+                self.bezierPath = path;
+            }
+        }
+        else {
+            self.bezierPath = [NSBezierPath bezierPathWithSVGString:d];
         }
     }
 }
 
 - (MSLayer *)requestSketchLayer {
-    MSShapeGroup *shapeGroup = [MSShapeGroup_Class shapeWithBezierPath:self.bezierPath];
+    NSBezierPath *scaledPath = [self.bezierPath copy];
+    NSAffineTransform *transform = [NSAffineTransform new];
+    [transform scaleBy:self.scale];
+    [scaledPath transformUsingAffineTransform:transform];
+    MSShapeGroup *shapeGroup = [MSShapeGroup_Class shapeWithBezierPath:scaledPath];
     self.styleGeneric = [shapeGroup valueForKey:@"styleGeneric"];
     [self resetSketchProps:shapeGroup];
     return shapeGroup;
@@ -363,6 +409,24 @@ static void sPathApplier(void *info, const CGPathElement *element)
 
 - (void)resetSketchProps:(MSLayer *)layer {
     [super resetSketchProps:layer];
+}
+
+@end
+
+@implementation COMSVGCircleEntity
+
++ (COMSVGBaseEntity *)parse:(NSDictionary *)element {
+    COMSVGCircleEntity *item = [COMSVGCircleEntity new];
+    [item parse:element];
+    return item;
+}
+
+- (void)parse:(NSDictionary *)element {
+    [super parse:element];
+    CGFloat width = [element[@"width"] floatValue] * self.scale;
+    CGFloat height = [element[@"height"] floatValue] * self.scale;
+    CGFloat radius = [element[@"radius"] floatValue] * self.scale;
+    self.bezierPath = [NSBezierPath bezierPathWithRoundedRect:NSMakeRect(0, 0, width, height) xRadius:radius yRadius:radius];
 }
 
 @end

@@ -10,7 +10,9 @@
         <customObject id="-2" userLabel="File's Owner" customClass="COMSVGImporterWindowController">
             <connections>
                 <outlet property="filePathTextField" destination="EdH-LJ-bDL" id="aiB-6A-QC0"/>
+                <outlet property="importButton" destination="bBr-q3-h4t" id="KeP-EW-1VH"/>
                 <outlet property="webView" destination="aWh-f8-ryo" id="O8i-Ec-soc"/>
+                <outlet property="widthButton" destination="JVn-Eh-w10" id="vp4-fb-Jps"/>
                 <outlet property="window" destination="F0z-JX-Cv5" id="gIp-Ho-8D9"/>
             </connections>
         </customObject>
@@ -31,7 +33,7 @@
                         </webPreferences>
                     </webView>
                     <textField verticalHuggingPriority="750" allowsCharacterPickerTouchBarItem="NO" translatesAutoresizingMaskIntoConstraints="NO" id="EdH-LJ-bDL">
-                        <rect key="frame" x="8" y="1102" width="620" height="22"/>
+                        <rect key="frame" x="8" y="1102" width="565" height="22"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" placeholderString="Enter SVG Source URL" bezelStyle="round" id="ZbD-Oz-Atg">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -42,8 +44,8 @@
                         </connections>
                     </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bBr-q3-h4t">
-                        <rect key="frame" x="630" y="1096" width="115" height="32"/>
-                        <buttonCell key="cell" type="push" title="Import Now!" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TBo-dQ-hfA">
+                        <rect key="frame" x="668" y="1096" width="80" height="32"/>
+                        <buttonCell key="cell" type="push" title="Import" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="TBo-dQ-hfA">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
@@ -51,17 +53,35 @@
                             <action selector="onImportButtonClicked:" target="-2" id="4k1-bw-HtY"/>
                         </connections>
                     </button>
+                    <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JVn-Eh-w10">
+                        <rect key="frame" x="579" y="1100" width="90" height="26"/>
+                        <popUpButtonCell key="cell" type="push" title="W = 375" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Do9-Xx-p0v" id="jcV-Qc-wFx">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" id="Adx-4x-vM1">
+                                <items>
+                                    <menuItem title="W = 414" id="M4O-Ea-nZn"/>
+                                    <menuItem title="W = 375" state="on" id="Do9-Xx-p0v"/>
+                                    <menuItem title="W = 360" id="gyb-Fh-5cH"/>
+                                    <menuItem title="W = 320" id="ZPk-0r-0ud"/>
+                                    <menuItem title="W = *" id="xyk-eX-tco"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                    </popUpButton>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="EdH-LJ-bDL" secondAttribute="trailing" constant="122" id="BQt-vE-rQw"/>
+                    <constraint firstItem="JVn-Eh-w10" firstAttribute="leading" secondItem="EdH-LJ-bDL" secondAttribute="trailing" constant="8" id="2Ak-n9-4Us"/>
                     <constraint firstAttribute="bottom" secondItem="aWh-f8-ryo" secondAttribute="bottom" id="RY5-q9-D0D"/>
                     <constraint firstItem="aWh-f8-ryo" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" id="TRE-0p-aTf"/>
-                    <constraint firstItem="bBr-q3-h4t" firstAttribute="leading" secondItem="EdH-LJ-bDL" secondAttribute="trailing" constant="8" id="WPF-w2-eOY"/>
                     <constraint firstAttribute="trailing" secondItem="aWh-f8-ryo" secondAttribute="trailing" id="dYe-KP-pwp"/>
                     <constraint firstItem="EdH-LJ-bDL" firstAttribute="leading" secondItem="se5-gp-TjO" secondAttribute="leading" constant="8" id="df9-kr-tey"/>
+                    <constraint firstItem="bBr-q3-h4t" firstAttribute="leading" secondItem="JVn-Eh-w10" secondAttribute="trailing" constant="8" id="mRB-xi-Oxw"/>
                     <constraint firstItem="bBr-q3-h4t" firstAttribute="centerY" secondItem="EdH-LJ-bDL" secondAttribute="centerY" id="oU2-XE-1yL"/>
                     <constraint firstItem="EdH-LJ-bDL" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="12" id="wWO-PR-Dvm"/>
+                    <constraint firstAttribute="trailing" secondItem="bBr-q3-h4t" secondAttribute="trailing" constant="8" id="wdw-aP-APo"/>
                     <constraint firstItem="aWh-f8-ryo" firstAttribute="top" secondItem="se5-gp-TjO" secondAttribute="top" constant="44" id="wfp-Bf-67u"/>
+                    <constraint firstItem="JVn-Eh-w10" firstAttribute="centerY" secondItem="bBr-q3-h4t" secondAttribute="centerY" id="ya7-1T-mag"/>
                 </constraints>
             </view>
             <connections>

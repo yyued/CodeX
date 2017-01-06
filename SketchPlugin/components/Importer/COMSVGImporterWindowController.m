@@ -59,13 +59,17 @@
 }
 
 - (IBAction)onImportButtonClicked:(id)sender {
-    [self.currentCanvas exportToSketch];
+    
+    NSString *currentSelectedWidth = self.widthButton.selectedItem.title;
+    CGFloat toWidth = [[currentSelectedWidth stringByReplacingOccurrencesOfString:@"W = " withString:@""] floatValue];
+    [self.currentCanvas exportToSketch:toWidth];
     [[NSApplication sharedApplication] endModalSession:self.modalSession];
     [self.window close];
 }
 
 
 - (void)loadPage {
+    self.importButton.enabled = NO;
     [self.webView.mainFrame
         loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.filePathTextField.stringValue]]];
 }
@@ -115,6 +119,7 @@
         COMSVGCanvasEntity *canvas = [COMSVGCanvasEntity new];
         [canvas parseWithElements:elements options:options];
         self.currentCanvas = canvas;
+        self.importButton.enabled = YES;
     }]];
 }
 
